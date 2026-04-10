@@ -109,9 +109,9 @@ function InscriptionContent() {
           {/* Localisation */}
           <div className="card p-6 space-y-4">
             <h2 className="font-semibold text-sm text-[#3B82F6] uppercase tracking-wider">Localisation</h2>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 items-end">
               <div>
-                <label className="text-sm text-zinc-500 mb-1 block">Ville principale *</label>
+                <label className="text-xs text-zinc-500 mb-1 block">Ville *</label>
                 <input
                   className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
                   placeholder="Lille"
@@ -120,30 +120,30 @@ function InscriptionContent() {
                 />
               </div>
               <div>
-                <label className="text-sm text-zinc-500 mb-1 block">Code postal (optionnel)</label>
+                <label className="text-xs text-zinc-500 mb-1 block">Code postal</label>
                 <input
                   className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
-                  placeholder="59000"
+                  placeholder="59000 (optionnel)"
                   value={form.postalCode}
                   onChange={(e) => update("postalCode", e.target.value)}
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 items-end">
               <div>
-                <label className="text-sm text-zinc-500 mb-1 block">Région (optionnel)</label>
+                <label className="text-xs text-zinc-500 mb-1 block">Région</label>
                 <input
                   className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
-                  placeholder="Métropole lilloise"
+                  placeholder="Optionnel"
                   value={form.region}
                   onChange={(e) => update("region", e.target.value)}
                 />
               </div>
               <div>
-                <label className="text-sm text-zinc-500 mb-1 block">Département (optionnel)</label>
+                <label className="text-xs text-zinc-500 mb-1 block">Département</label>
                 <input
                   className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
-                  placeholder="Nord"
+                  placeholder="Optionnel"
                   value={form.department}
                   onChange={(e) => update("department", e.target.value)}
                 />
@@ -188,9 +188,9 @@ function InscriptionContent() {
           {/* Tarifs */}
           <div className="card p-6 space-y-4">
             <h2 className="font-semibold text-sm text-[#3B82F6] uppercase tracking-wider">Tarification</h2>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 items-end">
               <div>
-                <label className="text-sm text-zinc-500 mb-1 block">Prix au km (€)</label>
+                <label className="text-xs text-zinc-500 mb-1 block">Prix au km (€)</label>
                 <input
                   className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
                   type="number"
@@ -200,7 +200,7 @@ function InscriptionContent() {
                 />
               </div>
               <div>
-                <label className="text-sm text-zinc-500 mb-1 block">Minimum course (€)</label>
+                <label className="text-xs text-zinc-500 mb-1 block">Min. course (€)</label>
                 <input
                   className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
                   type="number"

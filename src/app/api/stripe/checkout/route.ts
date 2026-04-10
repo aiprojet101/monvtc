@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe, PRICES } from "@/lib/stripe";
+import { stripeRequest, PRICES } from "@/lib/stripe";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { brand, city, region, department, postalCode, phone, email, pricePerKm, minPrice, zones, testMode } = body;
 
-    // Create slug from brand name
     const slug = brand
       .toLowerCase()
       .normalize("NFD")
@@ -15,7 +14,6 @@ export async function POST(request: NextRequest) {
       .replace(/-+/g, "-")
       .replace(/^-|-$/g, "");
 
-    // Format phone to international
     const cleanPhone = phone.replace(/\s/g, "");
     const phoneIntl = cleanPhone.startsWith("0")
       ? `+33${cleanPhone.slice(1)}`
@@ -24,66 +22,50 @@ export async function POST(request: NextRequest) {
       : `+33${cleanPhone}`;
     const whatsapp = phoneIntl.replace("+", "");
 
-    // Test mode: 0.50€ setup + 0.49€/mois
-    const setupAmount = testMode ? 50 : PRICES.setup;
     const monthlyAmount = testMode ? 49 : PRICES.monthly;
 
-    // Create Stripe customer
-    const customer = await stripe.customers.create({
+    // 1. Create customer
+    const customer = await stripeRequest("customers", {
       email,
       phone,
       name: brand,
-      metadata: {
-        slug,
-        brand,
-        brandShort: brand.toUpperCase().replace(/[^A-Z0-9]/g, ""),
-        city,
-        region: region || city,
-        department: department || "",
-        postalCode: postalCode || "",
-        phone,
-        phoneIntl,
-        whatsapp,
-        email,
-        pricePerKm: pricePerKm || "1.80",
-        minPrice: minPrice || "15",
-        zones,
-        testMode: testMode ? "true" : "false",
-      },
+      "metadata[slug]": slug,
+      "metadata[brand]": brand,
+      "metadata[brandShort]": brand.toUpperCase().replace(/[^A-Z0-9]/g, ""),
+      "metadata[city]": city,
+      "metadata[region]": region || city,
+      "metadata[department]": department || "",
+      "metadata[postalCode]": postalCode || "",
+      "metadata[phone]": phone,
+      "metadata[phoneIntl]": phoneIntl,
+      "metadata[whatsapp]": whatsapp,
+      "metadata[email]": email,
+      "metadata[pricePerKm]": pricePerKm || "1.80",
+      "metadata[minPrice]": minPrice || "15",
+      "metadata[zones]": zones,
+      "metadata[testMode]": testMode ? "true" : "false",
     });
 
-    // Create checkout session with subscription + setup fee
-    const session = await stripe.checkout.sessions.create({
+    // 2. Create checkout session
+    const origin = request.nextUrl.origin;
+    const session = await stripeRequest("checkout/sessions", {
       customer: customer.id,
       mode: "subscription",
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: testMode ? "MonVTC — TEST" : "MonVTC — Abonnement mensuel",
-              description: testMode
-                ? "Test de paiement"
-                : "Site VTC professionnel — hébergement, maintenance, mises à jour, support",
-            },
-            unit_amount: monthlyAmount,
-            recurring: { interval: "month" },
-          },
-          quantity: 1,
-        },
-      ],
-      subscription_data: {
-        metadata: { slug, brand },
-      },
-      invoice_creation: undefined,
-      success_url: `${request.nextUrl.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${request.nextUrl.origin}/inscription`,
-      metadata: {
-        slug,
-        brand,
-        setupAmount: String(setupAmount),
-      },
+      "payment_method_types[0]": "card",
+      "line_items[0][price_data][currency]": "eur",
+      "line_items[0][price_data][product_data][name]": testMode ? "MonVTC — TEST" : "MonVTC — Abonnement mensuel",
+      "line_items[0][price_data][product_data][description]": testMode
+        ? "Test de paiement"
+        : "Site VTC professionnel — hébergement, maintenance, mises à jour, support",
+      "line_items[0][price_data][unit_amount]": String(monthlyAmount),
+      "line_items[0][price_data][recurring][interval]": "month",
+      "line_items[0][quantity]": "1",
+      "subscription_data[metadata][slug]": slug,
+      "subscription_data[metadata][brand]": brand,
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/inscription`,
+      "metadata[slug]": slug,
+      "metadata[brand]": brand,
     });
 
     return NextResponse.json({ url: session.url });

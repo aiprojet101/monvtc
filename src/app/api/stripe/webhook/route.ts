@@ -1,34 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
 import { createVercelProject, type DriverConfig } from "@/lib/vercel";
 import { addClient } from "@/lib/db";
+import crypto from "crypto";
+
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
+const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
+
+function verifySignature(payload: string, sig: string, secret: string): boolean {
+  const parts = sig.split(",").reduce((acc, part) => {
+    const [key, value] = part.split("=");
+    acc[key] = value;
+    return acc;
+  }, {} as Record<string, string>);
+
+  const timestamp = parts["t"];
+  const signature = parts["v1"];
+  if (!timestamp || !signature) return false;
+
+  const signedPayload = `${timestamp}.${payload}`;
+  const expected = crypto.createHmac("sha256", secret).update(signedPayload).digest("hex");
+  return expected === signature;
+}
+
+async function stripeGet(endpoint: string) {
+  const res = await fetch(`https://api.stripe.com/v1/${endpoint}`, {
+    headers: {
+      Authorization: `Basic ${Buffer.from(STRIPE_SECRET_KEY + ":").toString("base64")}`,
+    },
+  });
+  return res.json();
+}
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
   const sig = request.headers.get("stripe-signature") || "";
 
-  let event;
-  try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET || ""
-    );
-  } catch {
+  if (!verifySignature(body, sig, STRIPE_WEBHOOK_SECRET)) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
+  const event = JSON.parse(body);
+
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-    const customerId = session.customer as string;
-    const subscriptionId = session.subscription as string;
+    const customerId = session.customer;
+    const subscriptionId = session.subscription;
 
-    // Get customer metadata with all driver config
-    const customer = await stripe.customers.retrieve(customerId);
-    if (customer.deleted) {
-      return NextResponse.json({ error: "Customer deleted" }, { status: 400 });
-    }
-
+    const customer = await stripeGet(`customers/${customerId}`);
     const meta = customer.metadata;
     const slug = meta.slug;
 
@@ -49,10 +67,8 @@ export async function POST(request: NextRequest) {
     };
 
     try {
-      // Provision the site
       const result = await createVercelProject(slug, driverConfig);
 
-      // Save client to DB
       await addClient({
         id: `CLI-${Date.now()}`,
         createdAt: new Date().toISOString(),
@@ -76,11 +92,9 @@ export async function POST(request: NextRequest) {
         vercelProjectId: result.projectId,
       });
 
-      // TODO: Send confirmation email via Resend
       console.log(`Site provisioned for ${meta.brand}: ${result.projectUrl}`);
     } catch (error) {
       console.error("Provisioning error:", error);
-      // Save as failed
       await addClient({
         id: `CLI-${Date.now()}`,
         createdAt: new Date().toISOString(),
@@ -106,11 +120,9 @@ export async function POST(request: NextRequest) {
     }
   }
 
-  // Handle subscription cancellation
   if (event.type === "customer.subscription.deleted") {
     const subscription = event.data.object;
     console.log(`Subscription cancelled: ${subscription.id}`);
-    // TODO: Disable or delete the Vercel project
   }
 
   return NextResponse.json({ received: true });
