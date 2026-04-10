@@ -35,7 +35,16 @@ function InscriptionContent() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
-  const canSubmit = form.brand && form.city && form.phone && form.email && form.zones;
+  const canSubmit = form.brand.trim() && form.city.trim() && form.phone.trim() && form.email.trim() && form.zones.trim();
+
+  // Debug — à retirer après
+  const missing = [
+    !form.brand.trim() && "marque",
+    !form.city.trim() && "ville",
+    !form.phone.trim() && "téléphone",
+    !form.email.trim() && "email",
+    !form.zones.trim() && "zones",
+  ].filter(Boolean);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -223,6 +232,9 @@ function InscriptionContent() {
             </div>
           </div>
 
+          {missing.length > 0 && (
+            <p className="text-xs text-red-400 mb-2">Champs manquants : {missing.join(", ")}</p>
+          )}
           <button
             type="submit"
             disabled={!canSubmit || loading}
