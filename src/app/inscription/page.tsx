@@ -1,10 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Car, Check, Loader2 } from "lucide-react";
 
 export default function InscriptionPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-zinc-500">Chargement...</div>}>
+      <InscriptionContent />
+    </Suspense>
+  );
+}
+
+function InscriptionContent() {
+  const searchParams = useSearchParams();
+  const testMode = searchParams.get("test") === "1";
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     brand: "",
@@ -34,7 +46,7 @@ export default function InscriptionPage() {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, testMode }),
       });
       const data = await res.json();
       if (data.url) {
@@ -189,15 +201,12 @@ export default function InscriptionPage() {
 
           {/* Récap prix */}
           <div className="card p-6 border-[#3B82F6]/30 bg-[#3B82F6]/5">
+            {testMode && <p className="text-xs text-yellow-500 font-bold mb-3">MODE TEST — prix réduits</p>}
             <h2 className="font-semibold mb-4">Récapitulatif</h2>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
-                <span className="text-zinc-400">Mise en place (one-shot)</span>
-                <span className="font-bold">199€</span>
-              </div>
-              <div className="flex justify-between">
                 <span className="text-zinc-400">Abonnement mensuel</span>
-                <span className="font-bold text-[#3B82F6]">29€/mois</span>
+                <span className="font-bold text-[#3B82F6]">{testMode ? "0,49€/mois" : "29€/mois"}</span>
               </div>
               <hr className="border-[#1E1E22]" />
               <div className="flex justify-between text-xs text-zinc-600">

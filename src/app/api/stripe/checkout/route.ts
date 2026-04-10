@@ -4,7 +4,7 @@ import { stripe, PRICES } from "@/lib/stripe";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { brand, city, region, department, postalCode, phone, email, pricePerKm, minPrice, zones } = body;
+    const { brand, city, region, department, postalCode, phone, email, pricePerKm, minPrice, zones, testMode } = body;
 
     // Create slug from brand name
     const slug = brand
@@ -23,6 +23,10 @@ export async function POST(request: NextRequest) {
       ? cleanPhone
       : `+33${cleanPhone}`;
     const whatsapp = phoneIntl.replace("+", "");
+
+    // Test mode: 0.50€ setup + 0.49€/mois
+    const setupAmount = testMode ? 50 : PRICES.setup;
+    const monthlyAmount = testMode ? 49 : PRICES.monthly;
 
     // Create Stripe customer
     const customer = await stripe.customers.create({
@@ -44,52 +48,48 @@ export async function POST(request: NextRequest) {
         pricePerKm: pricePerKm || "1.80",
         minPrice: minPrice || "15",
         zones,
+        testMode: testMode ? "true" : "false",
       },
     });
 
-    // Create checkout session: 199€ setup + 29€/mois subscription
+    // Create checkout session with subscription + setup fee
     const session = await stripe.checkout.sessions.create({
       customer: customer.id,
       mode: "subscription",
       payment_method_types: ["card"],
       line_items: [
         {
-          // Setup fee (one-time)
           price_data: {
             currency: "eur",
             product_data: {
-              name: "MonVTC — Mise en place",
-              description: `Site VTC professionnel pour ${brand}`,
+              name: testMode ? "MonVTC — TEST" : "MonVTC — Abonnement mensuel",
+              description: testMode
+                ? "Test de paiement"
+                : "Site VTC professionnel — hébergement, maintenance, mises à jour, support",
             },
-            unit_amount: PRICES.setup,
-          },
-          quantity: 1,
-        },
-        {
-          // Monthly subscription
-          price_data: {
-            currency: "eur",
-            product_data: {
-              name: "MonVTC — Abonnement mensuel",
-              description: "Hébergement, maintenance, mises à jour, support",
-            },
-            unit_amount: PRICES.monthly,
+            unit_amount: monthlyAmount,
             recurring: { interval: "month" },
           },
           quantity: 1,
         },
       ],
+      subscription_data: {
+        metadata: { slug, brand },
+      },
+      invoice_creation: undefined,
       success_url: `${request.nextUrl.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${request.nextUrl.origin}/inscription`,
       metadata: {
         slug,
         brand,
+        setupAmount: String(setupAmount),
       },
     });
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error("Stripe checkout error:", error);
-    return NextResponse.json({ error: "Erreur lors de la création du paiement" }, { status: 500 });
+    const message = error instanceof Error ? error.message : "Erreur inconnue";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
