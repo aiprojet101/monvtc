@@ -1,8 +1,8 @@
 const VERCEL_TOKEN = process.env.MONVTC_VERCEL_TOKEN || "";
 const VERCEL_TEAM_ID = process.env.MONVTC_VERCEL_TEAM_ID || "";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || "";
-const BASE_REPO = "aiprojet101/audovtc";
 const GOOGLE_MAPS_SERVER_KEY = process.env.GOOGLE_MAPS_SERVER_KEY || "";
+const MAX_PROJECTS_PER_REPO = 9; // Bascule au 9e pour garder 1 slot de marge
 
 const headers = {
   Authorization: `Bearer ${VERCEL_TOKEN}`,
@@ -31,73 +31,83 @@ export interface DriverConfig {
   forfaits?: string;
 }
 
-// Find an available repo (one with < 10 linked projects)
+function repoName(index: number): string {
+  return index === 1 ? "audovtc-clients" : `audovtc-clients-${index}`;
+}
+
+// Count how many Vercel projects are linked to a specific repo
+async function countProjectsForRepo(repo: string): Promise<number> {
+  const res = await fetch(`https://api.vercel.com/v9/projects${teamParam()}&limit=100`, {
+    headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
+  });
+  if (!res.ok) return 0;
+  const data = await res.json();
+  const projects = data.projects || [];
+  return projects.filter((p: { link?: { repo?: string } }) =>
+    p.link?.repo === repo.split("/")[1]
+  ).length;
+}
+
+// Create a new GitHub repo by copying from the template
+async function createGitHubRepo(name: string): Promise<boolean> {
+  if (!GITHUB_TOKEN) return false;
+
+  const res = await fetch("https://api.github.com/repos/aiprojet101/audovtc/generate", {
+    method: "POST",
+    headers: {
+      Authorization: `token ${GITHUB_TOKEN}`,
+      "Content-Type": "application/json",
+      Accept: "application/vnd.github+json",
+    },
+    body: JSON.stringify({
+      owner: "aiprojet101",
+      name,
+      description: "VTC template auto-generated",
+      private: false,
+    }),
+  });
+
+  if (res.ok) {
+    // Wait for GitHub to finish
+    await new Promise((r) => setTimeout(r, 3000));
+    return true;
+  }
+  return false;
+}
+
+// Check if a GitHub repo exists
+async function repoExists(name: string): Promise<boolean> {
+  const res = await fetch(`https://api.github.com/repos/aiprojet101/${name}`, {
+    headers: GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {},
+  });
+  return res.ok;
+}
+
+// Find a repo with available slots (< 9 projects)
 async function findAvailableRepo(): Promise<string> {
-  // Try audovtc-clients, audovtc-clients-2, audovtc-clients-3, etc.
   for (let i = 1; i <= 50; i++) {
-    const repoName = i === 1 ? "audovtc-clients" : `audovtc-clients-${i}`;
-    const repo = `aiprojet101/${repoName}`;
+    const name = repoName(i);
+    const fullRepo = `aiprojet101/${name}`;
 
-    // Try to create a test — if it fails with repo_links_exceeded_limit, try next
-    const testRes = await fetch(`https://api.vercel.com/v10/projects${teamParam()}`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        name: `__test-slot-check-${Date.now()}`,
-        framework: "nextjs",
-        gitRepository: { type: "github", repo },
-      }),
-    });
-
-    const testData = await testRes.json();
-
-    if (testRes.ok) {
-      // Slot available — delete the test project and return this repo
-      const testId = testData.id;
-      await fetch(`https://api.vercel.com/v10/projects/${testId}${teamParam()}`, {
-        method: "DELETE",
-        headers,
-      });
-      return repo;
+    // Check if repo exists
+    const exists = await repoExists(name);
+    if (!exists) {
+      // Try to create it
+      const created = await createGitHubRepo(name);
+      if (created) return fullRepo;
+      // Can't create (no GITHUB_TOKEN) — stop searching
+      break;
     }
 
-    if (testData?.error?.code === "repo_links_exceeded_limit") {
-      // This repo is full, try creating the next one
-      const nextRepoName = i === 1 ? "audovtc-clients-2" : `audovtc-clients-${i + 1}`;
-
-      // Check if next repo exists on GitHub, if not create it
-      const ghCheck = await fetch(`https://api.github.com/repos/aiprojet101/${nextRepoName}`, {
-        headers: GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {},
-      });
-
-      if (ghCheck.status === 404 && GITHUB_TOKEN) {
-        // Create new repo from template using GitHub API
-        await fetch("https://api.github.com/repos/aiprojet101/audovtc/generate", {
-          method: "POST",
-          headers: {
-            Authorization: `token ${GITHUB_TOKEN}`,
-            "Content-Type": "application/json",
-            Accept: "application/vnd.github+json",
-          },
-          body: JSON.stringify({
-            owner: "aiprojet101",
-            name: nextRepoName,
-            description: `VTC template clone ${i + 1}`,
-            private: false,
-          }),
-        });
-        // Wait for GitHub to finish creating
-        await new Promise((r) => setTimeout(r, 3000));
-      }
-
-      continue; // Try next repo
+    // Repo exists — count linked projects
+    const count = await countProjectsForRepo(fullRepo);
+    if (count < MAX_PROJECTS_PER_REPO) {
+      return fullRepo;
     }
-
-    // Other error (not repo limit) — this repo doesn't exist yet, skip
-    continue;
+    // Full, try next
   }
 
-  // Fallback: use the base clients repo
+  // Fallback
   return "aiprojet101/audovtc-clients";
 }
 
@@ -105,7 +115,7 @@ export async function createVercelProject(slug: string, config: DriverConfig) {
   // 1. Find available repo
   const repo = await findAvailableRepo();
 
-  // 2. Create project linked to available repo
+  // 2. Create project
   const createRes = await fetch(`https://api.vercel.com/v10/projects${teamParam()}`, {
     method: "POST",
     headers,
@@ -169,7 +179,7 @@ export async function createVercelProject(slug: string, config: DriverConfig) {
     body: JSON.stringify({ name: `${slug}.vtc-site.fr` }),
   });
 
-  // 5. Create deploy hook and trigger it
+  // 5. Create deploy hook and trigger
   const hookRes = await fetch(`https://api.vercel.com/v10/projects/${projectId}/deploy-hooks${teamParam()}`, {
     method: "POST",
     headers,
