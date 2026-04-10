@@ -1,5 +1,5 @@
-const VERCEL_TOKEN = process.env.VERCEL_TOKEN || "";
-const VERCEL_TEAM_ID = process.env.VERCEL_TEAM_ID || "";
+const VERCEL_TOKEN = process.env.MONVTC_VERCEL_TOKEN || "";
+const VERCEL_TEAM_ID = process.env.MONVTC_VERCEL_TEAM_ID || "";
 const TEMPLATE_REPO = "aiprojet101/audovtc";
 const GOOGLE_MAPS_SERVER_KEY = process.env.GOOGLE_MAPS_SERVER_KEY || "";
 
