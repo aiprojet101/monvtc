@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createVercelProject, type DriverConfig } from "@/lib/vercel";
-import { addClient } from "@/lib/db";
 import crypto from "crypto";
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
@@ -45,98 +44,55 @@ async function stripeGet(endpoint: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.text();
-  const sig = request.headers.get("stripe-signature") || "";
+  try {
+    const body = await request.text();
+    const sig = request.headers.get("stripe-signature") || "";
 
-  if (!verifySignature(body, sig, STRIPE_WEBHOOK_SECRET)) {
-    return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
-  }
-
-  const event = JSON.parse(body);
-
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
-    const customerId = session.customer;
-    const subscriptionId = session.subscription;
-
-    const customer = await stripeGet(`customers/${customerId}`);
-    const meta = customer.metadata;
-    const slug = meta.slug;
-
-    const driverConfig: DriverConfig = {
-      brand: meta.brand,
-      brandShort: meta.brandShort,
-      city: meta.city,
-      region: meta.region,
-      department: meta.department,
-      postalCode: meta.postalCode,
-      phone: meta.phone,
-      phoneIntl: meta.phoneIntl,
-      whatsapp: meta.whatsapp,
-      email: meta.email,
-      pricePerKm: meta.pricePerKm,
-      minPrice: meta.minPrice,
-      zones: meta.zones,
-    };
-
-    try {
-      const result = await createVercelProject(slug, driverConfig);
-
-      await addClient({
-        id: `CLI-${Date.now()}`,
-        createdAt: new Date().toISOString(),
-        status: "active",
-        stripeCustomerId: customerId,
-        stripeSubscriptionId: subscriptionId,
-        email: meta.email,
-        phone: meta.phone,
-        brand: meta.brand,
-        brandShort: meta.brandShort,
-        slug,
-        city: meta.city,
-        region: meta.region,
-        department: meta.department,
-        postalCode: meta.postalCode,
-        whatsapp: meta.whatsapp,
-        pricePerKm: meta.pricePerKm,
-        minPrice: meta.minPrice,
-        zones: meta.zones,
-        siteUrl: result.projectUrl,
-        vercelProjectId: result.projectId,
-      });
-
-      console.log(`Site provisioned for ${meta.brand}: ${result.projectUrl}`);
-    } catch (error) {
-      console.error("Provisioning error:", error);
-      await addClient({
-        id: `CLI-${Date.now()}`,
-        createdAt: new Date().toISOString(),
-        status: "failed",
-        stripeCustomerId: customerId,
-        stripeSubscriptionId: subscriptionId,
-        email: meta.email,
-        phone: meta.phone,
-        brand: meta.brand,
-        brandShort: meta.brandShort,
-        slug,
-        city: meta.city,
-        region: meta.region,
-        department: meta.department,
-        postalCode: meta.postalCode,
-        whatsapp: meta.whatsapp,
-        pricePerKm: meta.pricePerKm,
-        minPrice: meta.minPrice,
-        zones: meta.zones,
-        siteUrl: "",
-        vercelProjectId: "",
-      });
+    if (!verifySignature(body, sig, STRIPE_WEBHOOK_SECRET)) {
+      return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
     }
-  }
 
-  if (event.type === "customer.subscription.deleted") {
-    const subscription = event.data.object;
-    console.log(`Subscription cancelled: ${subscription.id}`);
-  }
+    const event = JSON.parse(body);
 
-  return NextResponse.json({ received: true });
+    if (event.type === "checkout.session.completed") {
+      const session = event.data.object;
+      const customerId = session.customer;
+
+      // Get customer metadata
+      const customer = await stripeGet(`customers/${customerId}`);
+      const meta = customer.metadata;
+      const slug = meta.slug;
+
+      const driverConfig: DriverConfig = {
+        brand: meta.brand,
+        brandShort: meta.brandShort,
+        city: meta.city,
+        region: meta.region,
+        department: meta.department,
+        postalCode: meta.postalCode,
+        phone: meta.phone,
+        phoneIntl: meta.phoneIntl,
+        whatsapp: meta.whatsapp,
+        email: meta.email,
+        pricePerKm: meta.pricePerKm,
+        minPrice: meta.minPrice,
+        zones: meta.zones,
+      };
+
+      // Try to provision — but always return 200 to Stripe
+      try {
+        const result = await createVercelProject(slug, driverConfig);
+        console.log(`SUCCESS: Site provisioned for ${meta.brand}: ${result.projectUrl}`);
+      } catch (error) {
+        console.error(`PROVISIONING ERROR for ${meta.brand}:`, error instanceof Error ? error.message : error);
+        // Don't throw — we still return 200 so Stripe stops retrying
+      }
+    }
+
+    return NextResponse.json({ received: true });
+  } catch (error) {
+    console.error("Webhook error:", error instanceof Error ? error.message : error);
+    // Always return 200 to prevent Stripe from retrying
+    return NextResponse.json({ received: true, error: "Processing error" });
+  }
 }
