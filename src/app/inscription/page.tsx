@@ -18,7 +18,7 @@ function InscriptionContent() {
   const searchParams = useSearchParams();
   const testMode = searchParams.get("test") === "1";
   const [loading, setLoading] = useState(false);
-  const [slugStatus, setSlugStatus] = useState<{ available: boolean; slug: string; domain: string } | null>(null);
+  const [slugStatus, setSlugStatus] = useState<{ available: boolean; slug: string; domain?: string; reason?: string; message?: string } | null>(null);
   const [checkingSlug, setCheckingSlug] = useState(false);
   const slugTimeout = useRef<ReturnType<typeof setTimeout>>(null);
   const [form, setForm] = useState({
