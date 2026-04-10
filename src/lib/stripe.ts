@@ -1,8 +1,7 @@
 import Stripe from "stripe";
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2026-03-25.dahlia",
-});
+// @ts-expect-error — Stripe API version may differ between local and Vercel
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "");
 
 export const PRICES = {
   setup: 19900, // 199€ en centimes
