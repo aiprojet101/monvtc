@@ -46,29 +46,26 @@ export async function POST(request: NextRequest) {
       "metadata[testMode]": testMode ? "true" : "false",
     });
 
-    // 2. Add setup fee as pending invoice item (will be charged on first invoice)
+    // 2. Create checkout session with setup fee + subscription
     const setupAmount = testMode ? 50 : PRICES.setup;
-    await stripeRequest("invoiceitems", {
-      customer: customer.id,
-      amount: String(setupAmount),
-      currency: "eur",
-      description: testMode ? "MonVTC — TEST setup" : "MonVTC — Mise en place du site VTC",
-    });
-
-    // 3. Create checkout session (subscription + setup fee on first invoice)
     const origin = request.nextUrl.origin;
     const session = await stripeRequest("checkout/sessions", {
       customer: customer.id,
       mode: "subscription",
       "payment_method_types[0]": "card",
+      // Line item 0: Setup fee (one-time, added to first invoice)
       "line_items[0][price_data][currency]": "eur",
-      "line_items[0][price_data][product_data][name]": testMode ? "MonVTC — TEST abo" : "MonVTC — Abonnement mensuel",
-      "line_items[0][price_data][product_data][description]": testMode
-        ? "Test de paiement"
-        : "Site VTC professionnel — hébergement, maintenance, mises à jour, support",
-      "line_items[0][price_data][unit_amount]": String(monthlyAmount),
-      "line_items[0][price_data][recurring][interval]": "month",
+      "line_items[0][price_data][product_data][name]": testMode ? "MonVTC — TEST setup" : "MonVTC — Mise en place du site VTC",
+      "line_items[0][price_data][product_data][description]": "Création, configuration et mise en ligne de votre site VTC",
+      "line_items[0][price_data][unit_amount]": String(setupAmount),
       "line_items[0][quantity]": "1",
+      // Line item 1: Monthly subscription
+      "line_items[1][price_data][currency]": "eur",
+      "line_items[1][price_data][product_data][name]": testMode ? "MonVTC — TEST abo" : "MonVTC — Abonnement mensuel",
+      "line_items[1][price_data][product_data][description]": "Hébergement, maintenance, mises à jour, support 7j/7",
+      "line_items[1][price_data][unit_amount]": String(monthlyAmount),
+      "line_items[1][price_data][recurring][interval]": "month",
+      "line_items[1][quantity]": "1",
       "subscription_data[metadata][slug]": slug,
       "subscription_data[metadata][brand]": brand,
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
