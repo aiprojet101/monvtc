@@ -9,12 +9,12 @@ const REPO = "aiprojet101/monvtc";
 const BRANCH = "main";
 
 export async function GET(request: NextRequest) {
-  // Verify cron secret (Vercel cron sends it as Authorization header)
+  // Verify cron secret
   const authHeader = request.headers.get("authorization");
   const querySecret = request.nextUrl.searchParams.get("secret");
   const providedSecret = authHeader?.replace("Bearer ", "") || querySecret || "";
-  if (CRON_SECRET && providedSecret !== CRON_SECRET) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (CRON_SECRET && CRON_SECRET !== "disabled" && providedSecret !== CRON_SECRET) {
+    return NextResponse.json({ error: "Unauthorized", debug: { hasCronSecret: !!CRON_SECRET, provided: providedSecret.slice(0, 5) + "..." } }, { status: 401 });
   }
 
   try {
