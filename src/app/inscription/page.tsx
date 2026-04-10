@@ -60,6 +60,9 @@ function InscriptionContent() {
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
+      } else {
+        alert("Erreur Stripe : " + (data.error || "Réponse invalide"));
+        setLoading(false);
       }
     } catch {
       alert("Erreur. Veuillez réessayer.");
@@ -197,7 +200,7 @@ function InscriptionContent() {
                 />
               </div>
               <div>
-                <label className="text-sm text-zinc-500 mb-1 block">Minimum de course (€)</label>
+                <label className="text-sm text-zinc-500 mb-1 block">Minimum course (€)</label>
                 <input
                   className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
                   type="number"
