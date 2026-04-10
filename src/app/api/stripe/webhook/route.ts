@@ -79,20 +79,19 @@ export async function POST(request: NextRequest) {
         zones: meta.zones,
       };
 
-      // Try to provision — but always return 200 to Stripe
+      // Try to provision
       try {
         const result = await createVercelProject(slug, driverConfig);
-        console.log(`SUCCESS: Site provisioned for ${meta.brand}: ${result.projectUrl}`);
+        return NextResponse.json({ received: true, status: "provisioned", siteUrl: result.projectUrl });
       } catch (error) {
-        console.error(`PROVISIONING ERROR for ${meta.brand}:`, error instanceof Error ? error.message : error);
-        // Don't throw — we still return 200 so Stripe stops retrying
+        const msg = error instanceof Error ? error.message : String(error);
+        return NextResponse.json({ received: true, status: "provisioning_failed", error: msg });
       }
     }
 
     return NextResponse.json({ received: true });
   } catch (error) {
-    console.error("Webhook error:", error instanceof Error ? error.message : error);
-    // Always return 200 to prevent Stripe from retrying
-    return NextResponse.json({ received: true, error: "Processing error" });
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ received: true, error: msg });
   }
 }
