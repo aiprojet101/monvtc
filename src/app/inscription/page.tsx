@@ -235,8 +235,8 @@ function InscriptionContent() {
             </div>
           </div>
 
-          {missing.length > 0 && (
-            <p className="text-xs text-red-400 mb-2">Champs manquants : {missing.join(", ")}</p>
+          {missing.length > 0 && !loading && (
+            <p className="text-xs text-zinc-600 mb-2">Remplissez : {missing.join(", ")}</p>
           )}
           <button
             type="submit"

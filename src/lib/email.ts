@@ -59,7 +59,7 @@ export async function sendWelcomeEmail(data: {
       </div>
 
       <p style="color: #71717A; font-size: 13px; margin-top: 32px; text-align: center;">
-        Une question ? Contactez-nous sur <a href="https://wa.me/33743289393" style="color: #3B82F6;">WhatsApp</a> ou par email à <a href="mailto:contact@vtc-site.fr" style="color: #3B82F6;">contact@vtc-site.fr</a>
+        Une question ? Appelez-nous au <a href="tel:+33743289393" style="color: #3B82F6;">07 43 28 93 93</a>, sur <a href="https://wa.me/33743289393" style="color: #3B82F6;">WhatsApp</a> ou par email à <a href="mailto:contact@vtc-site.fr" style="color: #3B82F6;">contact@vtc-site.fr</a>
       </p>
     </div>
   `;
