@@ -4,7 +4,7 @@ import { BLOG_TOPICS } from "@/lib/blog-topics";
 const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY || "";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || "";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
-const CRON_SECRET = process.env.CRON_SECRET || "";
+const CRON_SECRET = process.env.MONVTC_CRON_SECRET || "";
 const REPO = "aiprojet101/monvtc";
 const BRANCH = "main";
 
