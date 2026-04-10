@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { RefreshCw, ExternalLink, Users, Euro, Check, X, Clock } from "lucide-react";
+import { RefreshCw, ExternalLink, Users, Euro, Check, X, Clock, Lock } from "lucide-react";
 
 interface Client {
   id: string;
@@ -20,13 +20,25 @@ interface Client {
 export default function AdminPage() {
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
+  const [secret, setSecret] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
+  const [authError, setAuthError] = useState(false);
 
-  const fetchClients = useCallback(async () => {
+  const fetchClients = useCallback(async (s: string) => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/clients");
+      const res = await fetch(`/api/admin/clients?secret=${encodeURIComponent(s)}`);
+      if (res.status === 401) {
+        setAuthenticated(false);
+        setAuthError(true);
+        return;
+      }
       const data = await res.json();
-      setClients(data);
+      if (Array.isArray(data)) {
+        setClients(data);
+        setAuthenticated(true);
+        setAuthError(false);
+      }
     } catch {
       console.error("Erreur chargement");
     } finally {
@@ -34,7 +46,34 @@ export default function AdminPage() {
     }
   }, []);
 
-  useEffect(() => { fetchClients(); }, [fetchClients]);
+  function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    fetchClients(secret);
+  }
+
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6">
+        <form onSubmit={handleLogin} className="card p-8 max-w-sm w-full">
+          <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-[#3B82F6]/10 flex items-center justify-center">
+            <Lock className="w-6 h-6 text-[#3B82F6]" />
+          </div>
+          <h1 className="text-xl font-bold text-center mb-2">Admin MonVTC</h1>
+          <p className="text-xs text-zinc-500 text-center mb-6">Entrez le mot de passe admin</p>
+          {authError && <p className="text-xs text-red-400 text-center mb-3">Mot de passe incorrect</p>}
+          <input
+            type="password"
+            className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition mb-4"
+            placeholder="Mot de passe"
+            value={secret}
+            onChange={(e) => setSecret(e.target.value)}
+            autoFocus
+          />
+          <button type="submit" className="btn-primary w-full">Connexion</button>
+        </form>
+      </div>
+    );
+  }
 
   const active = clients.filter(c => c.status === "active").length;
   const mrr = active * 29;
@@ -47,7 +86,7 @@ export default function AdminPage() {
             <h1 className="font-bold text-lg">Mon<span className="text-[#3B82F6]">VTC</span> Admin</h1>
             <p className="text-xs text-zinc-600">Gestion des clients SaaS</p>
           </div>
-          <button onClick={fetchClients} className="p-2 rounded-lg bg-[#111113] border border-[#1E1E22] text-zinc-400 hover:text-white transition">
+          <button onClick={() => fetchClients(secret)} className="p-2 rounded-lg bg-[#111113] border border-[#1E1E22] text-zinc-400 hover:text-white transition">
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
           </button>
         </div>
