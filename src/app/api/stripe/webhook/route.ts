@@ -94,6 +94,7 @@ export async function POST(request: NextRequest) {
             phone: meta.phone,
             pricePerKm: meta.pricePerKm,
             siteUrl: result.projectUrl,
+            adminPassword: result.adminPassword,
           });
           await sendAdminNotification({
             brand: meta.brand,

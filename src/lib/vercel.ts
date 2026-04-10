@@ -1,3 +1,5 @@
+import crypto from "crypto";
+
 const VERCEL_TOKEN = process.env.MONVTC_VERCEL_TOKEN || "";
 const VERCEL_TEAM_ID = process.env.MONVTC_VERCEL_TEAM_ID || "";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || "";
@@ -112,7 +114,10 @@ async function findAvailableRepo(): Promise<string> {
 }
 
 export async function createVercelProject(slug: string, config: DriverConfig) {
-  // 1. Find available repo
+  // 1. Generate admin password
+  const adminPassword = crypto.randomUUID().replace(/-/g, "").slice(0, 16);
+
+  // 2. Find available repo
   const repo = await findAvailableRepo();
 
   // 2. Create project
@@ -153,6 +158,7 @@ export async function createVercelProject(slug: string, config: DriverConfig) {
     { key: "NEXT_PUBLIC_DRIVER_DOMAIN", value: `${slug}.vtc-site.fr` },
     { key: "NEXT_PUBLIC_DRIVER_DOMAIN_APP", value: `app-${slug}.vtc-site.fr` },
     { key: "GOOGLE_MAPS_SERVER_KEY", value: GOOGLE_MAPS_SERVER_KEY },
+    { key: "ADMIN_PASSWORD", value: adminPassword },
   ];
 
   if (config.forfaits) {
@@ -200,5 +206,6 @@ export async function createVercelProject(slug: string, config: DriverConfig) {
     projectId,
     projectUrl: `${slug}.vtc-site.fr`,
     deploymentUrl: deployment?.url || null,
+    adminPassword,
   };
 }

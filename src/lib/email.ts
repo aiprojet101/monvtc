@@ -26,6 +26,7 @@ export async function sendWelcomeEmail(data: {
   phone: string;
   pricePerKm: string;
   siteUrl: string;
+  adminPassword: string;
 }) {
   const html = `
     <div style="font-family: -apple-system, sans-serif; max-width: 600px; margin: 0 auto; background: #09090B; color: #F5F5F5; padding: 40px; border-radius: 16px;">
@@ -49,6 +50,13 @@ export async function sendWelcomeEmail(data: {
         <p style="margin: 8px 0; color: #A1A1AA;">Ville : <strong style="color: white;">${data.city}</strong></p>
         <p style="margin: 8px 0; color: #A1A1AA;">Zones : <strong style="color: white;">${data.zones}</strong></p>
         <p style="margin: 8px 0; color: #A1A1AA;">Tarif : <strong style="color: white;">${data.pricePerKm}€/km</strong></p>
+      </div>
+
+      <div style="background: #111113; border: 1px solid #1E1E22; border-radius: 12px; padding: 24px; margin: 24px 0;">
+        <h3 style="margin: 0 0 12px; color: #3B82F6; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Accès administration</h3>
+        <p style="margin: 8px 0;"><strong style="color: #A1A1AA;">URL :</strong> <a href="https://${data.siteUrl}/admin" style="color: #3B82F6; text-decoration: none;">https://${data.siteUrl}/admin</a></p>
+        <p style="margin: 8px 0;"><strong style="color: #A1A1AA;">Mot de passe :</strong> <code style="background: #09090B; padding: 2px 8px; border-radius: 4px; color: white;">${data.adminPassword}</code></p>
+        <p style="margin: 8px 0; color: #71717A; font-size: 11px;">Conservez ce mot de passe en lieu sur. Il vous permet de gérer vos réservations.</p>
       </div>
 
       <div style="background: #111113; border: 1px solid #1E1E22; border-radius: 12px; padding: 24px; margin: 24px 0;">
