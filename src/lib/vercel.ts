@@ -98,23 +98,19 @@ export async function createVercelProject(slug: string, config: DriverConfig) {
     body: JSON.stringify({ name: `${slug}.vtc-site.fr` }),
   });
 
-  // 4. Trigger deployment
-  const deployRes = await fetch(`https://api.vercel.com/v13/deployments${teamParam()}`, {
+  // 4. Create deploy hook and trigger it
+  const hookRes = await fetch(`https://api.vercel.com/v10/projects/${projectId}/deploy-hooks${teamParam()}`, {
     method: "POST",
     headers,
-    body: JSON.stringify({
-      name: slug,
-      project: projectId,
-      target: "production",
-      gitSource: {
-        type: "github",
-        repoId: "", // will be resolved from project
-        ref: "main",
-      },
-    }),
+    body: JSON.stringify({ name: "auto-deploy", ref: "main" }),
   });
+  const hook = hookRes.ok ? await hookRes.json() : null;
 
-  const deployment = deployRes.ok ? await deployRes.json() : null;
+  let deployment = null;
+  if (hook?.url) {
+    const triggerRes = await fetch(hook.url, { method: "POST" });
+    deployment = triggerRes.ok ? await triggerRes.json() : null;
+  }
 
   return {
     projectId,
