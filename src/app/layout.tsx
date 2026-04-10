@@ -18,13 +18,12 @@ export const metadata: Metadata = {
   description:
     "Créez votre site de réservation VTC en 24h. Réservation en ligne, WhatsApp, Google Maps, SEO local. Solution clé en main pour chauffeurs VTC indépendants. 199€ + 29€/mois.",
   keywords: [
-    "site VTC",
-    "site chauffeur VTC",
-    "créer site VTC",
-    "réservation VTC en ligne",
-    "solution VTC clé en main",
-    "site web chauffeur privé",
-    "site VTC pas cher",
+    "site VTC", "site chauffeur VTC", "créer site VTC",
+    "réservation VTC en ligne", "solution VTC clé en main",
+    "site web chauffeur privé", "site VTC pas cher",
+    "logiciel VTC", "application réservation VTC", "devenir chauffeur VTC",
+    "formation VTC", "carte professionnelle VTC", "gestion VTC",
+    "plateforme VTC", "site internet VTC", "module réservation VTC",
   ],
   openGraph: {
     title: "MonVTC — Votre site VTC professionnel en 24h",

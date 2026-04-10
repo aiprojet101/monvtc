@@ -357,7 +357,13 @@ export default function Home() {
               <a href="mailto:contact@monvtc.fr" className="hover:text-[#3B82F6] transition">contact@monvtc.fr</a>
             </div>
           </div>
-          <div className="mt-8 pt-8 border-t border-white/5 text-center text-xs text-zinc-800">
+          <div className="mt-6 pt-6 border-t border-white/5 flex flex-wrap justify-center gap-4 text-xs text-zinc-700">
+            <Link href="/creer-site-vtc" className="hover:text-zinc-400 transition">Créer un site VTC</Link>
+            <Link href="/devenir-chauffeur-vtc" className="hover:text-zinc-400 transition">Devenir chauffeur VTC</Link>
+            <Link href="/solution-vtc" className="hover:text-zinc-400 transition">Solution VTC</Link>
+            <Link href="/inscription" className="hover:text-zinc-400 transition">Inscription</Link>
+          </div>
+          <div className="mt-4 text-center text-xs text-zinc-800">
             &copy; {new Date().getFullYear()} MonVTC — Tous droits réservés
           </div>
         </div>
