@@ -46,14 +46,23 @@ export async function POST(request: NextRequest) {
       "metadata[testMode]": testMode ? "true" : "false",
     });
 
-    // 2. Create checkout session
+    // 2. Add setup fee as pending invoice item (will be charged on first invoice)
+    const setupAmount = testMode ? 50 : PRICES.setup;
+    await stripeRequest("invoiceitems", {
+      customer: customer.id,
+      amount: String(setupAmount),
+      currency: "eur",
+      description: testMode ? "MonVTC — TEST setup" : "MonVTC — Mise en place du site VTC",
+    });
+
+    // 3. Create checkout session (subscription + setup fee on first invoice)
     const origin = request.nextUrl.origin;
     const session = await stripeRequest("checkout/sessions", {
       customer: customer.id,
       mode: "subscription",
       "payment_method_types[0]": "card",
       "line_items[0][price_data][currency]": "eur",
-      "line_items[0][price_data][product_data][name]": testMode ? "MonVTC — TEST" : "MonVTC — Abonnement mensuel",
+      "line_items[0][price_data][product_data][name]": testMode ? "MonVTC — TEST abo" : "MonVTC — Abonnement mensuel",
       "line_items[0][price_data][product_data][description]": testMode
         ? "Test de paiement"
         : "Site VTC professionnel — hébergement, maintenance, mises à jour, support",

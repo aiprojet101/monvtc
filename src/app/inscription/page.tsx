@@ -148,8 +148,8 @@ function InscriptionContent() {
                 <div className="mt-2 card p-4 border-[#C9A84C]/30 bg-[#C9A84C]/5">
                   <p className="text-xs text-[#C9A84C] font-bold mb-1">Offre Premium disponible</p>
                   <p className="text-xs text-zinc-400">{slugStatus.message}</p>
-                  <a href="https://wa.me/33743289393?text=Bonjour%2C%20je%20suis%20int%C3%A9ress%C3%A9%20par%20l%27offre%20Premium%20pour%20le%20nom%20{slugStatus.slug}" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-2 text-xs font-bold text-[#C9A84C]">
-                    Nous contacter pour l&apos;offre Premium
+                  <a href={`https://wa.me/33743289393?text=${encodeURIComponent(`Bonjour, je suis intéressé par l'offre Premium pour le nom "${slugStatus.slug}". Pouvez-vous me donner plus d'infos ?`)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-2 text-xs font-bold text-[#C9A84C] hover:text-[#E8D48B] transition">
+                    Souscrire a l&apos;offre Premium →
                   </a>
                 </div>
               )}
