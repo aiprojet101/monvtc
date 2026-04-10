@@ -96,7 +96,7 @@ export default function InscriptionPage() {
                 />
               </div>
               <div>
-                <label className="text-sm text-zinc-500 mb-1 block">Code postal</label>
+                <label className="text-sm text-zinc-500 mb-1 block">Code postal (optionnel)</label>
                 <input
                   className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
                   placeholder="59000"
@@ -107,7 +107,7 @@ export default function InscriptionPage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-zinc-500 mb-1 block">Région</label>
+                <label className="text-sm text-zinc-500 mb-1 block">Région (optionnel)</label>
                 <input
                   className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
                   placeholder="Métropole lilloise"
@@ -116,7 +116,7 @@ export default function InscriptionPage() {
                 />
               </div>
               <div>
-                <label className="text-sm text-zinc-500 mb-1 block">Département</label>
+                <label className="text-sm text-zinc-500 mb-1 block">Département (optionnel)</label>
                 <input
                   className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
                   placeholder="Nord"
