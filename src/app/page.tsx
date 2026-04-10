@@ -58,7 +58,7 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <a href="#tarifs" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Tarifs</a>
             <a href="#demo" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Démo</a>
-            <a href="#contact" className="btn-primary !py-2 !px-5 !text-xs">
+            <a href="/inscription" className="btn-primary !py-2 !px-5 !text-xs">
               Lancer mon site
             </a>
           </div>
@@ -91,7 +91,7 @@ export default function Home() {
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up animate-delay-3">
-            <a href="#contact" className="btn-primary flex items-center gap-2 text-base !py-4 !px-8">
+            <a href="/inscription" className="btn-primary flex items-center gap-2 text-base !py-4 !px-8">
               Créer mon site VTC
               <ArrowRight className="w-5 h-5" />
             </a>
@@ -251,7 +251,7 @@ export default function Home() {
               ))}
             </div>
 
-            <a href="#contact" className="btn-primary w-full flex items-center justify-center gap-2">
+            <a href="/inscription" className="btn-primary w-full flex items-center justify-center gap-2">
               Lancer mon site VTC
               <ArrowRight className="w-5 h-5" />
             </a>
