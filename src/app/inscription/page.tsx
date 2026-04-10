@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
@@ -18,6 +18,9 @@ function InscriptionContent() {
   const searchParams = useSearchParams();
   const testMode = searchParams.get("test") === "1";
   const [loading, setLoading] = useState(false);
+  const [slugStatus, setSlugStatus] = useState<{ available: boolean; slug: string; domain: string } | null>(null);
+  const [checkingSlug, setCheckingSlug] = useState(false);
+  const slugTimeout = useRef<ReturnType<typeof setTimeout>>(null);
   const [form, setForm] = useState({
     brand: "",
     city: "",
@@ -35,7 +38,26 @@ function InscriptionContent() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
-  const canSubmit = form.brand.trim() && form.city.trim() && form.phone.trim() && form.email.trim() && form.zones.trim();
+  function handleBrandChange(value: string) {
+    update("brand", value);
+    setSlugStatus(null);
+    if (slugTimeout.current) clearTimeout(slugTimeout.current);
+    if (value.trim().length < 2) return;
+    setCheckingSlug(true);
+    slugTimeout.current = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/check-slug?brand=${encodeURIComponent(value)}`);
+        const data = await res.json();
+        setSlugStatus(data);
+      } catch {
+        setSlugStatus(null);
+      } finally {
+        setCheckingSlug(false);
+      }
+    }, 500);
+  }
+
+  const canSubmit = form.brand.trim() && form.city.trim() && form.phone.trim() && form.email.trim() && form.zones.trim() && slugStatus?.available;
 
   // Debug — à retirer après
   const missing = [
@@ -96,13 +118,38 @@ function InscriptionContent() {
             <h2 className="font-semibold text-sm text-[#3B82F6] uppercase tracking-wider">Votre marque</h2>
             <div>
               <label className="text-sm text-zinc-500 mb-1 block">Nom de votre marque VTC *</label>
-              <input
-                className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
-                placeholder="Ex: MehdiVTC, NordCab, EliteDriver..."
-                value={form.brand}
-                onChange={(e) => update("brand", e.target.value)}
-              />
-              <p className="text-xs text-zinc-700 mt-1">Ce sera le nom sur votre site et votre app</p>
+              <div className="relative">
+                <input
+                  className={`w-full bg-[#09090B] border rounded-lg px-4 py-3 text-white focus:outline-none transition ${
+                    slugStatus === null ? "border-[#1E1E22] focus:border-[#3B82F6]" :
+                    slugStatus.available ? "border-green-500/50 focus:border-green-500" :
+                    "border-red-500/50 focus:border-red-500"
+                  }`}
+                  placeholder="Ex: MehdiVTC, NordCab, EliteDriver..."
+                  value={form.brand}
+                  onChange={(e) => handleBrandChange(e.target.value)}
+                />
+                {form.brand.trim().length >= 2 && (
+                  <div className="absolute right-3 top-3.5">
+                    {checkingSlug ? (
+                      <div className="w-4 h-4 border-2 border-zinc-600 border-t-zinc-300 rounded-full animate-spin" />
+                    ) : slugStatus?.available ? (
+                      <div className="w-4 h-4 rounded-full bg-green-500" title="Disponible" />
+                    ) : slugStatus && !slugStatus.available ? (
+                      <div className="w-4 h-4 rounded-full bg-red-500" title="Déjà pris" />
+                    ) : null}
+                  </div>
+                )}
+              </div>
+              {slugStatus?.available && (
+                <p className="text-xs text-green-500 mt-1">Disponible — votre site sera : {slugStatus.domain}</p>
+              )}
+              {slugStatus && !slugStatus.available && (
+                <p className="text-xs text-red-400 mt-1">Ce nom est déjà pris. Essayez un autre.</p>
+              )}
+              {!slugStatus && !checkingSlug && (
+                <p className="text-xs text-zinc-700 mt-1">Ce sera le nom sur votre site et votre app</p>
+              )}
             </div>
           </div>
 
