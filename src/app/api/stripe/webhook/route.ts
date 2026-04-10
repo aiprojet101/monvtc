@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createVercelProject, type DriverConfig } from "@/lib/vercel";
+import { sendWelcomeEmail, sendAdminNotification } from "@/lib/email";
 import crypto from "crypto";
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
@@ -82,6 +83,30 @@ export async function POST(request: NextRequest) {
       // Try to provision
       try {
         const result = await createVercelProject(slug, driverConfig);
+
+        // Send emails
+        try {
+          await sendWelcomeEmail({
+            email: meta.email,
+            brand: meta.brand,
+            city: meta.city,
+            zones: meta.zones,
+            phone: meta.phone,
+            pricePerKm: meta.pricePerKm,
+            siteUrl: result.projectUrl,
+          });
+          await sendAdminNotification({
+            brand: meta.brand,
+            city: meta.city,
+            email: meta.email,
+            phone: meta.phone,
+            siteUrl: result.projectUrl,
+            slug,
+          });
+        } catch (emailErr) {
+          console.error("Email error:", emailErr);
+        }
+
         return NextResponse.json({ received: true, status: "provisioned", siteUrl: result.projectUrl });
       } catch (error) {
         const msg = error instanceof Error ? error.message : String(error);
