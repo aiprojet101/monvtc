@@ -7,19 +7,32 @@ const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || "";
 
 function verifySignature(payload: string, sig: string, secret: string): boolean {
-  const parts = sig.split(",").reduce((acc, part) => {
-    const [key, value] = part.split("=");
-    acc[key] = value;
-    return acc;
-  }, {} as Record<string, string>);
+  try {
+    const cleanSecret = secret.trim();
+    const parts: Record<string, string> = {};
+    for (const item of sig.split(",")) {
+      const idx = item.indexOf("=");
+      if (idx > 0) {
+        const key = item.slice(0, idx).trim();
+        const val = item.slice(idx + 1).trim();
+        parts[key] = val;
+      }
+    }
 
-  const timestamp = parts["t"];
-  const signature = parts["v1"];
-  if (!timestamp || !signature) return false;
+    const timestamp = parts["t"];
+    const signature = parts["v1"];
+    if (!timestamp || !signature) return false;
 
-  const signedPayload = `${timestamp}.${payload}`;
-  const expected = crypto.createHmac("sha256", secret).update(signedPayload).digest("hex");
-  return expected === signature;
+    const signedPayload = `${timestamp}.${payload}`;
+    const expected = crypto.createHmac("sha256", cleanSecret).update(signedPayload, "utf8").digest("hex");
+
+    return crypto.timingSafeEqual(
+      Buffer.from(expected, "hex"),
+      Buffer.from(signature, "hex")
+    );
+  } catch {
+    return false;
+  }
 }
 
 async function stripeGet(endpoint: string) {
