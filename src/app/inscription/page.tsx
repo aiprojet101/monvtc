@@ -226,7 +226,7 @@ function InscriptionContent() {
           <button
             type="submit"
             disabled={!canSubmit || loading}
-            className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
+            className={`btn-primary w-full flex items-center justify-center gap-2 ${!canSubmit || loading ? "opacity-30 cursor-not-allowed" : ""}`}
           >
             {loading ? (
               <><Loader2 className="w-5 h-5 animate-spin" /> Redirection vers le paiement...</>
