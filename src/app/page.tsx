@@ -361,7 +361,13 @@ export default function Home() {
             <Link href="/creer-site-vtc" className="hover:text-zinc-400 transition">Créer un site VTC</Link>
             <Link href="/devenir-chauffeur-vtc" className="hover:text-zinc-400 transition">Devenir chauffeur VTC</Link>
             <Link href="/solution-vtc" className="hover:text-zinc-400 transition">Solution VTC</Link>
+            <Link href="/blog" className="hover:text-zinc-400 transition">Blog</Link>
             <Link href="/inscription" className="hover:text-zinc-400 transition">Inscription</Link>
+          </div>
+          <div className="mt-3 flex flex-wrap justify-center gap-4 text-xs text-zinc-800">
+            <Link href="/mentions-legales" className="hover:text-zinc-500 transition">Mentions légales</Link>
+            <Link href="/cgv" className="hover:text-zinc-500 transition">CGV</Link>
+            <Link href="/confidentialite" className="hover:text-zinc-500 transition">Confidentialité</Link>
           </div>
           <div className="mt-4 text-center text-xs text-zinc-800">
             &copy; {new Date().getFullYear()} MonVTC — Tous droits réservés

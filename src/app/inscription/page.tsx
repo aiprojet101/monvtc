@@ -57,7 +57,8 @@ function InscriptionContent() {
     }, 500);
   }
 
-  const canSubmit = form.brand.trim() && form.city.trim() && form.phone.trim() && form.email.trim() && form.zones.trim() && slugStatus?.available;
+  const [acceptCgv, setAcceptCgv] = useState(false);
+  const canSubmit = form.brand.trim() && form.city.trim() && form.phone.trim() && form.email.trim() && form.zones.trim() && slugStatus?.available && acceptCgv;
 
   // Debug — à retirer après
   const missing = [
@@ -292,6 +293,24 @@ function InscriptionContent() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Déclarations légales */}
+          <div className="space-y-3">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={acceptCgv}
+                onChange={(e) => setAcceptCgv(e.target.checked)}
+                className="mt-1 w-4 h-4 rounded border-[#1E1E22] bg-[#09090B] accent-[#3B82F6]"
+              />
+              <span className="text-xs text-zinc-500 leading-relaxed">
+                Je déclare être titulaire d&apos;une <strong className="text-zinc-300">carte professionnelle VTC valide</strong> et exercer en conformité avec la réglementation en vigueur (immatriculation, assurance RC Pro, inscription au registre VTC). J&apos;accepte les{" "}
+                <a href="/cgv" target="_blank" className="text-[#3B82F6] hover:underline">CGV</a>,{" "}
+                la <a href="/confidentialite" target="_blank" className="text-[#3B82F6] hover:underline">politique de confidentialité</a> et les{" "}
+                <a href="/mentions-legales" target="_blank" className="text-[#3B82F6] hover:underline">mentions légales</a>.
+              </span>
+            </label>
           </div>
 
           {missing.length > 0 && !loading && (
