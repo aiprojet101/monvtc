@@ -104,11 +104,15 @@ export async function createVercelProject(slug: string, config: DriverConfig) {
     headers,
     body: JSON.stringify({ name: "auto-deploy", ref: "main" }),
   });
-  const hook = hookRes.ok ? await hookRes.json() : null;
+  const hookData = hookRes.ok ? await hookRes.json() : null;
+
+  // The response contains the full project with deployHooks array
+  const hooks = hookData?.link?.deployHooks || [];
+  const hookUrl = hooks.length > 0 ? hooks[hooks.length - 1].url : null;
 
   let deployment = null;
-  if (hook?.url) {
-    const triggerRes = await fetch(hook.url, { method: "POST" });
+  if (hookUrl) {
+    const triggerRes = await fetch(hookUrl, { method: "POST" });
     deployment = triggerRes.ok ? await triggerRes.json() : null;
   }
 
