@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${request.nextUrl.origin}/inscription/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${request.nextUrl.origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${request.nextUrl.origin}/inscription`,
       metadata: {
         slug,
