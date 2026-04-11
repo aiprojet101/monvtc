@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     id: string;
     status: string;
     created: number;
-    metadata?: { slug?: string; brand?: string };
+    metadata?: Record<string, string>;
     customer?: { name?: string; email?: string; phone?: string; metadata?: Record<string, string> };
     items?: { data?: { price?: { unit_amount?: number } }[] };
   }) => {
