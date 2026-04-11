@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code MonVTC</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #09090B; color: white; font-family: system-ui, -apple-system, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+    .card {
+      width: 400px;
+      background: linear-gradient(145deg, #111113, #09090B);
+      border: 1px solid #1E1E22;
+      border-radius: 24px;
+      padding: 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3B82F6, #60A5FA, #3B82F6);
+    }
+    .badge {
+      display: inline-block;
+      background: #3B82F6;
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    h1 span { color: #3B82F6; }
+    .subtitle {
+      font-size: 14px;
+      color: #71717A;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .qr-container {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+    .qr-container img, .qr-container canvas { width: 200px; height: 200px; }
+    .url {
+      font-size: 13px;
+      color: #3B82F6;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .footer {
+      font-size: 11px;
+      color: #52525B;
+      line-height: 1.5;
+    }
+    .price {
+      display: inline-block;
+      background: #3B82F6/10;
+      border: 1px solid #3B82F620;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #60A5FA;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+
+    /* Print version */
+    @media print {
+      body { background: white; }
+      .card { border: 2px solid #E5E7EB; background: white; }
+      .card::before { background: #3B82F6; }
+      h1 { color: #09090B; }
+      .subtitle { color: #6B7280; }
+      .footer { color: #9CA3AF; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">Chauffeur VTC</div>
+    <h1>Ton boss, c'est <span>toi.</span></h1>
+    <p class="subtitle">Lance ton site VTC pro en 24h.<br>Tes clients reservent, tu conduis.</p>
+
+    <div class="qr-container">
+      <canvas id="qr"></canvas>
+    </div>
+
+    <p class="url">vtc-site.fr</p>
+    <p class="footer">Scanne et decouvre comment des chauffeurs<br>remplissent leur planning sans Uber.</p>
+    <div class="price">A partir de 29€/mois — sans engagement</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+  <script>
+    QRCode.toCanvas(document.getElementById('qr'), 'https://vtc-site.fr', {
+      width: 200,
+      margin: 0,
+      color: { dark: '#09090B', light: '#FFFFFF' },
+      errorCorrectionLevel: 'H',
+    });
+  </script>
+</body>
+</html>
