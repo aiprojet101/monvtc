@@ -3,8 +3,42 @@ import { NextRequest, NextResponse } from "next/server";
 const VERCEL_TOKEN = process.env.MONVTC_VERCEL_TOKEN || "";
 const VERCEL_TEAM_ID = process.env.MONVTC_VERCEL_TEAM_ID || "";
 
-// Mots réservés / trop courts
-const BLOCKED_WORDS = ["vtc", "taxi", "cab", "uber", "bolt", "test", "admin", "api", "www", "app", "site"];
+// Mots réservés / trop courts / à valeur SEO
+const BLOCKED_WORDS = [
+  // Génériques
+  "vtc", "taxi", "cab", "uber", "bolt", "test", "admin", "api", "www", "app", "site",
+  "chauffeur", "driver", "transport", "transfert", "navette", "shuttle", "premium",
+  "elite", "prestige", "luxe", "luxury", "express", "rapide", "pro", "privé", "prive",
+  "france", "national", "europe", "mondial", "world", "best", "top", "first", "numero1",
+  // Concurrents / marques
+  "marcel", "heetch", "kapten", "freenow", "lecab", "allocab", "snapcar", "blacklane",
+  "monvtc", "vtcsite", "vtc-site",
+];
+
+// Patterns VTC+lettre/chiffre réservés (vtc1, vtca, vtc62, vtc-pro, etc.)
+const BLOCKED_PATTERNS = [
+  /^vtc[a-z]$/,           // vtca, vtcb, vtcx...
+  /^vtc\d+$/,             // vtc1, vtc62, vtc75...
+  /^vtc-[a-z]$/,          // vtc-a, vtc-b...
+  /^vtc-\d+$/,            // vtc-1, vtc-62...
+  /^vtc-[a-z]{2,4}$/,     // vtc-pro, vtc-cab, vtc-vip...
+  /^[a-z]-vtc$/,          // e-vtc, o-vtc...
+  /^my-?vtc/,             // myvtc, my-vtc...
+  /^mon-?vtc/,            // monvtc, mon-vtc...
+  /^le-?vtc/,             // levtc, le-vtc...
+  /^la-?vtc/,             // lavtc, la-vtc...
+  /^vtc-france/,          // vtc-france...
+  /^vtc-express/,
+  /^vtc-premium/,
+  /^vtc-elite/,
+  /^vtc-luxe/,
+  /^vtc-prestige/,
+  /^vtc-plus/,
+  /^vtc-direct/,
+  /^vtc-facile/,
+  /^taxi-/,               // taxi-xxx
+  /^\d+vtc/,              // 1vtc, 62vtc...
+];
 
 // Top 100+ villes de France = offre premium
 const PREMIUM_CITIES = [
@@ -52,6 +86,7 @@ function isPremiumName(slug: string): boolean {
 function isBlocked(slug: string): boolean {
   if (slug.length < 4) return true;
   if (BLOCKED_WORDS.includes(slug)) return true;
+  if (BLOCKED_PATTERNS.some((p) => p.test(slug))) return true;
   return false;
 }
 
