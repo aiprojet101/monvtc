@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stickers QR MonVTC</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #1a1a1a; font-family: system-ui, -apple-system, sans-serif; padding: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 850px; margin: 0 auto; }
+    .sticker {
+      background: #09090B;
+      border: 1px solid #1E1E22;
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      break-inside: avoid;
+    }
+    .sticker::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .s1::before { background: linear-gradient(90deg, #3B82F6, #60A5FA); }
+    .s2::before { background: linear-gradient(90deg, #F59E0B, #FBBF24); }
+    .s3::before { background: linear-gradient(90deg, #10B981, #34D399); }
+    .s4::before { background: linear-gradient(90deg, #EF4444, #F87171); }
+    .s5::before { background: linear-gradient(90deg, #8B5CF6, #A78BFA); }
+    .s6::before { background: linear-gradient(90deg, #EC4899, #F472B6); }
+    .s7::before { background: linear-gradient(90deg, #06B6D4, #22D3EE); }
+    .s8::before { background: linear-gradient(90deg, #F97316, #FB923C); }
+    .s9::before { background: linear-gradient(90deg, #14B8A6, #2DD4BF); }
+    .s10::before { background: linear-gradient(90deg, #6366F1, #818CF8); }
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: white;
+    }
+    .s1 .badge { background: #3B82F6; }
+    .s2 .badge { background: #F59E0B; color: #000; }
+    .s3 .badge { background: #10B981; }
+    .s4 .badge { background: #EF4444; }
+    .s5 .badge { background: #8B5CF6; }
+    .s6 .badge { background: #EC4899; }
+    .s7 .badge { background: #06B6D4; }
+    .s8 .badge { background: #F97316; }
+    .s9 .badge { background: #14B8A6; }
+    .s10 .badge { background: #6366F1; }
+    h2 { font-size: 18px; font-weight: 800; color: white; line-height: 1.3; margin-bottom: 6px; }
+    h2 em { font-style: normal; }
+    .s1 h2 em { color: #60A5FA; }
+    .s2 h2 em { color: #FBBF24; }
+    .s3 h2 em { color: #34D399; }
+    .s4 h2 em { color: #F87171; }
+    .s5 h2 em { color: #A78BFA; }
+    .s6 h2 em { color: #F472B6; }
+    .s7 h2 em { color: #22D3EE; }
+    .s8 h2 em { color: #FB923C; }
+    .s9 h2 em { color: #2DD4BF; }
+    .s10 h2 em { color: #818CF8; }
+    .sub { font-size: 11px; color: #71717A; margin-bottom: 18px; line-height: 1.4; }
+    .qr { background: white; border-radius: 12px; padding: 14px; display: inline-block; margin-bottom: 14px; }
+    .qr img { width: 140px; height: 140px; }
+    .url { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+    .s1 .url { color: #3B82F6; }
+    .s2 .url { color: #F59E0B; }
+    .s3 .url { color: #10B981; }
+    .s4 .url { color: #EF4444; }
+    .s5 .url { color: #8B5CF6; }
+    .s6 .url { color: #EC4899; }
+    .s7 .url { color: #06B6D4; }
+    .s8 .url { color: #F97316; }
+    .s9 .url { color: #14B8A6; }
+    .s10 .url { color: #6366F1; }
+    .foot { font-size: 9px; color: #52525B; }
+    @media print {
+      body { background: white; padding: 10px; }
+      .sticker { border: 1.5px solid #E5E7EB; background: white; }
+      h2 { color: #09090B; }
+      .sub { color: #6B7280; }
+      .foot { color: #9CA3AF; }
+      .grid { gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid">
+
+    <div class="sticker s1">
+      <div class="badge">Chauffeur VTC</div>
+      <h2>Ton boss, c'est <em>toi.</em></h2>
+      <p class="sub">Lance ton site VTC pro en 24h.<br>Tes clients reservent, tu conduis.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="url">vtc-site.fr</p>
+      <p class="foot">Sans engagement — a partir de 29€/mois</p>
+    </div>
+
+    <div class="sticker s2">
+      <div class="badge">Independant</div>
+      <h2>Uber prend <em>25%.</em><br>Toi, tu gardes <em>100%.</em></h2>
+      <p class="sub">Ton propre site de reservation VTC.<br>Zero commission. Zero patron.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="url">vtc-site.fr</p>
+      <p class="foot">Site pro cle en main en 24h</p>
+    </div>
+
+    <div class="sticker s3">
+      <div class="badge">VTC</div>
+      <h2>Marre de <em>donner</em><br>ton argent <em>aux applis</em> ?</h2>
+      <p class="sub">Cree ton site, recois tes reservations<br>direct sur WhatsApp. C'est tout.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="url">vtc-site.fr</p>
+      <p class="foot">Rejoint les chauffeurs malins</p>
+    </div>
+
+    <div class="sticker s4">
+      <div class="badge">Alerte</div>
+      <h2>Ton voisin chauffeur<br>a deja <em>son site.</em></h2>
+      <p class="sub">Et ses clients le trouvent<br>sur Google avant toi.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="url">vtc-site.fr</p>
+      <p class="foot">En ligne en 24h — sans competence technique</p>
+    </div>
+
+    <div class="sticker s5">
+      <div class="badge">Pro</div>
+      <h2>Un site VTC <em>premium</em><br>pour le prix d'un <em>plein.</em></h2>
+      <p class="sub">29€/mois tout compris.<br>Reservation, WhatsApp, Google Maps, SEO.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="url">vtc-site.fr</p>
+      <p class="foot">Investissement le plus rentable de ta carriere</p>
+    </div>
+
+    <div class="sticker s6">
+      <div class="badge">Reconversion</div>
+      <h2>Tu veux devenir<br><em>chauffeur VTC</em> ?</h2>
+      <p class="sub">Le guide complet gratuit :<br>formation, examen, lancement.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="url">vtc-site.fr/blog</p>
+      <p class="foot">Tout ce qu'il faut savoir pour se lancer</p>
+    </div>
+
+    <div class="sticker s7">
+      <div class="badge">Liberte</div>
+      <h2>Fini les <em>commissions.</em><br>Fini les <em>patrons.</em></h2>
+      <p class="sub">Ton site. Tes clients. Ton business.<br>En ligne en 24 heures.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="url">vtc-site.fr</p>
+      <p class="foot">Le site qui bosse pour toi, meme quand tu dors</p>
+    </div>
+
+    <div class="sticker s8">
+      <div class="badge">Challenge</div>
+      <h2>Et si tu remplissais<br>ton planning <em>sans appli</em> ?</h2>
+      <p class="sub">Des chauffeurs le font deja.<br>Scanne pour savoir comment.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="url">vtc-site.fr</p>
+      <p class="foot">La methode qui change tout</p>
+    </div>
+
+    <div class="sticker s9">
+      <div class="badge">Astuce</div>
+      <h2>Le secret des VTC<br>qui gagnent <em>le plus</em> ?</h2>
+      <p class="sub">Ils ont leur propre site.<br>Pas de commission. Clients fideles.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="url">vtc-site.fr</p>
+      <p class="foot">Rejoins les 30% qui gagnent plus que les autres</p>
+    </div>
+
+    <div class="sticker s10">
+      <div class="badge">Exclu</div>
+      <h2>Ton site VTC <em>pret</em><br>avant <em>demain soir.</em></h2>
+      <p class="sub">Reservation en ligne + WhatsApp + Google.<br>Cle en main, rien a faire.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="url">vtc-site.fr</p>
+      <p class="foot">199€ de mise en place + 29€/mois</p>
+    </div>
+
+  </div>
+</body>
+</html>
