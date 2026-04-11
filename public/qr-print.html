@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Stickers QR MonVTC — 80 stickers (5 pages A4)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    @page { size: A4; margin: 4mm; }
+    body { font-family: system-ui, -apple-system, sans-serif; background: #eee; }
+    .page {
+      width: 210mm;
+      height: 297mm;
+      margin: 10px auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 1.5mm;
+      padding: 2mm;
+      background: white;
+      page-break-after: always;
+    }
+    .s {
+      border: 1px dashed #ccc;
+      border-radius: 8px;
+      padding: 6px 5px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+    }
+    h2 { font-size: 9.5px; font-weight: 900; color: #111; line-height: 1.25; margin-bottom: 2px; }
+    h2 em { font-style: normal; }
+    .sub { font-size: 6px; color: #888; margin-bottom: 5px; line-height: 1.3; }
+    .qr { border-radius: 6px; padding: 4px; display: inline-block; margin-bottom: 4px; }
+    .qr img { width: 65px; height: 65px; }
+    .u { font-size: 7.5px; font-weight: 800; margin-bottom: 2px; }
+    .f { font-size: 5.5px; color: #999; }
+
+    /* Style A: titre en haut, QR, slogan en bas */
+    /* Style B: question en haut, QR au milieu, réponse en bas */
+
+    /* Couleurs par sticker */
+    .r em, .r .u { color: #EF4444; }
+    .b em, .b .u { color: #3B82F6; }
+    .g em, .g .u { color: #10B981; }
+    .o em, .o .u { color: #F97316; }
+    .v em, .v .u { color: #8B5CF6; }
+    .p em, .p .u { color: #EC4899; }
+    .c em, .c .u { color: #06B6D4; }
+    .y em, .y .u { color: #F59E0B; }
+    .t em, .t .u { color: #14B8A6; }
+    .i em, .i .u { color: #6366F1; }
+
+    @media print {
+      body { background: white; }
+      .page { margin: 0; box-shadow: none; }
+      .s { border: 1px dashed #ddd; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="page">
+  <div class="s b"><h2>Tu veux devenir</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>chauffeur VTC ?</em></h2><p class="sub">Le guide complet gratuit</p><p class="u">vtc-site.fr/blog</p><p class="f">Formation · Examen · Lancement</p></div>
+  <div class="s r"><h2>Pas de site =</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>pas de <em>clients.</em></h2><p class="sub">87% cherchent sur Google</p><p class="u">vtc-site.fr</p><p class="f">Sois visible maintenant</p></div>
+  <div class="s g"><h2><em>0%</em> commission</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>100%</em> liberte</h2><p class="sub">Ton propre site de reservation</p><p class="u">vtc-site.fr</p><p class="f">Pret en 24h</p></div>
+  <div class="s o"><h2>Chauffeur VTC ?</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>Scanne ca.</em></h2><p class="sub">Le truc qui change tout</p><p class="u">vtc-site.fr</p><p class="f">Gratuit a decouvrir</p></div>
+
+  <div class="s v"><h2>Ton planning est</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>vide ?</em></h2><p class="sub">Remplis-le sans passer par Uber</p><p class="u">vtc-site.fr</p><p class="f">La solution existe</p></div>
+  <div class="s p"><h2>Tu sais combien</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>Uber te <em>prend ?</em></h2><p class="sub">25% de chaque course. Scanne.</p><p class="u">vtc-site.fr</p><p class="f">Garde 100% de ton CA</p></div>
+  <div class="s c"><h2>Ton site VTC</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>en <em>24 heures</em></h2><p class="sub">Cle en main. Rien a faire.</p><p class="u">vtc-site.fr</p><p class="f">199€ + 29€/mois</p></div>
+  <div class="s y"><h2>La liberte ca a</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>un <em>prix : 29€</em></h2><p class="sub">Par mois. Sans engagement.</p><p class="u">vtc-site.fr</p><p class="f">Moins cher qu'un plein</p></div>
+
+  <div class="s t"><h2>Ton boss</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>c'est <em>toi.</em></h2><p class="sub">Ton site. Tes clients. Ton business.</p><p class="u">vtc-site.fr</p><p class="f">Lance-toi maintenant</p></div>
+  <div class="s i"><h2>Site VTC <em>premium</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>pour le prix d'un <em>kebab</em></h2><p class="sub">Par jour. Serieusement.</p><p class="u">vtc-site.fr</p><p class="f">Moins d'1€/jour</p></div>
+  <div class="s r"><h2>Tu veux des</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>clients</em> directs ?</h2><p class="sub">Sans appli. Sans commission.</p><p class="u">vtc-site.fr</p><p class="f">Scanne et decouvre</p></div>
+  <div class="s g"><h2>Tes clients te</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>trouvent sur <em>Google</em></h2><p class="sub">SEO local inclus dans ton site</p><p class="u">vtc-site.fr</p><p class="f">Premiere page garantie</p></div>
+
+  <div class="s b"><h2>WhatsApp +</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>Google Maps = <em>clients</em></h2><p class="sub">Tout est integre dans ton site</p><p class="u">vtc-site.fr</p><p class="f">La formule magique</p></div>
+  <div class="s o"><h2>Tu veux gagner</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>+30%</em> par mois ?</h2><p class="sub">Les independants gagnent plus</p><p class="u">vtc-site.fr</p><p class="f">Prouve par les chiffres</p></div>
+  <div class="s v"><h2>Marre de</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>faire le <em>taxi</em> pour Uber ?</h2><p class="sub">Deviens ton propre patron</p><p class="u">vtc-site.fr</p><p class="f">En 24h c'est fait</p></div>
+  <div class="s c"><h2>Le VTC <em>malin</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>a son propre <em>site</em></h2><p class="sub">Et toi ?</p><p class="u">vtc-site.fr</p><p class="f">Rejoins les malins</p></div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page">
+  <div class="s y"><h2>Envie de</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>changer de vie</em> ?</h2><p class="sub">Devenir chauffeur VTC en 2026</p><p class="u">vtc-site.fr/blog</p><p class="f">Guide gratuit complet</p></div>
+  <div class="s t"><h2>Formation VTC</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>tout savoir en <em>5 min</em></h2><p class="sub">Prix, duree, centres, examen</p><p class="u">vtc-site.fr/blog</p><p class="f">Le resume qui va a l'essentiel</p></div>
+  <div class="s p"><h2>Combien gagne</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>un <em>chauffeur VTC</em> ?</h2><p class="sub">Les vrais chiffres 2026</p><p class="u">vtc-site.fr/blog</p><p class="f">Salaire, charges, net reel</p></div>
+  <div class="s i"><h2>Examen VTC</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>les <em>7 epreuves</em></h2><p class="sub">Programme + conseils pour reussir</p><p class="u">vtc-site.fr/blog</p><p class="f">Taux de reussite : 65%</p></div>
+
+  <div class="s r"><h2>Tu paies</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>25%</em> a Uber ?</h2><p class="sub">C'est 900€/mois en moins</p><p class="u">vtc-site.fr</p><p class="f">Calcule toi-meme</p></div>
+  <div class="s g"><h2>Reservation</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>en ligne <em>24h/24</em></h2><p class="sub">Meme quand tu dors</p><p class="u">vtc-site.fr</p><p class="f">Le site qui bosse pour toi</p></div>
+  <div class="s b"><h2>Tu cherches des</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>clients</em> ce soir ?</h2><p class="sub">Avec un site, ils te trouvent</p><p class="u">vtc-site.fr</p><p class="f">Premier sur Google</p></div>
+  <div class="s o"><h2>Le plus dur</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>c'est de <em>scanner</em></h2><p class="sub">Apres on s'occupe de tout</p><p class="u">vtc-site.fr</p><p class="f">Site pret en 24h</p></div>
+
+  <div class="s v"><h2>VTC et pas de</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>site web</em> ?</h2><p class="sub">En 2026 c'est comme conduire sans GPS</p><p class="u">vtc-site.fr</p><p class="f">Il est temps</p></div>
+  <div class="s c"><h2>Ton concurrent a</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>un site. <em>Pas toi.</em></h2><p class="sub">Devine qui Google envoie les clients</p><p class="u">vtc-site.fr</p><p class="f">Change ca maintenant</p></div>
+  <div class="s y"><h2>Auto-entrepreneur</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>VTC</em> ?</h2><p class="sub">Le statut ideal pour demarrer</p><p class="u">vtc-site.fr/blog</p><p class="f">Guide complet gratuit</p></div>
+  <div class="s t"><h2>Carte VTC</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>en poche ? <em>Et apres ?</em></h2><p class="sub">Lance ton business en ligne</p><p class="u">vtc-site.fr</p><p class="f">La suite logique</p></div>
+
+  <div class="s p"><h2>29€/mois</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>= <em>independance</em></h2><p class="sub">Ton site. Tes regles.</p><p class="u">vtc-site.fr</p><p class="f">Sans engagement</p></div>
+  <div class="s i"><h2>Ils etaient sur</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>Uber. Ils sont <em>libres.</em></h2><p class="sub">Decouvre comment</p><p class="u">vtc-site.fr</p><p class="f">Temoignages de chauffeurs</p></div>
+  <div class="s g"><h2>Scanne si tu es</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>chauffeur VTC</em></h2><p class="sub">Ou si tu veux le devenir</p><p class="u">vtc-site.fr</p><p class="f">Le bon plan du moment</p></div>
+  <div class="s r"><h2>Assurance VTC</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>le <em>comparatif</em> 2026</h2><p class="sub">Economise 500 a 1000€/an</p><p class="u">vtc-site.fr/blog</p><p class="f">Les prix reels compares</p></div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page">
+  <div class="s b"><h2>Pourquoi les</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>meilleurs</em> VTC ont un site ?</h2><p class="sub">La reponse en 30 secondes</p><p class="u">vtc-site.fr</p><p class="f">Scanne et comprends</p></div>
+  <div class="s o"><h2>Tu fais combien</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>de courses <em>a vide</em> ?</h2><p class="sub">Avec un site : zero</p><p class="u">vtc-site.fr</p><p class="f">Clients qui reservent a l'avance</p></div>
+  <div class="s v"><h2>Le <em>calcul</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>est vite <em>fait</em></h2><p class="sub">29€/mois vs 900€/mois de commission</p><p class="u">vtc-site.fr</p><p class="f">Tu economises 871€</p></div>
+  <div class="s c"><h2>Quel <em>vehicule</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>pour le VTC ?</h2><p class="sub">Tesla, Mercedes, Toyota... le guide</p><p class="u">vtc-site.fr/blog</p><p class="f">Comparatif 2026</p></div>
+
+  <div class="s y"><h2>Tu roules deja ?</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>Roule <em>pour toi.</em></h2><p class="sub">Pas pour une appli</p><p class="u">vtc-site.fr</p><p class="f">Ton site en 24h</p></div>
+  <div class="s t"><h2>Ce QR code</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>vaut <em>de l'or</em></h2><p class="sub">Si tu es chauffeur VTC</p><p class="u">vtc-site.fr</p><p class="f">Scanne. Remercie-nous apres.</p></div>
+  <div class="s p"><h2>Reconversion</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>reussie</em></h2><p class="sub">Devenir VTC : 3 mois, 3000€</p><p class="u">vtc-site.fr/blog</p><p class="f">Le parcours complet</p></div>
+  <div class="s i"><h2>Tes clients</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>reservent sur <em>WhatsApp</em></h2><p class="sub">Integre a ton site. Automatique.</p><p class="u">vtc-site.fr</p><p class="f">Simple comme bonjour</p></div>
+
+  <div class="s g"><h2>Cher Uber,</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>merci mais non.</em></h2><p class="sub">J'ai mon propre site maintenant</p><p class="u">vtc-site.fr</p><p class="f">La lettre de rupture</p></div>
+  <div class="s r"><h2>1 course/jour</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>via ton site = <em>rembourse</em></h2><p class="sub">29€/mois. 1 course suffit.</p><p class="u">vtc-site.fr</p><p class="f">Le reste c'est du bonus</p></div>
+  <div class="s b"><h2>Ils ont scanne.</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>Ils <em>gagnent plus.</em></h2><p class="sub">Coincidence ? Non.</p><p class="u">vtc-site.fr</p><p class="f">A ton tour</p></div>
+  <div class="s o"><h2>Google + site</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>= <em>clients</em> gratuits</h2><p class="sub">SEO local automatique</p><p class="u">vtc-site.fr</p><p class="f">Tu apparais en 1ere page</p></div>
+
+  <div class="s v"><h2>Tu veux un</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>commercial</em> gratuit ?</h2><p class="sub">Ton site travaille 24h/24 pour toi</p><p class="u">vtc-site.fr</p><p class="f">Il dort jamais</p></div>
+  <div class="s c"><h2>Le seul <em>risque</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>c'est de pas <em>scanner</em></h2><p class="sub">Apres c'est trop tard</p><p class="u">vtc-site.fr</p><p class="f">Fonce</p></div>
+  <div class="s y"><h2>VTC + site web</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>= <em>reussite</em></h2><p class="sub">L'equation gagnante de 2026</p><p class="u">vtc-site.fr</p><p class="f">Les chiffres le prouvent</p></div>
+  <div class="s t"><h2>Ton <em>avenir</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>commence <em>ici</em></h2><p class="sub">Chauffeur VTC independant</p><p class="u">vtc-site.fr</p><p class="f">Scanne et decouvre</p></div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page">
+  <div class="s p"><h2>Tu as la carte VTC</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>il te manque le <em>site</em></h2><p class="sub">On s'en occupe en 24h</p><p class="u">vtc-site.fr</p><p class="f">Cle en main</p></div>
+  <div class="s i"><h2>Sais-tu que</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>87%</em> des gens</h2><p class="sub">cherchent un VTC sur Google ?</p><p class="u">vtc-site.fr</p><p class="f">Si t'es pas la, t'existes pas</p></div>
+  <div class="s g"><h2>Reservation</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>automatique</em></h2><p class="sub">Le client reserve, tu recois sur WhatsApp</p><p class="u">vtc-site.fr</p><p class="f">Zero effort</p></div>
+  <div class="s r"><h2>Fais le test</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>tape <em>VTC + ta ville</em></h2><p class="sub">Tu apparais ? Non ? Voila.</p><p class="u">vtc-site.fr</p><p class="f">On regle ca</p></div>
+
+  <div class="s b"><h2>Un site VTC</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>ca <em>rapporte</em></h2><p class="sub">Plus que ce que ca coute. Garanti.</p><p class="u">vtc-site.fr</p><p class="f">ROI des le 1er mois</p></div>
+  <div class="s o"><h2>Curieux ?</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>Scanne.</em></h2><p class="sub">30 secondes pour comprendre</p><p class="u">vtc-site.fr</p><p class="f">Tu vas pas regretter</p></div>
+  <div class="s v"><h2>Le bon plan</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>des <em>chauffeurs</em> malins</h2><p class="sub">Leur site bosse pour eux</p><p class="u">vtc-site.fr</p><p class="f">Rejoins-les</p></div>
+  <div class="s c"><h2>Ton <em>numero</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>sur Google en <em>24h</em></h2><p class="sub">Les clients t'appellent direct</p><p class="u">vtc-site.fr</p><p class="f">SEO local inclus</p></div>
+
+  <div class="s y"><h2>Tu fais 4000€</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>Uber en garde <em>1000€</em></h2><p class="sub">Avec ton site : 0€ de commission</p><p class="u">vtc-site.fr</p><p class="f">Fais le calcul</p></div>
+  <div class="s t"><h2>Pas besoin</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>d'etre <em>geek</em></h2><p class="sub">On fait tout pour toi</p><p class="u">vtc-site.fr</p><p class="f">Tu fournis les infos, on fait le reste</p></div>
+  <div class="s p"><h2>Ta <em>marque</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>ton <em>site</em></h2><p class="sub">Ton identite pro en ligne</p><p class="u">vtc-site.fr</p><p class="f">Image premium garantie</p></div>
+  <div class="s i"><h2>Le site que</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>tu <em>merites</em></h2><p class="sub">Professionnel. Elegant. Efficace.</p><p class="u">vtc-site.fr</p><p class="f">Pret en 24h</p></div>
+
+  <div class="s g"><h2>Scanne ce code</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>si tu es <em>ambitieux</em></h2><p class="sub">Les autres ont deja scanne</p><p class="u">vtc-site.fr</p><p class="f">Ne reste pas derriere</p></div>
+  <div class="s r"><h2>VTC <em>independant</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>ca commence <em>ici</em></h2><p class="sub">Ton site de reservation en 24h</p><p class="u">vtc-site.fr</p><p class="f">Le premier pas vers la liberte</p></div>
+  <div class="s b"><h2>Avis Google</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>+ site = <em>confiance</em></h2><p class="sub">Les clients reservent les yeux fermes</p><p class="u">vtc-site.fr</p><p class="f">La combinaison gagnante</p></div>
+  <div class="s o"><h2>Et si c'etait</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>maintenant</em> ?</h2><p class="sub">Le moment de se lancer</p><p class="u">vtc-site.fr</p><p class="f">Scanne. Decide. Lance.</p></div>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page">
+  <div class="s v"><h2>Ils roulent</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>ils <em>gagnent</em></h2><p class="sub">Et leur site fait le reste</p><p class="u">vtc-site.fr</p><p class="f">Rejoins le mouvement</p></div>
+  <div class="s c"><h2>Quelle voiture</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>pour le <em>VTC</em> ?</h2><p class="sub">Tesla, Mercedes, Toyota... le guide</p><p class="u">vtc-site.fr/blog</p><p class="f">Comparatif complet</p></div>
+  <div class="s y"><h2>Quel <em>statut</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>pour un VTC ?</h2><p class="sub">Auto-entrepreneur, SASU, EURL</p><p class="u">vtc-site.fr/blog</p><p class="f">Le comparatif qui aide a choisir</p></div>
+  <div class="s t"><h2>VTC vs <em>Taxi</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>les differences</h2><p class="sub">Lequel choisir en 2026 ?</p><p class="u">vtc-site.fr/blog</p><p class="f">Le guide objectif</p></div>
+
+  <div class="s p"><h2>Objectif :</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>5 courses/jour</em></h2><p class="sub">Avec ton site c'est possible</p><p class="u">vtc-site.fr</p><p class="f">Les clients viennent a toi</p></div>
+  <div class="s i"><h2>Le <em>futur</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>c'est l'<em>independance</em></h2><p class="sub">Plus de patron. Plus de commission.</p><p class="u">vtc-site.fr</p><p class="f">Bienvenue dans le game</p></div>
+  <div class="s g"><h2>Cree ton</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>entreprise VTC</em></h2><p class="sub">De A a Z. Le guide complet.</p><p class="u">vtc-site.fr/blog</p><p class="f">Business plan, statut, lancement</p></div>
+  <div class="s r"><h2>SEO <em>local</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>pour chauffeur VTC</h2><p class="sub">Apparais en 1ere page Google</p><p class="u">vtc-site.fr/blog</p><p class="f">Le guide qui fait la difference</p></div>
+
+  <div class="s b"><h2>Ce sticker</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>peut <em>changer ta vie</em></h2><p class="sub">Si tu es chauffeur VTC</p><p class="u">vtc-site.fr</p><p class="f">On exagere a peine</p></div>
+  <div class="s o"><h2>Tu veux plus de</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2><em>clients</em> ce mois-ci ?</h2><p class="sub">La reponse est dans ce QR</p><p class="u">vtc-site.fr</p><p class="f">Teste, tu verras</p></div>
+  <div class="s v"><h2>Commission <em>0%</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>ca te dit ?</h2><p class="sub">Ton site, tes clients, ton argent</p><p class="u">vtc-site.fr</p><p class="f">La vraie liberte</p></div>
+  <div class="s c"><h2>En <em>24h</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>tout change</h2><p class="sub">Ton site VTC est en ligne</p><p class="u">vtc-site.fr</p><p class="f">Demain tu recois des clients</p></div>
+
+  <div class="s y"><h2>Le <em>meilleur</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>investissement VTC</h2><p class="sub">Rentabilise des le 1er mois</p><p class="u">vtc-site.fr</p><p class="f">29€/mois tout inclus</p></div>
+  <div class="s t"><h2>Scanne</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>si tu <em>oses</em></h2><p class="sub">La verite sur le business VTC</p><p class="u">vtc-site.fr</p><p class="f">Les chiffres parlent</p></div>
+  <div class="s p"><h2>Chauffeur <em>VTC</em></h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>le job de <em>2026</em></h2><p class="sub">Liberte, revenus, independance</p><p class="u">vtc-site.fr/blog</p><p class="f">Tout savoir pour se lancer</p></div>
+  <div class="s i"><h2>Dernier QR</h2><div class="qr"><img src="/qr-vtcsite.svg"/></div><h2>de la <em>page</em></h2><p class="sub">Mais le plus important</p><p class="u">vtc-site.fr</p><p class="f">Tu l'as trouve. Bravo. Scanne.</p></div>
+</div>
+
+</body>
+</html>
