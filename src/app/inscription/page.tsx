@@ -32,6 +32,7 @@ function InscriptionContent() {
     pricePerKm: "1.80",
     minPrice: "15",
     zones: "",
+    lieux: "",
   });
 
   function update(field: string, value: string) {
@@ -210,13 +211,23 @@ function InscriptionContent() {
               </div>
             </div>
             <div>
-              <label className="text-sm text-zinc-500 mb-1 block">Zones desservies * (séparées par des virgules)</label>
+              <label className="text-xs text-zinc-500 mb-1 block">Villes desservies * (séparées par des virgules)</label>
               <input
                 className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
                 placeholder="Lille, Roubaix, Tourcoing, Villeneuve-d'Ascq"
                 value={form.zones}
                 onChange={(e) => update("zones", e.target.value)}
               />
+            </div>
+            <div>
+              <label className="text-xs text-zinc-500 mb-1 block">Lieux d&apos;intérêt (optionnel — discothèques, gares, aéroports, entreprises)</label>
+              <input
+                className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition"
+                placeholder="Le Macumba (Englos), Gare Lille-Flandres, Aéroport Lesquin"
+                value={form.lieux}
+                onChange={(e) => update("lieux", e.target.value)}
+              />
+              <p className="text-xs text-zinc-700 mt-1">Des forfaits seront créés automatiquement vers ces lieux</p>
             </div>
           </div>
 

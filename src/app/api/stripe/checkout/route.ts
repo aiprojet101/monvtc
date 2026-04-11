@@ -4,7 +4,7 @@ import { stripeRequest, PRICES } from "@/lib/stripe";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { brand, city, region, department, postalCode, phone, email, pricePerKm, minPrice, zones, testMode } = body;
+    const { brand, city, region, department, postalCode, phone, email, pricePerKm, minPrice, zones, lieux, testMode } = body;
 
     const slug = brand
       .toLowerCase()
@@ -43,6 +43,7 @@ export async function POST(request: NextRequest) {
       "metadata[pricePerKm]": pricePerKm || "1.80",
       "metadata[minPrice]": minPrice || "15",
       "metadata[zones]": zones,
+      "metadata[lieux]": lieux || "",
       "metadata[testMode]": testMode ? "true" : "false",
     });
 

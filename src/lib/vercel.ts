@@ -29,6 +29,7 @@ export interface DriverConfig {
   pricePerKm: string;
   minPrice: string;
   zones: string;
+  lieux?: string;
   domain?: string;
   forfaits?: string;
 }
@@ -113,44 +114,59 @@ async function findAvailableRepo(): Promise<string> {
   return "aiprojet101/audovtc-clients";
 }
 
-async function generateForfaits(city: string, zones: string, pricePerKm: string): Promise<string> {
-  const zoneList = zones.split(",").map(z => z.trim()).filter(Boolean);
-  if (zoneList.length === 0) return "";
-
-  const destinations = zoneList.join("|");
-  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(city)}&destinations=${encodeURIComponent(destinations)}&mode=driving&language=fr&key=${GOOGLE_MAPS_SERVER_KEY}`;
+async function calculateDistances(city: string, destinations: string[]): Promise<{ name: string; km: number }[]> {
+  if (destinations.length === 0) return [];
+  const destStr = destinations.join("|");
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(city)}&destinations=${encodeURIComponent(destStr)}&mode=driving&language=fr&key=${GOOGLE_MAPS_SERVER_KEY}`;
 
   try {
     const res = await fetch(url);
     const data = await res.json();
-    if (data.status !== "OK") return "";
+    if (data.status !== "OK") return [];
 
-    const pkm = parseFloat(pricePerKm) || 1.80;
-    const minPrice = 15;
-    const forfaits = [];
-
-    for (let i = 0; i < zoneList.length; i++) {
+    const results = [];
+    for (let i = 0; i < destinations.length; i++) {
       const el = data.rows?.[0]?.elements?.[i];
-      if (el?.status !== "OK") continue;
-
-      const km = Math.round(el.distance.value / 1000);
-      const price = Math.max(Math.round(km * pkm), minPrice);
-      const zoneSlug = zoneList[i].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "-");
-
-      forfaits.push({
-        id: `${zoneSlug}`,
-        from: city,
-        to: zoneList[i],
-        km,
-        price,
-        category: "ville",
-      });
+      if (el?.status === "OK") {
+        results.push({ name: destinations[i], km: Math.round(el.distance.value / 1000) });
+      }
     }
-
-    return forfaits.length > 0 ? JSON.stringify(forfaits) : "";
+    return results;
   } catch {
-    return "";
+    return [];
   }
+}
+
+async function generateForfaits(city: string, zones: string, pricePerKm: string, lieux?: string): Promise<string> {
+  const pkm = parseFloat(pricePerKm) || 1.80;
+  const min = 15;
+  const forfaits = [];
+
+  // Villes
+  const zoneList = zones.split(",").map(z => z.trim()).filter(Boolean);
+  const villeDistances = await calculateDistances(city, zoneList);
+  for (const v of villeDistances) {
+    const slug = v.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "-");
+    forfaits.push({ id: slug, from: city, to: v.name, km: v.km, price: Math.max(Math.round(v.km * pkm), min), category: "ville" });
+  }
+
+  // Lieux d'intérêt (discothèques, gares, aéroports...)
+  if (lieux) {
+    const lieuxList = lieux.split(",").map(l => l.trim()).filter(Boolean);
+    const lieuxDistances = await calculateDistances(city, lieuxList);
+    for (const l of lieuxDistances) {
+      const slug = l.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "-");
+      // Deviner la catégorie
+      const lower = l.name.toLowerCase();
+      let category = "lieu";
+      if (lower.includes("gare") || lower.includes("aeroport") || lower.includes("aéroport")) category = "gare";
+      else if (lower.includes("disco") || lower.includes("macumba") || lower.includes("seven") || lower.includes("loft") || lower.includes("duplex") || lower.includes("palace") || lower.includes("club") || lower.includes("night")) category = "disco";
+
+      forfaits.push({ id: slug, from: city, to: l.name, km: l.km, price: Math.max(Math.round(l.km * pkm), min), category });
+    }
+  }
+
+  return forfaits.length > 0 ? JSON.stringify(forfaits) : "";
 }
 
 export async function createVercelProject(slug: string, config: DriverConfig) {
@@ -158,7 +174,7 @@ export async function createVercelProject(slug: string, config: DriverConfig) {
   const adminPassword = crypto.randomUUID().replace(/-/g, "").slice(0, 16);
 
   // 2. Generate forfaits from city + zones via Google Maps
-  const forfaits = config.forfaits || await generateForfaits(config.city, config.zones, config.pricePerKm);
+  const forfaits = config.forfaits || await generateForfaits(config.city, config.zones, config.pricePerKm, config.lieux);
 
   // 3. Find available repo
   const repo = await findAvailableRepo();

@@ -78,6 +78,7 @@ export async function POST(request: NextRequest) {
         pricePerKm: meta.pricePerKm,
         minPrice: meta.minPrice,
         zones: meta.zones,
+        lieux: meta.lieux || "",
       };
 
       // Try to provision
