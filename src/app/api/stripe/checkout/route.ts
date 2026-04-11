@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
       "line_items[1][quantity]": "1",
       "subscription_data[metadata][slug]": slug,
       "subscription_data[metadata][brand]": brand,
+      allow_promotion_codes: "true",
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/inscription`,
       "metadata[slug]": slug,
