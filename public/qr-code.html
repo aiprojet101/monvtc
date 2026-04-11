@@ -98,22 +98,12 @@
     <p class="subtitle">Lance ton site VTC pro en 24h.<br>Tes clients reservent, tu conduis.</p>
 
     <div class="qr-container">
-      <canvas id="qr"></canvas>
+      <img src="/qr-vtcsite.svg" alt="QR Code vtc-site.fr" width="200" height="200" />
     </div>
 
     <p class="url">vtc-site.fr</p>
     <p class="footer">Scanne et decouvre comment des chauffeurs<br>remplissent leur planning sans Uber.</p>
     <div class="price">A partir de 29€/mois — sans engagement</div>
   </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
-  <script>
-    QRCode.toCanvas(document.getElementById('qr'), 'https://vtc-site.fr', {
-      width: 200,
-      margin: 0,
-      color: { dark: '#09090B', light: '#FFFFFF' },
-      errorCorrectionLevel: 'H',
-    });
-  </script>
 </body>
 </html>
