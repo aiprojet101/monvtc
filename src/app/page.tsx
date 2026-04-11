@@ -370,7 +370,7 @@ export default function Home() {
             <Link href="/confidentialite" className="hover:text-zinc-500 transition">Confidentialité</Link>
           </div>
           <div className="mt-4 text-center text-xs text-zinc-800">
-            &copy; {new Date().getFullYear()} MonVTC — Tous droits réservés
+            &copy; {new Date().getFullYear()} MonVTC — Tous droits réservés — Propulsé par <a href="https://dal-ai.com" target="_blank" rel="noopener noreferrer" className="text-zinc-600 hover:text-[#3B82F6] transition">DAL-AI</a>
           </div>
         </div>
       </footer>
