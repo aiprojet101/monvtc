@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { RefreshCw, ExternalLink, Users, Euro, Check, X, Clock, Lock } from "lucide-react";
 
 interface Client {
-  id: string;
+  subscriptionId: string;
   createdAt: string;
   status: string;
   brand: string;
@@ -14,7 +14,7 @@ interface Client {
   phone: string;
   siteUrl: string;
   pricePerKm: string;
-  zones: string;
+  amount: number;
 }
 
 export default function AdminPage() {
@@ -76,7 +76,17 @@ export default function AdminPage() {
   }
 
   const active = clients.filter(c => c.status === "active").length;
-  const mrr = active * 29;
+  const mrr = clients.filter(c => c.status === "active").reduce((sum, c) => sum + (c.amount || 29), 0);
+
+  async function deleteClient(subscriptionId: string, slug: string, brand: string) {
+    if (!confirm(`Supprimer ${brand} ? Cela annulera l'abonnement Stripe et supprimera le projet Vercel.`)) return;
+    await fetch(`/api/admin/clients?secret=${encodeURIComponent(secret)}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subscriptionId, slug }),
+    });
+    fetchClients(secret);
+  }
 
   return (
     <div className="min-h-screen pb-20">
@@ -126,35 +136,42 @@ export default function AdminPage() {
         ) : (
           <div className="space-y-3">
             {clients.map((c) => (
-              <div key={c.id} className="card p-5 flex items-center justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                      c.status === "active" ? "bg-green-500/10 text-green-500" :
-                      c.status === "failed" ? "bg-red-500/10 text-red-500" :
-                      "bg-yellow-500/10 text-yellow-500"
-                    }`}>
-                      {c.status === "active" ? "Actif" : c.status === "failed" ? "Erreur" : "En cours"}
-                    </span>
-                    <span className="font-bold">{c.brand}</span>
+              <div key={c.subscriptionId} className="card p-5">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${
+                        c.status === "active" ? "bg-green-500/10 text-green-500" :
+                        c.status === "canceled" ? "bg-red-500/10 text-red-500" :
+                        "bg-yellow-500/10 text-yellow-500"
+                      }`}>
+                        {c.status === "active" ? "Actif" : c.status === "canceled" ? "Annulé" : c.status}
+                      </span>
+                      <span className="font-bold">{c.brand}</span>
+                      <span className="text-xs text-zinc-600">{c.amount}€/mois</span>
+                    </div>
+                    <div className="flex flex-wrap gap-4 text-sm text-zinc-500 mt-1">
+                      {c.city && <span>{c.city}</span>}
+                      {c.phone && <span>{c.phone}</span>}
+                      {c.email && <span>{c.email}</span>}
+                      {c.pricePerKm && <span>{c.pricePerKm}€/km</span>}
+                    </div>
+                    {c.siteUrl && (
+                      <a href={`https://${c.siteUrl}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-[#3B82F6] hover:underline mt-2">
+                        {c.siteUrl} <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
                   </div>
-                  <div className="flex flex-wrap gap-4 text-sm text-zinc-500 mt-1">
-                    <span>{c.city}</span>
-                    <span>{c.phone}</span>
-                    <span>{c.email}</span>
-                    <span>{c.pricePerKm}€/km</span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <button
+                      onClick={() => deleteClient(c.subscriptionId, c.slug, c.brand)}
+                      className="p-2 rounded-lg bg-red-500/10 text-red-500 hover:bg-red-500/20 transition"
+                      title="Supprimer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
-                {c.siteUrl && (
-                  <a
-                    href={`https://${c.siteUrl}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-sm text-[#3B82F6] hover:underline"
-                  >
-                    {c.siteUrl} <ExternalLink className="w-3.5 h-3.5" />
-                  </a>
-                )}
               </div>
             ))}
           </div>
