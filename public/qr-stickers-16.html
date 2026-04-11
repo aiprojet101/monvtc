@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Stickers QR MonVTC — 16 par page</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    @page { size: A4; margin: 5mm; }
+    body { background: white; font-family: system-ui, -apple-system, sans-serif; }
+    .page {
+      width: 210mm;
+      height: 297mm;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 2mm;
+      padding: 3mm;
+    }
+    .s {
+      background: #09090B;
+      border-radius: 8px;
+      padding: 8px 6px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+    .s::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .c1::before { background: #3B82F6; } .c1 em { color: #60A5FA; }
+    .c2::before { background: #F59E0B; } .c2 em { color: #FBBF24; }
+    .c3::before { background: #10B981; } .c3 em { color: #34D399; }
+    .c4::before { background: #EF4444; } .c4 em { color: #F87171; }
+    .c5::before { background: #8B5CF6; } .c5 em { color: #A78BFA; }
+    .c6::before { background: #EC4899; } .c6 em { color: #F472B6; }
+    .c7::before { background: #06B6D4; } .c7 em { color: #22D3EE; }
+    .c8::before { background: #F97316; } .c8 em { color: #FB923C; }
+    .c9::before { background: #14B8A6; } .c9 em { color: #2DD4BF; }
+    .c10::before { background: #6366F1; } .c10 em { color: #818CF8; }
+    .c1 .u { color: #3B82F6; } .c2 .u { color: #F59E0B; }
+    .c3 .u { color: #10B981; } .c4 .u { color: #EF4444; }
+    .c5 .u { color: #8B5CF6; } .c6 .u { color: #EC4899; }
+    .c7 .u { color: #06B6D4; } .c8 .u { color: #F97316; }
+    .c9 .u { color: #14B8A6; } .c10 .u { color: #6366F1; }
+    h2 { font-size: 9px; font-weight: 800; color: white; line-height: 1.25; margin-bottom: 3px; }
+    h2 em { font-style: normal; }
+    .sub { font-size: 6.5px; color: #71717A; margin-bottom: 6px; line-height: 1.3; }
+    .qr { background: white; border-radius: 6px; padding: 6px; display: inline-block; margin-bottom: 4px; }
+    .qr img { width: 60px; height: 60px; }
+    .u { font-size: 7px; font-weight: 800; margin-bottom: 2px; }
+    .f { font-size: 5.5px; color: #52525B; }
+    @media screen { body { background: #333; padding: 20px; } }
+    @media print { body { background: white; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="s c1">
+      <h2>Ton boss,<br>c'est <em>toi.</em></h2>
+      <p class="sub">Ton site VTC pro en 24h</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">29€/mois — sans engagement</p>
+    </div>
+    <div class="s c2">
+      <h2>Uber prend <em>25%.</em><br>Toi, <em>100%.</em></h2>
+      <p class="sub">Zero commission. Zero patron.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">Site cle en main</p>
+    </div>
+    <div class="s c3">
+      <h2>Marre des <em>applis</em><br>qui te <em>volent</em> ?</h2>
+      <p class="sub">Recois tes reservations direct</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">Rejoins les malins</p>
+    </div>
+    <div class="s c4">
+      <h2>Ton voisin a<br>deja <em>son site.</em></h2>
+      <p class="sub">Ses clients le trouvent sur Google</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">En ligne en 24h</p>
+    </div>
+    <div class="s c5">
+      <h2>Site VTC <em>premium</em><br>prix d'un <em>plein.</em></h2>
+      <p class="sub">Reservation + WhatsApp + SEO</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">Tout inclus</p>
+    </div>
+    <div class="s c6">
+      <h2>Devenir<br><em>chauffeur VTC</em> ?</h2>
+      <p class="sub">Le guide complet gratuit</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr/blog</p>
+      <p class="f">Formation, examen, lancement</p>
+    </div>
+    <div class="s c7">
+      <h2>Fini les <em>commissions.</em><br>Fini les <em>patrons.</em></h2>
+      <p class="sub">Ton site. Tes clients.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">Il bosse meme quand tu dors</p>
+    </div>
+    <div class="s c8">
+      <h2>Planning plein<br><em>sans appli</em> ?</h2>
+      <p class="sub">Des chauffeurs le font deja</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">Scanne pour savoir comment</p>
+    </div>
+    <div class="s c9">
+      <h2>Le <em>secret</em> des VTC<br>qui gagnent <em>plus</em></h2>
+      <p class="sub">Leur propre site. Clients fideles.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">+30% de revenus en moyenne</p>
+    </div>
+    <div class="s c10">
+      <h2>Ton site VTC<br><em>avant demain.</em></h2>
+      <p class="sub">Cle en main, rien a faire</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">199€ + 29€/mois</p>
+    </div>
+    <div class="s c1">
+      <h2>Chauffeur VTC ?<br><em>Scanne ca.</em></h2>
+      <p class="sub">Le truc qui change tout</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">Gratuit a decouvrir</p>
+    </div>
+    <div class="s c4">
+      <h2>Tu conduis.<br>Ton site <em>vend.</em></h2>
+      <p class="sub">Reservations automatiques 24h/24</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">Le commercial qui dort jamais</p>
+    </div>
+    <div class="s c3">
+      <h2><em>0%</em> commission.<br><em>100%</em> liberte.</h2>
+      <p class="sub">Ton propre site de reservation</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">Pret en 24 heures</p>
+    </div>
+    <div class="s c6">
+      <h2>Arrete de<br><em>travailler pour</em> Uber.</h2>
+      <p class="sub">Travaille pour toi.</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">La solution existe</p>
+    </div>
+    <div class="s c8">
+      <h2>Pas de site =<br>pas de <em>clients.</em></h2>
+      <p class="sub">87% cherchent sur Google</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">Sois visible. Maintenant.</p>
+    </div>
+    <div class="s c5">
+      <h2>Le meilleur<br><em>investissement</em> VTC</h2>
+      <p class="sub">Moins cher qu'un plein, plus rentable qu'Uber</p>
+      <div class="qr"><img src="/qr-vtcsite.svg" alt="QR" /></div>
+      <p class="u">vtc-site.fr</p>
+      <p class="f">Le calcul est vite fait</p>
+    </div>
+  </div>
+</body>
+</html>
