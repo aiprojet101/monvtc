@@ -113,11 +113,54 @@ async function findAvailableRepo(): Promise<string> {
   return "aiprojet101/audovtc-clients";
 }
 
+async function generateForfaits(city: string, zones: string, pricePerKm: string): Promise<string> {
+  const zoneList = zones.split(",").map(z => z.trim()).filter(Boolean);
+  if (zoneList.length === 0) return "";
+
+  const destinations = zoneList.join("|");
+  const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(city)}&destinations=${encodeURIComponent(destinations)}&mode=driving&language=fr&key=${GOOGLE_MAPS_SERVER_KEY}`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.status !== "OK") return "";
+
+    const pkm = parseFloat(pricePerKm) || 1.80;
+    const minPrice = 15;
+    const forfaits = [];
+
+    for (let i = 0; i < zoneList.length; i++) {
+      const el = data.rows?.[0]?.elements?.[i];
+      if (el?.status !== "OK") continue;
+
+      const km = Math.round(el.distance.value / 1000);
+      const price = Math.max(Math.round(km * pkm), minPrice);
+      const zoneSlug = zoneList[i].toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "-");
+
+      forfaits.push({
+        id: `${zoneSlug}`,
+        from: city,
+        to: zoneList[i],
+        km,
+        price,
+        category: "ville",
+      });
+    }
+
+    return forfaits.length > 0 ? JSON.stringify(forfaits) : "";
+  } catch {
+    return "";
+  }
+}
+
 export async function createVercelProject(slug: string, config: DriverConfig) {
   // 1. Generate admin password
   const adminPassword = crypto.randomUUID().replace(/-/g, "").slice(0, 16);
 
-  // 2. Find available repo
+  // 2. Generate forfaits from city + zones via Google Maps
+  const forfaits = config.forfaits || await generateForfaits(config.city, config.zones, config.pricePerKm);
+
+  // 3. Find available repo
   const repo = await findAvailableRepo();
 
   // 2. Create project
@@ -161,8 +204,8 @@ export async function createVercelProject(slug: string, config: DriverConfig) {
     { key: "ADMIN_PASSWORD", value: adminPassword },
   ];
 
-  if (config.forfaits) {
-    envVars.push({ key: "NEXT_PUBLIC_DRIVER_FORFAITS", value: config.forfaits });
+  if (forfaits) {
+    envVars.push({ key: "NEXT_PUBLIC_DRIVER_FORFAITS", value: forfaits });
   }
 
   await fetch(`https://api.vercel.com/v10/projects/${projectId}/env${teamParam()}`, {
