@@ -119,12 +119,12 @@ export default async function CityPage({ params }: { params: Promise<{ ville: st
         </div>
       </section>
 
-      {pois && (pois.airports || pois.trainStations || pois.events) && (
+      {pois && (pois.airports || pois.trainStations || pois.events || pois.tgvConnections) && (
         <section className="py-16 px-6">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-bold mb-2">Opportunités VTC à {city.name}</h2>
             <p className="text-sm text-zinc-500 mb-8">Les clients VTC de {city.name} viennent de ces lieux clés.</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {pois.airports && pois.airports.length > 0 && (
                 <div className="card p-5">
                   <h3 className="text-xs uppercase tracking-wider text-[#3B82F6] font-bold mb-3">Aéroports</h3>
@@ -138,6 +138,14 @@ export default async function CityPage({ params }: { params: Promise<{ ville: st
                   <h3 className="text-xs uppercase tracking-wider text-[#3B82F6] font-bold mb-3">Gares</h3>
                   <ul className="space-y-2 text-sm text-zinc-400">
                     {pois.trainStations.map((s) => <li key={s}>• {s}</li>)}
+                  </ul>
+                </div>
+              )}
+              {pois.tgvConnections && pois.tgvConnections.length > 0 && (
+                <div className="card p-5">
+                  <h3 className="text-xs uppercase tracking-wider text-[#3B82F6] font-bold mb-3">Liaisons TGV directes</h3>
+                  <ul className="space-y-2 text-sm text-zinc-400">
+                    {pois.tgvConnections.map((t) => <li key={t}>• {t}</li>)}
                   </ul>
                 </div>
               )}

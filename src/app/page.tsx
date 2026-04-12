@@ -50,6 +50,7 @@ export default function Home() {
             <Link href="/formation" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Formation</Link>
             <a href="#pricing" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Tarifs</a>
             <Link href="/blog" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Blog</Link>
+            <Link href="/partenaires" className="hidden md:block text-sm text-zinc-400 hover:text-white transition">Partenaires</Link>
             <Link href="/inscription" className="btn-glow !py-2 !px-5 !text-xs">
               Commencer
             </Link>
@@ -109,6 +110,25 @@ export default function Home() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* BANDEAU FORMATION — aspirant chauffeurs */}
+      <section className="py-12 px-6 border-y border-white/5 bg-gradient-to-r from-[#C9A84C]/5 via-transparent to-[#C9A84C]/5">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#C9A84C] to-[#A07D2E] flex items-center justify-center shrink-0 text-xl font-black text-black">
+              VTC
+            </div>
+            <div>
+              <p className="text-xs text-[#C9A84C] font-bold uppercase tracking-widest mb-1">Pas encore chauffeur VTC ?</p>
+              <p className="text-base sm:text-lg font-bold">Deviens chauffeur VTC indépendant en 30 jours.</p>
+              <p className="text-sm text-zinc-500">Formation complète dès 49€ — paiement unique, accès à vie.</p>
+            </div>
+          </div>
+          <Link href="/formation" className="btn-primary !py-3 !px-6 !text-sm flex items-center gap-2 shrink-0 whitespace-nowrap">
+            Voir la formation <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
 

@@ -125,60 +125,71 @@ export const CITIES: City[] = [
 ];
 
 // Points d'interet (aeroports, gares, lieux) par ville pour enrichir le contenu SEO
-export const CITY_POIS: Record<string, { airports?: string[]; trainStations?: string[]; events?: string[] }> = {
+export const CITY_POIS: Record<string, { airports?: string[]; trainStations?: string[]; events?: string[]; tgvConnections?: string[] }> = {
   "paris": {
     airports: ["Aeroport Roissy-Charles-de-Gaulle (CDG)", "Aeroport d'Orly (ORY)", "Aeroport de Beauvais"],
     trainStations: ["Gare du Nord", "Gare de Lyon", "Gare Montparnasse", "Gare Saint-Lazare", "Gare de l'Est", "Gare d'Austerlitz"],
+    tgvConnections: ["Lyon (2h)", "Marseille (3h)", "Bordeaux (2h05)", "Lille (1h)", "Strasbourg (1h45)", "Londres (2h20)", "Bruxelles (1h25)"],
     events: ["Roland-Garros", "Fashion Week", "Salon de l'Automobile", "Foire de Paris"],
   },
   "lyon": {
     airports: ["Aeroport Lyon Saint-Exupery (LYS)", "Aeroport Bron"],
     trainStations: ["Gare Part-Dieu", "Gare Perrache"],
+    tgvConnections: ["Paris (2h)", "Marseille (1h40)", "Montpellier (1h40)", "Strasbourg (3h45)", "Geneve (2h)"],
     events: ["Fete des Lumieres", "Nuits de Fourviere", "Biennale de Lyon"],
   },
   "marseille": {
     airports: ["Aeroport Marseille Provence (MRS)"],
     trainStations: ["Gare Saint-Charles"],
+    tgvConnections: ["Paris (3h)", "Lyon (1h40)", "Montpellier (1h40)", "Nice (2h30)", "Barcelone (4h30)"],
     events: ["Festival de Marseille", "Mondial la Marseillaise a Petanque"],
   },
   "toulouse": {
     airports: ["Aeroport Toulouse-Blagnac (TLS)"],
     trainStations: ["Gare Matabiau"],
+    tgvConnections: ["Paris (4h)", "Bordeaux (2h05)", "Montpellier (2h)"],
     events: ["Marathon de Toulouse", "Rio Loco"],
   },
   "nice": {
     airports: ["Aeroport Nice Cote d'Azur (NCE)"],
     trainStations: ["Gare de Nice-Ville"],
+    tgvConnections: ["Paris (5h30)", "Marseille (2h30)", "Lyon (4h15)", "Monaco (20min)"],
     events: ["Carnaval de Nice", "Festival de Cannes (a proximite)"],
   },
   "nantes": {
     airports: ["Aeroport Nantes Atlantique (NTE)"],
     trainStations: ["Gare de Nantes"],
+    tgvConnections: ["Paris (2h)", "Lille (4h)", "Bordeaux (4h)", "Rennes (1h15)"],
     events: ["Voyage a Nantes", "La Folle Journee"],
   },
   "montpellier": {
     airports: ["Aeroport Montpellier-Mediterranee"],
     trainStations: ["Gare Saint-Roch", "Gare Sud de France (TGV)"],
+    tgvConnections: ["Paris (3h10)", "Lyon (1h40)", "Marseille (1h40)", "Barcelone (3h)"],
     events: ["Festival Radio France", "Montpellier Danse"],
   },
   "strasbourg": {
     airports: ["Aeroport Strasbourg-Entzheim"],
     trainStations: ["Gare de Strasbourg"],
+    tgvConnections: ["Paris (1h45)", "Lyon (3h45)", "Francfort (1h40)", "Luxembourg (1h45)"],
     events: ["Marche de Noel", "Foire europeenne"],
   },
   "bordeaux": {
     airports: ["Aeroport Bordeaux-Merignac (BOD)"],
     trainStations: ["Gare Saint-Jean"],
+    tgvConnections: ["Paris (2h05)", "Toulouse (2h05)", "Nantes (4h)", "Biarritz (2h)"],
     events: ["Bordeaux Fete le Vin", "Marathon du Medoc"],
   },
   "lille": {
     airports: ["Aeroport Lille-Lesquin (LIL)"],
     trainStations: ["Gare Lille-Europe (TGV)", "Gare Lille-Flandres"],
+    tgvConnections: ["Paris (1h)", "Bruxelles (35min)", "Londres (1h25)", "Amsterdam (2h30)"],
     events: ["Braderie de Lille", "Lille3000"],
   },
   "rennes": {
     airports: ["Aeroport Rennes-Saint-Jacques"],
     trainStations: ["Gare de Rennes (TGV)"],
+    tgvConnections: ["Paris (1h25)", "Nantes (1h15)", "Saint-Malo (50min)"],
     events: ["Les Tombees de la Nuit", "Trans Musicales"],
   },
   "beauvais": {
