@@ -20,35 +20,32 @@ interface Client {
 export default function AdminPage() {
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
-  const [secret, setSecret] = useState("");
+  const [password, setPassword] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [emailStats, setEmailStats] = useState<{ month: { sent: number; quota: number; percent: number }; today: { sent: number; quota: number; percent: number } } | null>(null);
-  const [authError, setAuthError] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [authError, setAuthError] = useState("");
 
-  const fetchClients = useCallback(async (s: string) => {
+  const fetchClients = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/clients?secret=${encodeURIComponent(s)}`);
+      const res = await fetch(`/api/admin/clients`, { credentials: "same-origin" });
       if (res.status === 401) {
         setAuthenticated(false);
-        setAuthError(true);
         return;
       }
       const data = await res.json();
       if (Array.isArray(data)) {
         setClients(data);
         setAuthenticated(true);
-        setAuthError(false);
-        // Charge les stats email
-        fetch(`/api/admin/email-stats?secret=${encodeURIComponent(s)}`)
+        setAuthError("");
+        fetch(`/api/admin/email-stats`, { credentials: "same-origin" })
           .then(r => r.json())
           .then(d => { if (!d.error) setEmailStats(d); })
           .catch(() => {});
       }
       return data;
     } catch {
-      console.error("Erreur chargement");
+      // silencieux
     } finally {
       setLoading(false);
     }
@@ -56,23 +53,44 @@ export default function AdminPage() {
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch(`/api/admin/clients?secret=${encodeURIComponent(secret)}`);
-    if (res.ok) {
-      if (rememberMe) localStorage.setItem("monvtc_admin_secret", secret);
-      fetchClients(secret);
-    } else {
-      setAuthError(true);
-      localStorage.removeItem("monvtc_admin_secret");
+    setAuthError("");
+    try {
+      const res = await fetch(`/api/admin/auth`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ password }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setAuthError(data.error || "Mot de passe incorrect");
+        return;
+      }
+      setPassword("");
+      fetchClients();
+    } catch {
+      setAuthError("Erreur reseau");
     }
   }
 
-  // Auto-login
+  async function handleLogout() {
+    await fetch(`/api/admin/auth`, { method: "DELETE", credentials: "same-origin" });
+    setAuthenticated(false);
+    setClients([]);
+  }
+
+  // Check session au chargement (cookie httpOnly verifie cote serveur)
   useEffect(() => {
-    const saved = localStorage.getItem("monvtc_admin_secret");
-    if (saved) {
-      setSecret(saved);
-      fetchClients(saved);
-    }
+    fetch(`/api/admin/auth`, { credentials: "same-origin" })
+      .then(r => r.json())
+      .then(d => {
+        if (d.authenticated) {
+          fetchClients();
+        } else {
+          setLoading(false);
+        }
+      })
+      .catch(() => setLoading(false));
   }, [fetchClients]);
 
   if (!authenticated) {
@@ -84,20 +102,17 @@ export default function AdminPage() {
           </div>
           <h1 className="text-xl font-bold text-center mb-2">Admin MonVTC</h1>
           <p className="text-xs text-zinc-500 text-center mb-6">Entrez le mot de passe admin</p>
-          {authError && <p className="text-xs text-red-400 text-center mb-3">Mot de passe incorrect</p>}
+          {authError && <p className="text-xs text-red-400 text-center mb-3">{authError}</p>}
           <input
             type="password"
-            className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition mb-3"
+            className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition mb-4"
             placeholder="Mot de passe"
-            value={secret}
-            onChange={(e) => setSecret(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             autoFocus
           />
-          <label className="flex items-center gap-2 mb-4 cursor-pointer">
-            <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="w-4 h-4 accent-[#3B82F6]" />
-            <span className="text-xs text-zinc-500">Rester connecté</span>
-          </label>
           <button type="submit" className="btn-primary w-full">Connexion</button>
+          <p className="text-[10px] text-zinc-600 text-center mt-3">Session 7 jours, cookie httpOnly</p>
         </form>
       </div>
     );
@@ -108,12 +123,13 @@ export default function AdminPage() {
 
   async function deleteClient(subscriptionId: string, slug: string, brand: string) {
     if (!confirm(`Supprimer ${brand} ? Cela annulera l'abonnement Stripe et supprimera le projet Vercel.`)) return;
-    await fetch(`/api/admin/clients?secret=${encodeURIComponent(secret)}`, {
+    await fetch(`/api/admin/clients`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
       body: JSON.stringify({ subscriptionId, slug }),
     });
-    fetchClients(secret);
+    fetchClients();
   }
 
   return (
@@ -124,9 +140,14 @@ export default function AdminPage() {
             <h1 className="font-bold text-lg">Mon<span className="text-[#3B82F6]">VTC</span> Admin</h1>
             <p className="text-xs text-zinc-600">Gestion des clients SaaS</p>
           </div>
-          <button onClick={() => fetchClients(secret)} className="p-2 rounded-lg bg-[#111113] border border-[#1E1E22] text-zinc-400 hover:text-white transition">
-            <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={() => fetchClients()} className="p-2 rounded-lg bg-[#111113] border border-[#1E1E22] text-zinc-400 hover:text-white transition" title="Rafraichir">
+              <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
+            </button>
+            <button onClick={handleLogout} className="text-xs px-3 py-2 rounded-lg bg-[#111113] border border-[#1E1E22] text-zinc-400 hover:text-white transition">
+              Deconnexion
+            </button>
+          </div>
         </div>
       </div>
 

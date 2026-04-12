@@ -1,16 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getClients } from "@/lib/db";
 import { stripeRequest } from "@/lib/stripe";
+import { isAdminRequest } from "@/lib/admin-auth";
 
-const ADMIN_SECRET = process.env.MONVTC_ADMIN_SECRET || "";
 const VERCEL_TOKEN = process.env.MONVTC_VERCEL_TOKEN || "";
 const VERCEL_TEAM_ID = process.env.MONVTC_VERCEL_TEAM_ID || "";
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
 
 function checkAuth(request: NextRequest): boolean {
-  const secret = request.nextUrl.searchParams.get("secret") ||
-    request.headers.get("authorization")?.replace("Bearer ", "") || "";
-  return !!(ADMIN_SECRET && secret === ADMIN_SECRET);
+  return isAdminRequest(request);
 }
 
 export async function GET(request: NextRequest) {

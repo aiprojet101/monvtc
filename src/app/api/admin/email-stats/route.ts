@@ -1,17 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import { isAdminRequest } from "@/lib/admin-auth";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
-const ADMIN_SECRET = process.env.MONVTC_ADMIN_SECRET || "";
 
 // Quotas du plan gratuit Resend
 const MONTHLY_QUOTA = 3000;
 const DAILY_QUOTA = 100;
 
 export async function GET(request: NextRequest) {
-  const secret = request.nextUrl.searchParams.get("secret") ||
-    request.headers.get("authorization")?.replace("Bearer ", "") || "";
-
-  if (!ADMIN_SECRET || secret !== ADMIN_SECRET) {
+  if (!isAdminRequest(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
