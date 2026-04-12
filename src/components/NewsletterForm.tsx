@@ -47,7 +47,7 @@ export default function NewsletterForm({ source = "blog", compact = false }: { s
         <Mail className="w-5 h-5 text-[#3B82F6] shrink-0 mt-0.5" />
         <div>
           <h3 className="font-bold text-sm mb-1">Recevez le guide VTC gratuit</h3>
-          <p className="text-xs text-zinc-500">Formation, statut, véhicule, business. 8 emails sur 4 semaines.</p>
+          <p className="text-xs text-zinc-500">Formation, statut, véhicule, business. Tout pour réussir.</p>
         </div>
       </div>
       <div className="flex flex-col sm:flex-row gap-2">
