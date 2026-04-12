@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   Car, ArrowRight, Check, X, Zap, Globe, MapPin, MessageCircle,
   Search, Smartphone, CreditCard, BarChart3, Shield, Sparkles,
-  TrendingUp, Clock, Star, ExternalLink, ChevronRight, Flame,
+  TrendingUp, Clock, ExternalLink, ChevronRight, Flame,
 } from "lucide-react";
 import NewsletterForm from "@/components/NewsletterForm";
 
@@ -324,53 +324,47 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TÉMOIGNAGES */}
+      {/* LES FAITS */}
       <section className="py-32 px-6 bg-[#06070A] relative">
         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#3B82F6]/30 to-transparent" />
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-[#3B82F6] text-xs font-bold uppercase tracking-widest mb-3">Ils témoignent</p>
+            <p className="text-[#3B82F6] text-xs font-bold uppercase tracking-widest mb-3">Les faits</p>
             <h2 className="text-4xl sm:text-6xl font-black tracking-tight">
-              Les chauffeurs qui ont
+              Les chiffres parlent
               <br />
-              <span className="text-gradient-blue">fait le switch.</span>
+              <span className="text-gradient-blue">plus fort.</span>
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
             {[
-              {
-                name: "Morgan", city: "Saint-Omer", brand: "AudoVTC",
-                text: "En 3 mois j'ai remplacé 80% de mon CA Uber par des clients directs. +1400€/mois dans ma poche.",
-                stars: 5, metric: "+1400€/mois",
-              },
-              {
-                name: "Mehdi", city: "Lille", brand: "NordVTC",
-                text: "Mon site tourne depuis 2 mois, j'ai déjà 47 avis Google 5 étoiles. Les clients me trouvent tout seuls maintenant.",
-                stars: 5, metric: "47 avis 5★",
-              },
-              {
-                name: "Chloé", city: "Bordeaux", brand: "CoteVTC",
-                text: "Je facturais 12€/h via Uber. Maintenant 28€/course en direct. La même journée, 2x plus de revenus.",
-                stars: 5, metric: "x2 revenus",
-              },
-            ].map((t) => (
-              <div key={t.name} className="card-modern p-7 hover:border-[#3B82F6]/30 transition group">
-                <div className="flex gap-1 mb-4">
-                  {Array.from({ length: t.stars }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-[#C9A84C] fill-[#C9A84C]" />
-                  ))}
-                </div>
-                <p className="text-zinc-300 text-sm leading-relaxed mb-6 italic">&ldquo;{t.text}&rdquo;</p>
-                <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                  <div>
-                    <p className="text-sm font-bold">{t.name}</p>
-                    <p className="text-xs text-zinc-500">{t.brand} · {t.city}</p>
-                  </div>
-                  <span className="text-sm font-black text-gradient-blue">{t.metric}</span>
-                </div>
+              { num: "25%", label: "de commission", desc: "prélevée par les plateformes (Uber, Bolt) sur chaque course que tu fais" },
+              { num: "87%", label: "cherchent sur Google", desc: "des clients recherchent un VTC en ligne avant de réserver — si tu n'as pas de site, ils trouvent quelqu'un d'autre" },
+              { num: "+30%", label: "de revenus", desc: "en moyenne pour un chauffeur qui bascule des plateformes vers son propre site de réservation" },
+            ].map((s) => (
+              <div key={s.label} className="card-modern p-8 text-center hover:border-[#3B82F6]/30 transition">
+                <p className="text-5xl sm:text-6xl font-black text-gradient-blue mb-2">{s.num}</p>
+                <p className="text-sm font-bold mb-3">{s.label}</p>
+                <p className="text-xs text-zinc-500 leading-relaxed">{s.desc}</p>
               </div>
             ))}
+          </div>
+
+          <div className="card-modern p-8 max-w-3xl mx-auto border-[#C9A84C]/20 bg-gradient-to-br from-[#C9A84C]/5 to-transparent">
+            <p className="text-xs text-[#C9A84C] font-bold uppercase tracking-wider mb-3">Ils utilisent MonVTC</p>
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#C9A84C] to-[#A07D2E] flex items-center justify-center shrink-0">
+                <Car className="w-5 h-5 text-black" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold mb-1">AudoVTC — Saint-Omer</h3>
+                <p className="text-sm text-zinc-400 mb-3">Premier site VTC créé avec MonVTC. En ligne depuis 2026, opérationnel 24/7 avec réservation en ligne, intégration WhatsApp et SEO local.</p>
+                <a href="https://audovtc.fr" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs text-[#C9A84C] hover:text-[#E8D48B] transition font-semibold">
+                  Voir le site en direct <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
