@@ -98,24 +98,24 @@ export async function POST(request: NextRequest) {
   if (!email) return NextResponse.json({ received: true });
 
   try {
-    // 0. Envoie d'abord le lien d'acces a la formation (priorite)
+    // 0. Envoie d'abord le lien d'accès à la formation (priorité)
     const planId = meta.planId || "essentiel";
     const purchaseDate = new Date((session.created || Date.now()/1000) * 1000).toISOString();
     const token = signToken({ email, plan: planId, purchaseDate });
     const accessUrl = `https://vtc-site.fr/cours?token=${token}`;
-    await sendEmail(email, "Ton acces a la formation VTC", `
+    await sendEmail(email, "Ton accès à la formation VTC", `
       <div style="font-family:system-ui,sans-serif;max-width:600px;margin:0 auto;padding:40px 24px;background:#09090B;color:white;">
         <h1 style="color:#3B82F6;margin:0 0 16px;">Bienvenue dans la formation !</h1>
-        <p style="color:#A1A1AA;line-height:1.6;">Merci pour ton achat. Voici ton lien d'acces personnel a la formation VTC. Il reste valide a vie, garde-le precieusement.</p>
+        <p style="color:#A1A1AA;line-height:1.6;">Merci pour ton achat. Voici ton lien d'accès personnel à la formation VTC. Il reste valide à vie, garde-le précieusement.</p>
         <div style="text-align:center;margin:32px 0;">
-          <a href="${accessUrl}" style="display:inline-block;background:#3B82F6;color:white;padding:16px 32px;border-radius:8px;text-decoration:none;font-weight:bold;">Acceder a la formation</a>
+          <a href="${accessUrl}" style="display:inline-block;background:#3B82F6;color:white;padding:16px 32px;border-radius:8px;text-decoration:none;font-weight:bold;">Accéder à la formation</a>
         </div>
         <p style="color:#71717A;font-size:12px;word-break:break-all;">Lien direct : ${accessUrl}</p>
         <p style="color:#71717A;font-size:11px;margin-top:32px;">MonVTC &middot; Formation VTC</p>
       </div>
     `);
 
-    // 0b. Si Pro ou Premium : genere un code MonVTC offert (1 mois Pro, 6 mois Premium)
+    // 0b. Si Pro ou Premium : génère un code MonVTC offert (1 mois Pro, 6 mois Premium)
     const freeMonths = planId === "premium" ? 6 : planId === "pro" ? 1 : 0;
     if (freeMonths > 0) {
       const amountOff = freeMonths * 2900; // 29€/mois
@@ -189,7 +189,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (coupon.id) {
-      // Code promo associe
+      // Code promo associé
       await stripePost("promotion_codes", {
         coupon: coupon.id,
         code,
@@ -201,11 +201,11 @@ export async function POST(request: NextRequest) {
     await sendEmail(email, "Informations utiles pour votre formation", `
       <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#333;">
         <p>Bonjour,</p>
-        <p>Merci pour votre inscription a la formation MonVTC.</p>
-        <p>Pour information, un code personnel vous est associe si vous souhaitez recommander la formation a un proche : <strong>${code}</strong></p>
-        <p>Ce code donne 20% de remise a la personne qui l'utilise. Conditions completes sur notre site.</p>
-        <p style="margin-top:24px;">Bonne formation,<br>L'equipe MonVTC</p>
-        <p style="color:#999;font-size:11px;margin-top:32px;border-top:1px solid #eee;padding-top:12px;">Vous recevez cet email suite a votre achat sur vtc-site.fr</p>
+        <p>Merci pour votre inscription à la formation MonVTC.</p>
+        <p>Pour information, un code personnel vous est associé si vous souhaitez recommander la formation à un proche : <strong>${code}</strong></p>
+        <p>Ce code donne 20% de remise à la personne qui l'utilise. Conditions complètes sur notre site.</p>
+        <p style="margin-top:24px;">Bonne formation,<br>L'équipe MonVTC</p>
+        <p style="color:#999;font-size:11px;margin-top:32px;border-top:1px solid #eee;padding-top:12px;">Vous recevez cet email suite à votre achat sur vtc-site.fr</p>
       </div>
     `);
 

@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     const ip = clientIp(request);
     if (!checkRateLimit(`access:${ip}`, 10, 60 * 60 * 1000) ||
         !checkRateLimit(`access-email:${email.toLowerCase()}`, 5, 60 * 60 * 1000)) {
-      return NextResponse.json({ error: "Trop de tentatives. Reessayez dans 1h." }, { status: 429 });
+      return NextResponse.json({ error: "Trop de tentatives. Réessayez dans 1h." }, { status: 429 });
     }
 
     // Cherche un checkout session payment completed chez Stripe pour ce email avec metadata type=formation
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     );
 
     if (sessions.length === 0) {
-      return NextResponse.json({ error: "Aucun achat trouve pour cet email" }, { status: 404 });
+      return NextResponse.json({ error: "Aucun achat trouvé pour cet email" }, { status: 404 });
     }
 
     // Prend le plus recent
@@ -61,13 +61,13 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           from: "MonVTC <formation@vtc-site.fr>",
           to: email,
-          subject: "Ton acces a la formation VTC",
+          subject: "Ton accès à la formation VTC",
           html: `
             <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;background:#09090B;color:white;padding:40px 24px;">
               <h1 style="color:#3B82F6;margin:0 0 16px;">Bienvenue !</h1>
-              <p style="color:#A1A1AA;line-height:1.6;">Voici ton lien d'acces personnel a la formation VTC. Il reste valide a vie. Garde-le precieusement.</p>
+              <p style="color:#A1A1AA;line-height:1.6;">Voici ton lien d'accès personnel à la formation VTC. Il reste valide à vie. Garde-le précieusement.</p>
               <div style="text-align:center;margin:32px 0;">
-                <a href="${accessUrl}" style="display:inline-block;background:#3B82F6;color:white;padding:16px 32px;border-radius:8px;text-decoration:none;font-weight:bold;">Acceder a la formation</a>
+                <a href="${accessUrl}" style="display:inline-block;background:#3B82F6;color:white;padding:16px 32px;border-radius:8px;text-decoration:none;font-weight:bold;">Accéder à la formation</a>
               </div>
               <p style="color:#71717A;font-size:12px;">Si le bouton ne fonctionne pas, copie ce lien dans ton navigateur : ${accessUrl}</p>
               <p style="color:#71717A;font-size:11px;margin-top:32px;">MonVTC · Formation VTC</p>

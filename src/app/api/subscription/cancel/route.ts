@@ -42,27 +42,27 @@ export async function POST(request: NextRequest) {
     const ip = clientIp(request);
     if (!checkRateLimit(`cancel-sub:${ip}`, 5, 60 * 60 * 1000) ||
         !checkRateLimit(`cancel-sub-email:${email.toLowerCase()}`, 3, 60 * 60 * 1000)) {
-      return NextResponse.json({ error: "Trop de tentatives. Reessayez dans 1h." }, { status: 429 });
+      return NextResponse.json({ error: "Trop de tentatives. Réessayez dans 1h." }, { status: 429 });
     }
 
     // Trouve le customer Stripe
     const customersRes = await stripeGet(`customers?email=${encodeURIComponent(email)}&limit=1`);
     const customer = customersRes.data?.[0];
     if (!customer) {
-      return NextResponse.json({ error: "Aucun compte trouve pour cet email" }, { status: 404 });
+      return NextResponse.json({ error: "Aucun compte trouvé pour cet email" }, { status: 404 });
     }
 
     // Trouve l'abonnement actif
     const subsRes = await stripeGet(`subscriptions?customer=${customer.id}&status=active&limit=1`);
     const sub = subsRes.data?.[0];
     if (!sub) {
-      return NextResponse.json({ error: "Aucun abonnement actif trouve" }, { status: 404 });
+      return NextResponse.json({ error: "Aucun abonnement actif trouvé" }, { status: 404 });
     }
 
-    // Annule a la fin de la periode en cours (pas de coupure immediate, pas de remboursement prorata)
+    // Annule a la fin de la période en cours (pas de coupure immediate, pas de remboursement prorata)
     const canceled = await stripePost(`subscriptions/${sub.id}`, {
       cancel_at_period_end: "true",
-      "metadata[cancel_reason]": reason || "non precisee",
+      "metadata[cancel_reason]": reason || "non précisée",
     });
 
     if (canceled.error) {
@@ -71,21 +71,21 @@ export async function POST(request: NextRequest) {
 
     const endDate = new Date(canceled.current_period_end * 1000).toLocaleDateString("fr-FR");
 
-    await sendEmail(email, "Votre resiliation est enregistree", `
+    await sendEmail(email, "Votre résiliation est enregistrée", `
       <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#333;">
         <p>Bonjour,</p>
-        <p>Votre abonnement MonVTC sera resilie a la fin de la periode en cours, soit le <strong>${endDate}</strong>.</p>
-        <p>Jusqu'a cette date vous gardez l'acces complet : site en ligne, support, hebergement. Aucun autre prelevement ne sera effectue.</p>
-        <p>Si vous changez d'avis, vous pouvez reactiver votre abonnement avant la date de fin en nous ecrivant a contact@vtc-site.fr.</p>
-        <p style="margin-top:24px;">L'equipe MonVTC</p>
+        <p>Votre abonnement MonVTC sera resilie a la fin de la période en cours, soit le <strong>${endDate}</strong>.</p>
+        <p>Jusqu'à cette date vous gardez l'accès complet : site en ligne, support, hébergement. Aucun autre prélèvement ne sera effectué.</p>
+        <p>Si vous changez d'avis, vous pouvez réactiver votre abonnement avant la date de fin en nous écrivant à contact@vtc-site.fr.</p>
+        <p style="margin-top:24px;">L'équipe MonVTC</p>
       </div>
     `);
 
-    await sendEmail("contact@vtc-site.fr", "Resiliation abonnement MonVTC", `
+    await sendEmail("contact@vtc-site.fr", "Résiliation abonnement MonVTC", `
       <p>Email : ${email}</p>
       <p>Subscription : ${sub.id}</p>
       <p>Fin effective : ${endDate}</p>
-      <p>Raison : ${reason || "(non precisee)"}</p>
+      <p>Raison : ${reason || "(non précisée)"}</p>
     `);
 
     return NextResponse.json({ success: true, endDate });

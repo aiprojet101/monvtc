@@ -17,13 +17,13 @@ type Motif =
 
 const MOTIFS: { value: Motif; label: string }[] = [
   { value: "", label: "-- Choisissez un motif --" },
-  { value: "question", label: "Question generale sur les offres" },
-  { value: "support", label: "Support technique (site, acces, bug)" },
+  { value: "question", label: "Question générale sur les offres" },
+  { value: "support", label: "Support technique (site, accès, bug)" },
   { value: "facturation", label: "Question sur ma facture ou paiement" },
-  { value: "cancel_formation", label: "Resilier ma formation (remboursement sous 15j)" },
-  { value: "cancel_subscription", label: "Resilier mon abonnement MonVTC" },
+  { value: "cancel_formation", label: "Résilier ma formation (remboursement sous 15j)" },
+  { value: "cancel_subscription", label: "Résilier mon abonnement MonVTC" },
   { value: "partenariat", label: "Devenir partenaire / affiliation" },
-  { value: "presse", label: "Presse / media" },
+  { value: "presse", label: "Presse / média" },
   { value: "autre", label: "Autre demande" },
 ];
 
@@ -47,12 +47,12 @@ export default function ContactPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        setResult({ ok: true, text: "Remboursement effectue. Vous recevrez un email de confirmation. Fonds visibles sur votre compte sous 5-10 jours." });
+        setResult({ ok: true, text: "Remboursement effectué. Vous recevrez un email de confirmation. Fonds visibles sur votre compte sous 5-10 jours." });
       } else {
         setResult({ ok: false, text: data.error || "Erreur" });
       }
     } catch {
-      setResult({ ok: false, text: "Erreur reseau. Reessayez." });
+      setResult({ ok: false, text: "Erreur réseau. Réessayez." });
     } finally {
       setLoading(false);
     }
@@ -70,12 +70,12 @@ export default function ContactPage() {
       });
       const data = await res.json();
       if (res.ok) {
-        setResult({ ok: true, text: `Resiliation enregistree. Votre abonnement prend fin le ${data.endDate}. Vous gardez l'acces jusqu'a cette date.` });
+        setResult({ ok: true, text: `Résiliation enregistrée. Votre abonnement prend fin le ${data.endDate}. Vous gardez l'accès jusqu'à cette date.` });
       } else {
         setResult({ ok: false, text: data.error || "Erreur" });
       }
     } catch {
-      setResult({ ok: false, text: "Erreur reseau. Reessayez." });
+      setResult({ ok: false, text: "Erreur réseau. Réessayez." });
     } finally {
       setLoading(false);
     }
@@ -106,7 +106,7 @@ export default function ContactPage() {
       <section className="py-20 px-6 flex-1">
         <div className="max-w-2xl mx-auto">
           <h1 className="text-4xl sm:text-5xl font-black mb-4">Nous <span className="text-gradient">contacter</span></h1>
-          <p className="text-zinc-400 mb-10">Reponse sous 48h. Si votre demande est urgente et liee a votre site en production, ecrivez directement a contact@vtc-site.fr.</p>
+          <p className="text-zinc-400 mb-10">Réponse sous 48h. Si votre demande est urgente et liée à votre site en production, écrivez directement à contact@vtc-site.fr.</p>
 
           <div className="card p-6 mb-6">
             <label className="block text-sm font-bold mb-2">Motif de la demande</label>
@@ -124,26 +124,26 @@ export default function ContactPage() {
           {motif === "cancel_formation" && (
             <form onSubmit={submitCancelFormation} className="card p-6 space-y-4">
               <div>
-                <h2 className="text-xl font-bold mb-2">Resilier la formation</h2>
-                <p className="text-sm text-zinc-400">Si votre achat date de moins de 15 jours, le remboursement integral est automatique et sans condition. Au-dela, votre demande est transmise a notre equipe.</p>
+                <h2 className="text-xl font-bold mb-2">Résilier la formation</h2>
+                <p className="text-sm text-zinc-400">Si votre achat date de moins de 15 jours, le remboursement intégral est automatique et sans condition. Au-dela, votre demande est transmise a notre équipe.</p>
               </div>
               <input
                 type="email"
                 required
-                placeholder="Email utilise lors de l'achat"
+                placeholder="Email utilisé lors de l'achat"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-[#141414] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] outline-none"
               />
               <textarea
-                placeholder="Raison (optionnel — nous aide a ameliorer la formation)"
+                placeholder="Raison (optionnel — nous aide a améliorer la formation)"
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 rows={3}
                 className="w-full bg-[#141414] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] outline-none resize-none"
               />
               <button type="submit" disabled={loading} className="btn-primary w-full !py-3 disabled:opacity-50">
-                {loading ? "Traitement..." : "Resilier et etre rembourse"}
+                {loading ? "Traitement..." : "Résilier et être remboursé"}
               </button>
             </form>
           )}
@@ -151,8 +151,8 @@ export default function ContactPage() {
           {motif === "cancel_subscription" && (
             <form onSubmit={submitCancelSubscription} className="card p-6 space-y-4">
               <div>
-                <h2 className="text-xl font-bold mb-2">Resilier l'abonnement MonVTC</h2>
-                <p className="text-sm text-zinc-400">L'abonnement est resilie a la fin de la periode en cours (aucun prorata). Vous gardez l'acces jusqu'a cette date. Aucun nouveau prelevement ensuite.</p>
+                <h2 className="text-xl font-bold mb-2">Résilier l'abonnement MonVTC</h2>
+                <p className="text-sm text-zinc-400">L'abonnement est résilié à la fin de la période en cours (aucun prorata). Vous gardez l'accès jusqu'à cette date. Aucun nouveau prélèvement ensuite.</p>
               </div>
               <input
                 type="email"
@@ -170,7 +170,7 @@ export default function ContactPage() {
                 className="w-full bg-[#141414] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] outline-none resize-none"
               />
               <button type="submit" disabled={loading} className="btn-primary w-full !py-3 disabled:opacity-50">
-                {loading ? "Traitement..." : "Confirmer la resiliation"}
+                {loading ? "Traitement..." : "Confirmer la résiliation"}
               </button>
             </form>
           )}
@@ -192,7 +192,7 @@ export default function ContactPage() {
                 className="w-full bg-[#141414] border border-white/10 rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] outline-none resize-none"
               />
               <a href={mailtoLink()} className="btn-primary inline-block w-full text-center !py-3">Envoyer par email</a>
-              <p className="text-xs text-zinc-500 text-center">Ou ecrivez directement a contact@vtc-site.fr</p>
+              <p className="text-xs text-zinc-500 text-center">Ou écrivez directement à contact@vtc-site.fr</p>
             </div>
           )}
 
@@ -202,7 +202,7 @@ export default function ContactPage() {
             </div>
           )}
 
-          <p className="text-xs text-zinc-600 mt-8 text-center">contact@vtc-site.fr &middot; Reponse sous 48h</p>
+          <p className="text-xs text-zinc-600 mt-8 text-center">contact@vtc-site.fr &middot; Réponse sous 48h</p>
         </div>
       </section>
     </div>

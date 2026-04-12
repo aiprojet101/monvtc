@@ -43,10 +43,10 @@ export async function POST(request: NextRequest) {
     const ip = clientIp(request);
     if (!checkRateLimit(`cancel-formation:${ip}`, 5, 60 * 60 * 1000) ||
         !checkRateLimit(`cancel-formation-email:${email.toLowerCase()}`, 3, 60 * 60 * 1000)) {
-      return NextResponse.json({ error: "Trop de tentatives. Reessayez dans 1h ou ecrivez a contact@vtc-site.fr." }, { status: 429 });
+      return NextResponse.json({ error: "Trop de tentatives. Réessayez dans 1h ou écrivez a contact@vtc-site.fr." }, { status: 429 });
     }
 
-    // Cherche les sessions formation payees de cet email
+    // Cherche les sessions formation payées de cet email
     const sessionsRes = await stripeGet(`checkout/sessions?limit=100`);
     const sessions = (sessionsRes.data || []).filter((s: { customer_details?: { email?: string }; metadata?: { type?: string }; payment_status?: string; payment_intent?: string; amount_total?: number; created: number }) =>
       s.customer_details?.email?.toLowerCase() === email.toLowerCase() &&
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     );
 
     if (sessions.length === 0) {
-      return NextResponse.json({ error: "Aucun achat formation trouve pour cet email" }, { status: 404 });
+      return NextResponse.json({ error: "Aucun achat formation trouvé pour cet email" }, { status: 404 });
     }
 
     const latest = sessions.sort((a: { created: number }, b: { created: number }) => b.created - a.created)[0];
@@ -63,15 +63,15 @@ export async function POST(request: NextRequest) {
     const daysSince = (now - latest.created) / 86400;
 
     if (daysSince > 15) {
-      // Hors delai : on informe l'equipe quand meme mais pas de remboursement auto
-      await sendEmail("contact@vtc-site.fr", "Demande de resiliation formation HORS DELAI", `
+      // Hors délai : on informe l'equipe quand même mais pas de remboursement auto
+      await sendEmail("contact@vtc-site.fr", "Demande de résiliation formation HORS DÉLAI", `
         <p>Email : ${email}</p>
         <p>Jours depuis achat : ${daysSince.toFixed(0)}</p>
-        <p>Raison : ${reason || "(non precisee)"}</p>
+        <p>Raison : ${reason || "(non précisée)"}</p>
         <p>Session : ${latest.id}</p>
       `);
       return NextResponse.json({
-        error: `Votre achat date de ${daysSince.toFixed(0)} jours. La garantie 15 jours est depassee, mais nous avons transmis votre demande a notre equipe.`
+        error: `Votre achat date de ${daysSince.toFixed(0)} jours. La garantie 15 jours est dépassée, mais nous avons transmis votre demande a notre équipe.`
       }, { status: 400 });
     }
 
@@ -81,15 +81,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Paiement introuvable" }, { status: 500 });
     }
 
-    // Verifie qu'aucun remboursement n'existe deja sur ce payment_intent (anti-double click)
+    // Verifie qu'aucun remboursement n'existe déjà sur ce payment_intent (anti-double click)
     const existingRefunds = await stripeGet(`refunds?payment_intent=${pi}&limit=5`);
     if ((existingRefunds.data || []).some((r: { status?: string }) => r.status === "succeeded" || r.status === "pending")) {
-      return NextResponse.json({ error: "Un remboursement a deja ete effectue sur cet achat." }, { status: 400 });
+      return NextResponse.json({ error: "Un remboursement a déjà été effectué sur cet achat." }, { status: 400 });
     }
 
     const refund = await stripePost("refunds", {
       payment_intent: pi as string,
-      "metadata[reason]": reason || "non precisee",
+      "metadata[reason]": reason || "non précisée",
       "metadata[email]": email,
     });
 
@@ -98,22 +98,22 @@ export async function POST(request: NextRequest) {
     }
 
     // Email client
-    await sendEmail(email, "Votre remboursement a ete traite", `
+    await sendEmail(email, "Votre remboursement a été traité", `
       <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#333;">
         <p>Bonjour,</p>
-        <p>Nous confirmons l'annulation de votre formation MonVTC et le remboursement integral de votre achat.</p>
-        <p>Le montant sera visible sur votre compte bancaire sous 5 a 10 jours ouvres selon votre banque.</p>
-        <p>Si vous changez d'avis ou si nous pouvons ameliorer notre offre, ecrivez-nous a contact@vtc-site.fr.</p>
-        <p style="margin-top:24px;">L'equipe MonVTC</p>
+        <p>Nous confirmons l'annulation de votre formation MonVTC et le remboursement intégral de votre achat.</p>
+        <p>Le montant sera visible sur votre compte bancaire sous 5 à 10 jours ouvrés selon votre banque.</p>
+        <p>Si vous changez d'avis ou si nous pouvons améliorer notre offre, écrivez-nous à contact@vtc-site.fr.</p>
+        <p style="margin-top:24px;">L'équipe MonVTC</p>
       </div>
     `);
 
     // Email equipe avec feedback
-    await sendEmail("contact@vtc-site.fr", "Resiliation formation + remboursement automatique", `
+    await sendEmail("contact@vtc-site.fr", "Résiliation formation + remboursement automatique", `
       <p>Email : ${email}</p>
       <p>Montant : ${(latest.amount_total / 100).toFixed(2)} EUR</p>
       <p>Jours depuis achat : ${daysSince.toFixed(0)}</p>
-      <p>Raison : ${reason || "(non precisee)"}</p>
+      <p>Raison : ${reason || "(non précisée)"}</p>
       <p>Session : ${latest.id}</p>
       <p>Refund : ${refund.id}</p>
     `);
