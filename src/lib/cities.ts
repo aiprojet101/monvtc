@@ -115,7 +115,100 @@ export const CITIES: City[] = [
   { slug: "la-baule", name: "La Baule", region: "Pays de la Loire", department: "Loire-Atlantique", departmentNumber: "44", population: 15000 },
   { slug: "longwy", name: "Longwy", region: "Grand Est", department: "Meurthe-et-Moselle", departmentNumber: "54", population: 14000 },
   { slug: "epernay", name: "Epernay", region: "Grand Est", department: "Marne", departmentNumber: "51", population: 23000 },
+  // Tier 3 — villes aeroports / gares TGV (forte demande VTC)
+  { slug: "beauvais", name: "Beauvais", region: "Hauts-de-France", department: "Oise", departmentNumber: "60", population: 56000 },
+  { slug: "carcassonne", name: "Carcassonne", region: "Occitanie", department: "Aude", departmentNumber: "11", population: 47000 },
+  { slug: "bergerac", name: "Bergerac", region: "Nouvelle-Aquitaine", department: "Dordogne", departmentNumber: "24", population: 27000 },
+  { slug: "deauville", name: "Deauville", region: "Normandie", department: "Calvados", departmentNumber: "14", population: 4000 },
+  { slug: "saint-tropez", name: "Saint-Tropez", region: "Provence-Alpes-Cote d'Azur", department: "Var", departmentNumber: "83", population: 4000 },
+  { slug: "arcachon", name: "Arcachon", region: "Nouvelle-Aquitaine", department: "Gironde", departmentNumber: "33", population: 11000 },
 ];
+
+// Points d'interet (aeroports, gares, lieux) par ville pour enrichir le contenu SEO
+export const CITY_POIS: Record<string, { airports?: string[]; trainStations?: string[]; events?: string[] }> = {
+  "paris": {
+    airports: ["Aeroport Roissy-Charles-de-Gaulle (CDG)", "Aeroport d'Orly (ORY)", "Aeroport de Beauvais"],
+    trainStations: ["Gare du Nord", "Gare de Lyon", "Gare Montparnasse", "Gare Saint-Lazare", "Gare de l'Est", "Gare d'Austerlitz"],
+    events: ["Roland-Garros", "Fashion Week", "Salon de l'Automobile", "Foire de Paris"],
+  },
+  "lyon": {
+    airports: ["Aeroport Lyon Saint-Exupery (LYS)", "Aeroport Bron"],
+    trainStations: ["Gare Part-Dieu", "Gare Perrache"],
+    events: ["Fete des Lumieres", "Nuits de Fourviere", "Biennale de Lyon"],
+  },
+  "marseille": {
+    airports: ["Aeroport Marseille Provence (MRS)"],
+    trainStations: ["Gare Saint-Charles"],
+    events: ["Festival de Marseille", "Mondial la Marseillaise a Petanque"],
+  },
+  "toulouse": {
+    airports: ["Aeroport Toulouse-Blagnac (TLS)"],
+    trainStations: ["Gare Matabiau"],
+    events: ["Marathon de Toulouse", "Rio Loco"],
+  },
+  "nice": {
+    airports: ["Aeroport Nice Cote d'Azur (NCE)"],
+    trainStations: ["Gare de Nice-Ville"],
+    events: ["Carnaval de Nice", "Festival de Cannes (a proximite)"],
+  },
+  "nantes": {
+    airports: ["Aeroport Nantes Atlantique (NTE)"],
+    trainStations: ["Gare de Nantes"],
+    events: ["Voyage a Nantes", "La Folle Journee"],
+  },
+  "montpellier": {
+    airports: ["Aeroport Montpellier-Mediterranee"],
+    trainStations: ["Gare Saint-Roch", "Gare Sud de France (TGV)"],
+    events: ["Festival Radio France", "Montpellier Danse"],
+  },
+  "strasbourg": {
+    airports: ["Aeroport Strasbourg-Entzheim"],
+    trainStations: ["Gare de Strasbourg"],
+    events: ["Marche de Noel", "Foire europeenne"],
+  },
+  "bordeaux": {
+    airports: ["Aeroport Bordeaux-Merignac (BOD)"],
+    trainStations: ["Gare Saint-Jean"],
+    events: ["Bordeaux Fete le Vin", "Marathon du Medoc"],
+  },
+  "lille": {
+    airports: ["Aeroport Lille-Lesquin (LIL)"],
+    trainStations: ["Gare Lille-Europe (TGV)", "Gare Lille-Flandres"],
+    events: ["Braderie de Lille", "Lille3000"],
+  },
+  "rennes": {
+    airports: ["Aeroport Rennes-Saint-Jacques"],
+    trainStations: ["Gare de Rennes (TGV)"],
+    events: ["Les Tombees de la Nuit", "Trans Musicales"],
+  },
+  "beauvais": {
+    airports: ["Aeroport Paris-Beauvais (BVA)"],
+    trainStations: ["Gare de Beauvais"],
+  },
+  "cannes": {
+    airports: ["Aeroport Cannes-Mandelieu", "Aeroport Nice Cote d'Azur a proximite"],
+    trainStations: ["Gare de Cannes"],
+    events: ["Festival de Cannes", "MIPIM", "Lions du Cannes Lions"],
+  },
+  "biarritz": {
+    airports: ["Aeroport Biarritz-Pays Basque (BIQ)"],
+    trainStations: ["Gare de Biarritz"],
+    events: ["Biarritz Surf Festival"],
+  },
+  "deauville": {
+    trainStations: ["Gare de Deauville-Trouville"],
+    events: ["Festival du film americain", "Grand Prix de Deauville (hippisme)"],
+  },
+  "saint-tropez": {
+    airports: ["Aeroport de Toulon-Hyeres a proximite"],
+    events: ["Les Voiles de Saint-Tropez", "Polo Club"],
+  },
+  "arcachon": {
+    trainStations: ["Gare d'Arcachon"],
+    events: ["Fetes de la Mer"],
+  },
+};
+
 
 export function getCityBySlug(slug: string): City | undefined {
   return CITIES.find((c) => c.slug === slug);

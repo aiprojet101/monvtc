@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Car, ArrowRight, Check, MapPin, Search, MessageCircle, Zap, Shield } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CITIES, getCityBySlug } from "@/lib/cities";
+import { CITIES, CITY_POIS, getCityBySlug } from "@/lib/cities";
 import Breadcrumbs from "@/components/Breadcrumbs";
 
 export function generateStaticParams() {
@@ -57,6 +57,8 @@ export default async function CityPage({ params }: { params: Promise<{ ville: st
   const nearby = CITIES
     .filter((c) => c.region === city.region && c.slug !== city.slug)
     .slice(0, 6);
+
+  const pois = CITY_POIS[city.slug];
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -116,6 +118,44 @@ export default async function CityPage({ params }: { params: Promise<{ ville: st
           </div>
         </div>
       </section>
+
+      {pois && (pois.airports || pois.trainStations || pois.events) && (
+        <section className="py-16 px-6">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2">Opportunités VTC à {city.name}</h2>
+            <p className="text-sm text-zinc-500 mb-8">Les clients VTC de {city.name} viennent de ces lieux clés.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {pois.airports && pois.airports.length > 0 && (
+                <div className="card p-5">
+                  <h3 className="text-xs uppercase tracking-wider text-[#3B82F6] font-bold mb-3">Aéroports</h3>
+                  <ul className="space-y-2 text-sm text-zinc-400">
+                    {pois.airports.map((a) => <li key={a}>• {a}</li>)}
+                  </ul>
+                </div>
+              )}
+              {pois.trainStations && pois.trainStations.length > 0 && (
+                <div className="card p-5">
+                  <h3 className="text-xs uppercase tracking-wider text-[#3B82F6] font-bold mb-3">Gares</h3>
+                  <ul className="space-y-2 text-sm text-zinc-400">
+                    {pois.trainStations.map((s) => <li key={s}>• {s}</li>)}
+                  </ul>
+                </div>
+              )}
+              {pois.events && pois.events.length > 0 && (
+                <div className="card p-5">
+                  <h3 className="text-xs uppercase tracking-wider text-[#3B82F6] font-bold mb-3">Événements</h3>
+                  <ul className="space-y-2 text-sm text-zinc-400">
+                    {pois.events.map((e) => <li key={e}>• {e}</li>)}
+                  </ul>
+                </div>
+              )}
+            </div>
+            <p className="text-xs text-zinc-600 mt-6">
+              Un site VTC bien référencé à {city.name} capte les clients qui cherchent un chauffeur depuis ces lieux. Les forfaits personnalisés générés automatiquement incluent les distances vers chaque aéroport et gare.
+            </p>
+          </div>
+        </section>
+      )}
 
       <section className="py-16 px-6">
         <div className="max-w-4xl mx-auto">
