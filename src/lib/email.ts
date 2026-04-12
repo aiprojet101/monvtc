@@ -59,6 +59,16 @@ export async function sendWelcomeEmail(data: {
         <p style="margin: 8px 0; color: #71717A; font-size: 11px;">Conservez ce mot de passe en lieu sur. Il vous permet de gérer vos réservations.</p>
       </div>
 
+      <div style="background: #111113; border: 1px solid #1E1E22; border-radius: 12px; padding: 24px; margin: 24px 0; text-align: center;">
+        <h3 style="margin: 0 0 12px; color: #3B82F6; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Votre QR Code</h3>
+        <p style="margin: 0 0 16px; color: #A1A1AA; font-size: 13px;">Partagez ce QR code avec vos clients. Ils scannent, ils réservent.</p>
+        <div style="background: white; display: inline-block; padding: 16px; border-radius: 12px; margin-bottom: 12px;">
+          <img src="https://quickchart.io/qr?text=${encodeURIComponent(`https://${data.siteUrl}`)}&size=200&margin=2" alt="QR Code ${data.brand}" width="200" height="200" style="display:block;" />
+        </div>
+        <p style="margin: 0; color: #71717A; font-size: 11px;">Imprimez-le sur vos cartes de visite, collez-le dans votre véhicule, partagez-le partout.</p>
+        <p style="margin: 8px 0 0;"><a href="https://quickchart.io/qr?text=${encodeURIComponent(`https://${data.siteUrl}`)}&size=800&margin=4&format=png" style="color: #3B82F6; font-size: 12px;">Télécharger en haute résolution</a></p>
+      </div>
+
       <div style="background: #111113; border: 1px solid #1E1E22; border-radius: 12px; padding: 24px; margin: 24px 0;">
         <h3 style="margin: 0 0 12px; color: #3B82F6; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Prochaines étapes</h3>
         <p style="margin: 8px 0; color: #A1A1AA;">1. Partagez le lien de votre site avec vos clients</p>
