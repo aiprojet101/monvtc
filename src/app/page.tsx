@@ -556,6 +556,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* BANDEAU PARTENAIRES */}
+      <section className="border-t border-white/5 py-8 px-6 bg-[#0A0A0C]">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-sm text-zinc-400 text-center sm:text-left">
+            Agence web, centre de formation VTC, influenceur ? <span className="text-white font-semibold">Gagnez jusqu&apos;à 30% de commission récurrente</span> en recommandant MonVTC.
+          </div>
+          <Link href="/partenaires" className="shrink-0 text-sm px-5 py-2 rounded-lg border border-white/10 hover:border-white/30 hover:bg-white/5 transition text-zinc-300 hover:text-white">
+            Programme partenaires →
+          </Link>
+        </div>
+      </section>
+
       {/* FOOTER */}
       <footer className="border-t border-white/5 py-12 px-6 bg-[#030305]">
         <div className="max-w-6xl mx-auto">
