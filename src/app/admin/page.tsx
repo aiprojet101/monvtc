@@ -23,6 +23,7 @@ export default function AdminPage() {
   const [secret, setSecret] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const [authError, setAuthError] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const fetchClients = useCallback(async (s: string) => {
     setLoading(true);
@@ -39,6 +40,7 @@ export default function AdminPage() {
         setAuthenticated(true);
         setAuthError(false);
       }
+      return data;
     } catch {
       console.error("Erreur chargement");
     } finally {
@@ -46,10 +48,26 @@ export default function AdminPage() {
     }
   }, []);
 
-  function handleLogin(e: React.FormEvent) {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
-    fetchClients(secret);
+    const res = await fetch(`/api/admin/clients?secret=${encodeURIComponent(secret)}`);
+    if (res.ok) {
+      if (rememberMe) localStorage.setItem("monvtc_admin_secret", secret);
+      fetchClients(secret);
+    } else {
+      setAuthError(true);
+      localStorage.removeItem("monvtc_admin_secret");
+    }
   }
+
+  // Auto-login
+  useEffect(() => {
+    const saved = localStorage.getItem("monvtc_admin_secret");
+    if (saved) {
+      setSecret(saved);
+      fetchClients(saved);
+    }
+  }, [fetchClients]);
 
   if (!authenticated) {
     return (
@@ -63,12 +81,16 @@ export default function AdminPage() {
           {authError && <p className="text-xs text-red-400 text-center mb-3">Mot de passe incorrect</p>}
           <input
             type="password"
-            className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition mb-4"
+            className="w-full bg-[#09090B] border border-[#1E1E22] rounded-lg px-4 py-3 text-white focus:border-[#3B82F6] focus:outline-none transition mb-3"
             placeholder="Mot de passe"
             value={secret}
             onChange={(e) => setSecret(e.target.value)}
             autoFocus
           />
+          <label className="flex items-center gap-2 mb-4 cursor-pointer">
+            <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} className="w-4 h-4 accent-[#3B82F6]" />
+            <span className="text-xs text-zinc-500">Rester connecté</span>
+          </label>
           <button type="submit" className="btn-primary w-full">Connexion</button>
         </form>
       </div>
