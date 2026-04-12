@@ -20,7 +20,7 @@ const MOTIFS: { value: Motif; label: string }[] = [
   { value: "question", label: "Question generale sur les offres" },
   { value: "support", label: "Support technique (site, acces, bug)" },
   { value: "facturation", label: "Question sur ma facture ou paiement" },
-  { value: "cancel_formation", label: "Resilier ma formation (remboursement sous 30j)" },
+  { value: "cancel_formation", label: "Resilier ma formation (remboursement sous 15j)" },
   { value: "cancel_subscription", label: "Resilier mon abonnement MonVTC" },
   { value: "partenariat", label: "Devenir partenaire / affiliation" },
   { value: "presse", label: "Presse / media" },
@@ -125,7 +125,7 @@ export default function ContactPage() {
             <form onSubmit={submitCancelFormation} className="card p-6 space-y-4">
               <div>
                 <h2 className="text-xl font-bold mb-2">Resilier la formation</h2>
-                <p className="text-sm text-zinc-400">Si votre achat date de moins de 30 jours, le remboursement integral est automatique et sans condition. Au-dela, votre demande est transmise a notre equipe.</p>
+                <p className="text-sm text-zinc-400">Si votre achat date de moins de 15 jours, le remboursement integral est automatique et sans condition. Au-dela, votre demande est transmise a notre equipe.</p>
               </div>
               <input
                 type="email"

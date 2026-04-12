@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     const now = Math.floor(Date.now() / 1000);
     const daysSince = (now - latest.created) / 86400;
 
-    if (daysSince > 30) {
+    if (daysSince > 15) {
       // Hors delai : on informe l'equipe quand meme mais pas de remboursement auto
       await sendEmail("contact@vtc-site.fr", "Demande de resiliation formation HORS DELAI", `
         <p>Email : ${email}</p>
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         <p>Session : ${latest.id}</p>
       `);
       return NextResponse.json({
-        error: `Votre achat date de ${daysSince.toFixed(0)} jours. La garantie 30 jours est depassee, mais nous avons transmis votre demande a notre equipe.`
+        error: `Votre achat date de ${daysSince.toFixed(0)} jours. La garantie 15 jours est depassee, mais nous avons transmis votre demande a notre equipe.`
       }, { status: 400 });
     }
 

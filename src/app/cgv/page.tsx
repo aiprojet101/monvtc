@@ -63,6 +63,7 @@ export default function CGV() {
             <h2 className="text-lg font-semibold text-white mb-3">6. Droit de rétractation</h2>
             <p>Conformément a l&apos;article L221-28 du Code de la consommation, le droit de rétractation ne s&apos;applique pas aux contrats de fourniture de contenu numérique fourni sur un support immatériel dont l&apos;exécution a commencé avec l&apos;accord du consommateur.</p>
             <p className="mt-2">En souscrivant au service et en procédant au paiement, le client accepte que la création de son site commence immédiatement et renonce expressément a son droit de rétractation.</p>
+            <p className="mt-2"><strong className="text-white">Garantie commerciale volontaire de 15 jours</strong> : indépendamment de l&apos;absence légale de droit de rétractation, MonVTC accorde une garantie commerciale de 15 jours a compter de l&apos;achat. Pendant cette période, le client peut demander le remboursement intégral de la formation ou des frais de mise en place du site (199€) via la page <a href="/contact" className="underline">/contact</a>. Remboursement automatique sous 48h ouvrées.</p>
           </section>
           <section>
             <h2 className="text-lg font-semibold text-white mb-3">7. Obligations du client</h2>

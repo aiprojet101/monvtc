@@ -153,7 +153,7 @@ export default function FormationLanding() {
       <section id="pricing" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl sm:text-5xl font-black text-center mb-4">Choisis ta <span className="text-gradient">formule</span></h2>
-          <p className="text-center text-zinc-500 mb-16">Paiement securise Stripe. Acces immediat. Garantie 30 jours.</p>
+          <p className="text-center text-zinc-500 mb-16">Paiement securise Stripe. Acces immediat. Garantie 15 jours.</p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {PLANS.map((p) => (
@@ -190,7 +190,7 @@ export default function FormationLanding() {
           <div className="mt-12 text-center">
             <p className="text-sm text-zinc-500 inline-flex items-center gap-2">
               <Star className="w-4 h-4 text-[#C9A84C]" />
-              Garantie 30 jours — satisfait ou rembourse en 1 clic sur <Link href="/contact" className="underline hover:text-white">/contact</Link>
+              Garantie 15 jours — satisfait ou rembourse en 1 clic sur <Link href="/contact" className="underline hover:text-white">/contact</Link>
             </p>
           </div>
         </div>

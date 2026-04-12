@@ -16,7 +16,7 @@ const FAQ = [
   { q: "Je peux résilier quand je veux ?", a: "Oui, sans engagement. Vous pouvez arrêter à tout moment. Pas de frais cachés, pas de piège." },
   { q: "Le site fonctionne sur téléphone ?", a: "100% responsive et optimisé mobile. Le site est même installable comme une app (PWA) sur l'écran d'accueil du téléphone." },
   { q: "Qu'est-ce qui est inclus dans les 29€/mois ?", a: "Tout : hébergement, maintenance, mises à jour, support WhatsApp 7j/7, SEO, certificat SSL, nom de domaine. Aucun coût caché." },
-  { q: "Et si je ne suis pas satisfait ?", a: "Garantie 30 jours satisfait ou remboursé. Si le site ne vous convient pas, on vous rembourse les 199€ de mise en place, sans question." },
+  { q: "Et si je ne suis pas satisfait ?", a: "Garantie 15 jours satisfait ou remboursé. Si le site ne vous convient pas, on vous rembourse les 199€ de mise en place, sans question." },
 ];
 
 const OBJECTIONS = [
@@ -449,7 +449,7 @@ export default function Home() {
             <div className="mb-8 p-5 rounded-2xl bg-green-500/5 border border-green-500/20 flex items-start gap-3">
               <Shield className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
               <div>
-                <p className="text-sm font-bold text-green-400 mb-1">Garantie 30 jours — satisfait ou remboursé</p>
+                <p className="text-sm font-bold text-green-400 mb-1">Garantie 15 jours — satisfait ou remboursé</p>
                 <p className="text-xs text-zinc-500">Si le site ne te convient pas dans les 30 premiers jours, on te rembourse les 199€. Zéro question.</p>
               </div>
             </div>
@@ -552,7 +552,7 @@ export default function Home() {
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
           </Link>
 
-          <p className="text-xs text-zinc-600 mt-6">199€ + 29€/mois · Sans engagement · Garantie 30 jours</p>
+          <p className="text-xs text-zinc-600 mt-6">199€ + 29€/mois · Sans engagement · Garantie 15 jours</p>
         </div>
       </section>
 
