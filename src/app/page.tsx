@@ -10,13 +10,13 @@ import {
 import NewsletterForm from "@/components/NewsletterForm";
 
 const FAQ = [
-  { q: "J'ai besoin de compétences techniques ?", a: "Aucune. On s'occupe de tout : création, configuration, mise en ligne, domaine. Vous nous donnez vos infos (nom, téléphone, tarifs, zones), on fait le reste. En moins de 24h votre site est live." },
-  { q: "Est-ce que je peux modifier mes tarifs ?", a: "Oui, directement depuis votre dashboard. Vous changez votre prix au km et votre minimum de course en un clic. Mise à jour automatique sur votre site en 30 secondes, sans nous contacter." },
+  { q: "J'ai besoin de compétences techniques ?", a: "Aucune. On s'occupe de tout : création, configuration, mise en ligne, domaine. Tu nous donnes tes infos (nom, téléphone, tarifs, zones), on fait le reste. En moins de 24h ton site est live." },
+  { q: "Est-ce que je peux modifier mes tarifs ?", a: "Oui, directement depuis ton dashboard. Tu changes ton prix au km et ton minimum de course en un clic. Mise à jour automatique sur ton site en 30 secondes, sans nous contacter." },
   { q: "Comment mes clients me paient ?", a: "Le paiement se fait en véhicule (carte via SumUp, espèces, virement). On peut aussi intégrer le paiement en ligne par carte (Stripe) en option." },
-  { q: "Je peux résilier quand je veux ?", a: "Oui, sans engagement. Vous pouvez arrêter à tout moment. Pas de frais cachés, pas de piège." },
+  { q: "Je peux résilier quand je veux ?", a: "Oui, sans engagement. Tu peux arrêter à tout moment. Pas de frais cachés, pas de piège." },
   { q: "Le site fonctionne sur téléphone ?", a: "100% responsive et optimisé mobile. Le site est même installable comme une app (PWA) sur l'écran d'accueil du téléphone." },
   { q: "Qu'est-ce qui est inclus dans les 29€/mois ?", a: "Tout : hébergement, maintenance, mises à jour, support WhatsApp 7j/7, SEO, certificat SSL, nom de domaine. Aucun coût caché." },
-  { q: "Et si je ne suis pas satisfait ?", a: "Garantie 15 jours satisfait ou remboursé. Si le site ne vous convient pas, on vous rembourse les 199€ de mise en place, sans question." },
+  { q: "Et si je ne suis pas satisfait ?", a: "Garantie 15 jours satisfait ou remboursé. Si le site ne te convient pas, on te rembourse les 199€ de mise en place, sans question." },
 ];
 
 const OBJECTIONS = [
@@ -425,13 +425,13 @@ export default function Home() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-10">
               {[
-                "Site premium personnalisé à votre marque",
+                "Site premium personnalisé à ta marque",
                 "Réservation en ligne + WhatsApp automatique",
                 "Google Maps (autocomplete + distance)",
                 "Forfaits personnalisés + tarif au km",
                 "SEO local — apparaître sur Google",
                 "PWA — app installable sur téléphone",
-                "Dashboard admin pour vos réservations",
+                "Dashboard admin pour tes réservations",
                 "Mentions légales + CGV conformes RGPD",
                 "Hébergement illimité + certificat SSL",
                 "Nom de domaine inclus",
