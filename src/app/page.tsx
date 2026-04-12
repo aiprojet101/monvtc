@@ -47,8 +47,9 @@ export default function Home() {
             <span className="text-lg font-black tracking-tight">Mon<span className="text-gradient-blue">VTC</span></span>
           </Link>
           <div className="flex items-center gap-4">
+            <Link href="/formation" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Formation</Link>
             <a href="#pricing" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Tarifs</a>
-            <a href="#blog" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Blog</a>
+            <Link href="/blog" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Blog</Link>
             <Link href="/inscription" className="btn-glow !py-2 !px-5 !text-xs">
               Commencer
             </Link>
