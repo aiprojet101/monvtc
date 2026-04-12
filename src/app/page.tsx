@@ -20,7 +20,7 @@ const FAQ = [
 ];
 
 const OBJECTIONS = [
-  { q: "\"J'ai pas le temps pour ça.\"", a: "C'est justement pour ça que ton site doit travailler à ta place. 10 minutes pour s'inscrire. En moins de 24h c'est en ligne. Après ? Tu conduis, ton site encaisse." },
+  { q: "\"J'ai pas le temps pour ça.\"", a: "C'est justement pour ça que ton site doit travailler à ta place. 10 minutes pour s'inscrire aujourd'hui, en ligne avant demain matin. Après ? Tu conduis, ton site encaisse." },
   { q: "\"29€/mois c'est cher.\"", a: "Une course de 20 km rembourse le mois. Les plateformes prélèvent 25% de TOUT ton CA. Le calcul est vite fait." },
   { q: "\"Mes clients ne sont pas sur internet.\"", a: "87% des gens cherchent un VTC sur Google avant de réserver. Tes clients y sont. Ils cherchent juste quelqu'un d'autre que toi." },
   { q: "\"Je suis pas geek.\"", a: "Ni nous. On a fait ce SaaS pour ça. Tu remplis un formulaire. On fait le reste. Zéro compétence technique requise." },
@@ -84,7 +84,7 @@ export default function Home() {
 
           <p className="text-lg sm:text-2xl text-zinc-400 max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in-up animate-delay-2">
             Les plateformes prennent <span className="text-white font-bold">25% de ton CA.</span>{" "}
-            Avec ton propre site de réservation, tu gardes tout. Prêt en moins de 24h.
+            Avec ton propre site de réservation, tu gardes tout. Commande aujourd'hui, commence à travailler dès demain matin.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-in-up animate-delay-3">
