@@ -11,7 +11,7 @@ import NewsletterForm from "@/components/NewsletterForm";
 
 const FAQ = [
   { q: "J'ai besoin de compétences techniques ?", a: "Aucune. On s'occupe de tout : création, configuration, mise en ligne, domaine. Vous nous donnez vos infos (nom, téléphone, tarifs, zones), on fait le reste. En moins de 24h votre site est live." },
-  { q: "Est-ce que je peux modifier mes tarifs ?", a: "Oui, à tout moment. Un simple message sur WhatsApp et on met à jour vos forfaits, votre prix au km, ou toute autre info en quelques minutes." },
+  { q: "Est-ce que je peux modifier mes tarifs ?", a: "Oui, directement depuis votre dashboard. Vous changez votre prix au km et votre minimum de course en un clic. Mise à jour automatique sur votre site en 30 secondes, sans nous contacter." },
   { q: "Comment mes clients me paient ?", a: "Le paiement se fait en véhicule (carte via SumUp, espèces, virement). On peut aussi intégrer le paiement en ligne par carte (Stripe) en option." },
   { q: "Je peux résilier quand je veux ?", a: "Oui, sans engagement. Vous pouvez arrêter à tout moment. Pas de frais cachés, pas de piège." },
   { q: "Le site fonctionne sur téléphone ?", a: "100% responsive et optimisé mobile. Le site est même installable comme une app (PWA) sur l'écran d'accueil du téléphone." },
