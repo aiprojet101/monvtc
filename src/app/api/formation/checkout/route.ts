@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
       "metadata[planId]": planId,
       "metadata[type]": "formation",
       allow_promotion_codes: "true",
+      locale: "fr",
     });
 
     return NextResponse.json({ url: session.url });
