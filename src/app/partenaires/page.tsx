@@ -125,9 +125,9 @@ export default function PartenairesPage() {
                 <span className="text-zinc-400">Commission abonnement cumulée au bout d&apos;1 an (60 clients × 29€ × 20%)</span>
                 <span className="font-bold text-[#3B82F6]">348€/mois récurrents</span>
               </div>
-              <div className="flex justify-between pt-3">
+              <div className="flex justify-between items-center pt-3 gap-3">
                 <span className="text-white font-bold">Revenu an 2 (récurrent)</span>
-                <span className="text-2xl font-black text-gradient">~5 000€/mois</span>
+                <span className="text-lg sm:text-2xl font-black text-gradient whitespace-nowrap">~5 000€/mois</span>
               </div>
             </div>
           </div>
