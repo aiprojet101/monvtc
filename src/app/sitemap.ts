@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllArticles } from "@/lib/blog";
+import { CITIES } from "@/lib/cities";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://vtc-site.fr";
@@ -17,6 +18,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(a.updated || a.date),
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...CITIES.map((c) => ({
+      url: `${base}/creer-site-vtc/${c.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
   ];
 }

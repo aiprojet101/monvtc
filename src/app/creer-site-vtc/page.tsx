@@ -139,6 +139,15 @@ export default function CreerSiteVTC() {
       {/* CTA */}
       <section className="py-20 px-6">
         <div className="max-w-2xl mx-auto text-center">
+          <h3 className="text-lg font-semibold mb-4 text-zinc-400">Nous créons des sites VTC partout en France</h3>
+          <div className="flex flex-wrap justify-center gap-2 mb-12 max-w-3xl mx-auto">
+            {["paris", "lyon", "marseille", "toulouse", "nice", "nantes", "montpellier", "strasbourg", "bordeaux", "lille", "rennes", "reims", "toulon", "grenoble", "dijon", "angers", "nimes", "le-havre", "saint-etienne", "toulon", "aix-en-provence"].slice(0, 20).map((slug) => (
+              <Link key={slug} href={`/creer-site-vtc/${slug}`} className="text-xs px-3 py-1.5 rounded-full bg-[#141414] border border-[#1E1E22] text-zinc-400 hover:text-white hover:border-[#3B82F6]/40 transition">
+                {slug.split("-").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")}
+              </Link>
+            ))}
+          </div>
+
           <h2 className="text-3xl font-bold mb-4">Prêt à créer votre site VTC ?</h2>
           <p className="text-zinc-400 mb-8">199€ de mise en place + 29€/mois. Sans engagement. En ligne en moins de 24h.</p>
           <Link href="/inscription" className="btn-primary inline-flex items-center gap-2">

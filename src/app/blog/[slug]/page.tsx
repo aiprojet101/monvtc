@@ -4,6 +4,8 @@ import { getAllArticles, getArticle } from "@/lib/blog";
 import CTABanner from "../components/CTABanner";
 import NewsletterForm from "@/components/NewsletterForm";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import RelatedArticles from "../components/RelatedArticles";
+import { injectInternalLinks } from "@/lib/internal-links";
 import ReadingProgress from "../components/ReadingProgress";
 import type { Metadata } from "next";
 
@@ -71,11 +73,32 @@ function renderMarkdown(content: string) {
 }
 
 function formatText(text: string) {
-  // Bold
-  const parts = text.split(/\*\*(.+?)\*\*/g);
-  return parts.map((part, i) =>
-    i % 2 === 1 ? <strong key={i} className="text-white font-semibold">{part}</strong> : part
-  );
+  // Split par placeholders de liens internes [[LINK:/url:label]]
+  const linkRegex = /\[\[LINK:([^:]+):([^\]]+)\]\]/g;
+  const parts: (string | { type: "link"; url: string; label: string })[] = [];
+  let lastIdx = 0;
+  let m: RegExpExecArray | null;
+  while ((m = linkRegex.exec(text)) !== null) {
+    if (m.index > lastIdx) parts.push(text.slice(lastIdx, m.index));
+    parts.push({ type: "link", url: m[1], label: m[2] });
+    lastIdx = m.index + m[0].length;
+  }
+  if (lastIdx < text.length) parts.push(text.slice(lastIdx));
+
+  // Applique le bold **...** sur les parties string
+  return parts.map((part, i) => {
+    if (typeof part === "object") {
+      return (
+        <a key={i} href={part.url} className="text-[#3B82F6] underline decoration-[#3B82F6]/30 underline-offset-4 hover:decoration-[#3B82F6] transition">
+          {part.label}
+        </a>
+      );
+    }
+    const boldParts = part.split(/\*\*(.+?)\*\*/g);
+    return boldParts.map((sub, j) =>
+      j % 2 === 1 ? <strong key={`${i}-${j}`} className="text-white font-semibold">{sub}</strong> : sub
+    );
+  });
 }
 
 export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -86,7 +109,20 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
     return <div className="min-h-screen flex items-center justify-center text-zinc-500">Article non trouvé</div>;
   }
 
-  const elements = renderMarkdown(article.content);
+  // Injecte jusqu'à 5 liens internes discrets dans le contenu
+  const { text: contentWithLinks } = injectInternalLinks(article.content, slug, 5);
+  const elements = renderMarkdown(contentWithLinks);
+
+  // Articles liés : 3 articles de la même catégorie (hors article courant)
+  const allArticles = getAllArticles();
+  const related = allArticles
+    .filter((a) => a.slug !== slug && a.category === article.category)
+    .slice(0, 3);
+  // Complète avec des articles d'autres catégories si pas assez
+  if (related.length < 3) {
+    const others = allArticles.filter((a) => a.slug !== slug && a.category !== article.category).slice(0, 3 - related.length);
+    related.push(...others);
+  }
   const headings = elements.filter((e) => e.type === "h2");
 
   // Schema.org
@@ -212,6 +248,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
         {/* CTA final */}
         <CTABanner strong />
+
+        {/* Articles liés */}
+        <RelatedArticles articles={related} />
 
         {/* Author */}
         <div className="card p-5 mt-12 flex items-center gap-4">
