@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Car, Clock, ArrowRight, BookOpen } from "lucide-react";
 import { getAllArticles } from "@/lib/blog";
+import NewsletterForm from "@/components/NewsletterForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -37,9 +38,12 @@ export default function BlogPage() {
           <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05] mb-4">
             Tout savoir sur le <span className="text-gradient">métier de VTC</span>
           </h1>
-          <p className="text-xl text-zinc-400 max-w-2xl">
+          <p className="text-xl text-zinc-400 max-w-2xl mb-8">
             Guides complets, conseils pratiques et retours d&apos;expérience pour lancer et développer votre activité de chauffeur VTC.
           </p>
+          <div className="max-w-xl">
+            <NewsletterForm source="blog-listing" />
+          </div>
         </div>
       </section>
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Car, Clock, ArrowLeft, Calendar } from "lucide-react";
 import { getAllArticles, getArticle } from "@/lib/blog";
 import CTABanner from "../components/CTABanner";
+import NewsletterForm from "@/components/NewsletterForm";
 import ReadingProgress from "../components/ReadingProgress";
 import type { Metadata } from "next";
 
@@ -204,6 +205,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
               </div>
             );
           })}
+        </div>
+
+        {/* Newsletter */}
+        <div className="my-10">
+          <NewsletterForm source={`blog-${slug}`} />
         </div>
 
         {/* CTA final */}
