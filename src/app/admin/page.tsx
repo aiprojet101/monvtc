@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { RefreshCw, ExternalLink, Users, Euro, Check, X, Clock, Lock } from "lucide-react";
+import { RefreshCw, ExternalLink, Users, Euro, Check, X, Clock, Lock, Mail } from "lucide-react";
 
 interface Client {
   subscriptionId: string;
@@ -22,6 +22,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [secret, setSecret] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
+  const [emailStats, setEmailStats] = useState<{ month: { sent: number; quota: number; percent: number }; today: { sent: number; quota: number; percent: number } } | null>(null);
   const [authError, setAuthError] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -39,6 +40,11 @@ export default function AdminPage() {
         setClients(data);
         setAuthenticated(true);
         setAuthError(false);
+        // Charge les stats email
+        fetch(`/api/admin/email-stats?secret=${encodeURIComponent(s)}`)
+          .then(r => r.json())
+          .then(d => { if (!d.error) setEmailStats(d); })
+          .catch(() => {});
       }
       return data;
     } catch {
@@ -126,7 +132,7 @@ export default function AdminPage() {
 
       <div className="max-w-5xl mx-auto px-6 py-8">
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-3 gap-4 mb-4">
           <div className="card p-4">
             <div className="flex items-center gap-2 mb-2">
               <Users className="w-4 h-4 text-[#3B82F6]" />
@@ -149,6 +155,42 @@ export default function AdminPage() {
             <p className="text-2xl font-bold text-[#3B82F6]">{mrr}€</p>
           </div>
         </div>
+
+        {/* Quota Resend */}
+        {emailStats && (
+          <div className="grid grid-cols-2 gap-4 mb-8">
+            <div className="card p-4">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-[#3B82F6]" />
+                  <span className="text-xs text-zinc-500">Emails aujourd&apos;hui</span>
+                </div>
+                <span className={`text-xs font-bold ${emailStats.today.percent >= 80 ? "text-red-400" : emailStats.today.percent >= 50 ? "text-yellow-400" : "text-green-400"}`}>
+                  {emailStats.today.percent}%
+                </span>
+              </div>
+              <p className="text-2xl font-bold mb-2">{emailStats.today.sent} <span className="text-sm text-zinc-600 font-normal">/ {emailStats.today.quota}</span></p>
+              <div className="h-1.5 bg-[#1E1E22] rounded-full overflow-hidden">
+                <div className={`h-full transition-all ${emailStats.today.percent >= 80 ? "bg-red-500" : emailStats.today.percent >= 50 ? "bg-yellow-500" : "bg-green-500"}`} style={{ width: `${Math.min(emailStats.today.percent, 100)}%` }} />
+              </div>
+            </div>
+            <div className="card p-4">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Mail className="w-4 h-4 text-[#3B82F6]" />
+                  <span className="text-xs text-zinc-500">Emails ce mois</span>
+                </div>
+                <span className={`text-xs font-bold ${emailStats.month.percent >= 80 ? "text-red-400" : emailStats.month.percent >= 50 ? "text-yellow-400" : "text-green-400"}`}>
+                  {emailStats.month.percent}%
+                </span>
+              </div>
+              <p className="text-2xl font-bold mb-2">{emailStats.month.sent} <span className="text-sm text-zinc-600 font-normal">/ {emailStats.month.quota}</span></p>
+              <div className="h-1.5 bg-[#1E1E22] rounded-full overflow-hidden">
+                <div className={`h-full transition-all ${emailStats.month.percent >= 80 ? "bg-red-500" : emailStats.month.percent >= 50 ? "bg-yellow-500" : "bg-green-500"}`} style={{ width: `${Math.min(emailStats.month.percent, 100)}%` }} />
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Client list */}
         {loading ? (
