@@ -28,11 +28,11 @@ const OBJECTIONS = [
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [uberLoss, setUberLoss] = useState(0);
+  const [platformLoss, setPlatformLoss] = useState(0);
   const [ca, setCa] = useState(4000);
 
   useEffect(() => {
-    setUberLoss(Math.round(ca * 0.25));
+    setPlatformLoss(Math.round(ca * 0.25));
   }, [ca]);
 
   return (
@@ -171,15 +171,15 @@ export default function Home() {
               <div className="space-y-3 border-t border-white/10 pt-6">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-zinc-400">Commission plateformes (25%)</span>
-                  <span className="text-xl font-bold text-red-400">-{uberLoss}€</span>
+                  <span className="text-xl font-bold text-red-400">-{platformLoss}€</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-zinc-400">Par an</span>
-                  <span className="text-xl font-bold text-red-400">-{uberLoss * 12}€</span>
+                  <span className="text-xl font-bold text-red-400">-{platformLoss * 12}€</span>
                 </div>
                 <div className="flex items-center justify-between pt-3 border-t border-white/10">
                   <span className="text-sm text-zinc-300">Sur 5 ans</span>
-                  <span className="text-3xl font-black text-red-400">-{(uberLoss * 60).toLocaleString("fr-FR")}€</span>
+                  <span className="text-3xl font-black text-red-400">-{(platformLoss * 60).toLocaleString("fr-FR")}€</span>
                 </div>
               </div>
 
@@ -227,7 +227,7 @@ export default function Home() {
 
               <div className="mt-8 pt-6 border-t border-white/10">
                 <p className="text-xs text-zinc-500 mb-2">Tu économises par mois (par rapport aux plateformes) :</p>
-                <p className="text-4xl font-black text-gradient-green">+{uberLoss - 29}€</p>
+                <p className="text-4xl font-black text-gradient-green">+{platformLoss - 29}€</p>
               </div>
             </div>
           </div>
@@ -361,7 +361,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
             {[
-              { num: "25%", label: "de commission", desc: "prélevée par les plateformes (Uber, Bolt) sur chaque course que tu fais" },
+              { num: "25%", label: "de commission", desc: "prélevée par les grandes plateformes sur chaque course que tu fais" },
               { num: "87%", label: "cherchent sur Google", desc: "des clients recherchent un VTC en ligne avant de réserver — si tu n'as pas de site, ils trouvent quelqu'un d'autre" },
               { num: "+30%", label: "de revenus", desc: "en moyenne pour un chauffeur qui bascule des plateformes vers son propre site de réservation" },
             ].map((s) => (
