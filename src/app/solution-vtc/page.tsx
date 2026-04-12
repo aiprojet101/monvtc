@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 const PROBLEMES = [
   { probleme: "Vous dépendez des plateformes (Uber, Bolt) qui prennent 25% de commission", solution: "Recevez vos réservations en direct, 0% de commission" },
-  { probleme: "Vous n'avez pas de site internet ou il est obsolète", solution: "Site premium en ligne en 24h, toujours à jour" },
+  { probleme: "Vous n'avez pas de site internet ou il est obsolète", solution: "Site premium en ligne en moins de 24h, toujours à jour" },
   { probleme: "Vos clients ne peuvent pas réserver en dehors de vos heures de travail", solution: "Réservation en ligne 24h/24, 7j/7" },
   { probleme: "Vous perdez du temps à répondre au téléphone pour des devis", solution: "Le prix s'affiche automatiquement grâce à Google Maps" },
   { probleme: "Vous n'apparaissez pas sur Google quand on cherche un VTC dans votre ville", solution: "SEO local optimisé, vous remontez dans les résultats" },
@@ -137,7 +137,7 @@ export default function SolutionVTC() {
       <section className="py-20 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Arrêtez de donner 25% à Uber</h2>
-          <p className="text-zinc-400 mb-8">Votre propre site VTC, vos propres clients, vos propres revenus. En 24h.</p>
+          <p className="text-zinc-400 mb-8">Votre propre site VTC, vos propres clients, vos propres revenus. En moins de 24h.</p>
           <Link href="/inscription" className="btn-primary inline-flex items-center gap-2">
             Lancer mon site VTC <ArrowRight className="w-5 h-5" />
           </Link>

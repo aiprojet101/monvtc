@@ -10,7 +10,7 @@ import {
 import NewsletterForm from "@/components/NewsletterForm";
 
 const FAQ = [
-  { q: "J'ai besoin de compétences techniques ?", a: "Aucune. On s'occupe de tout : création, configuration, mise en ligne, domaine. Vous nous donnez vos infos (nom, téléphone, tarifs, zones), on fait le reste. En 24h votre site est live." },
+  { q: "J'ai besoin de compétences techniques ?", a: "Aucune. On s'occupe de tout : création, configuration, mise en ligne, domaine. Vous nous donnez vos infos (nom, téléphone, tarifs, zones), on fait le reste. En moins de 24h votre site est live." },
   { q: "Est-ce que je peux modifier mes tarifs ?", a: "Oui, à tout moment. Un simple message sur WhatsApp et on met à jour vos forfaits, votre prix au km, ou toute autre info en quelques minutes." },
   { q: "Comment mes clients me paient ?", a: "Le paiement se fait en véhicule (carte via SumUp, espèces, virement). On peut aussi intégrer le paiement en ligne par carte (Stripe) en option." },
   { q: "Je peux résilier quand je veux ?", a: "Oui, sans engagement. Vous pouvez arrêter à tout moment. Pas de frais cachés, pas de piège." },
@@ -20,7 +20,7 @@ const FAQ = [
 ];
 
 const OBJECTIONS = [
-  { q: "\"J'ai pas le temps pour ça.\"", a: "C'est justement pour ça que ton site doit travailler à ta place. 10 minutes pour s'inscrire. En 24h c'est en ligne. Après ? Tu conduis, ton site encaisse." },
+  { q: "\"J'ai pas le temps pour ça.\"", a: "C'est justement pour ça que ton site doit travailler à ta place. 10 minutes pour s'inscrire. En moins de 24h c'est en ligne. Après ? Tu conduis, ton site encaisse." },
   { q: "\"29€/mois c'est cher.\"", a: "Une course de 20 km rembourse le mois. Les plateformes prélèvent 25% de TOUT ton CA. Le calcul est vite fait." },
   { q: "\"Mes clients ne sont pas sur internet.\"", a: "87% des gens cherchent un VTC sur Google avant de réserver. Tes clients y sont. Ils cherchent juste quelqu'un d'autre que toi." },
   { q: "\"Je suis pas geek.\"", a: "Ni nous. On a fait ce SaaS pour ça. Tu remplis un formulaire. On fait le reste. Zéro compétence technique requise." },
@@ -70,7 +70,7 @@ export default function Home() {
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-xl text-xs text-zinc-300 mb-8 animate-fade-in-up">
             <Flame className="w-3.5 h-3.5 text-orange-400" />
-            <span>Nouveau — Mise en ligne en 24h garantie</span>
+            <span>Nouveau — Mise en ligne en moins de 24h garantie</span>
           </div>
 
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[120px] font-black tracking-tighter leading-[0.95] mb-8 animate-fade-in-up animate-delay-1">
@@ -81,7 +81,7 @@ export default function Home() {
 
           <p className="text-lg sm:text-2xl text-zinc-400 max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-in-up animate-delay-2">
             Les plateformes prennent <span className="text-white font-bold">25% de ton CA.</span>{" "}
-            Avec ton propre site de réservation, tu gardes tout. Prêt en 24h.
+            Avec ton propre site de réservation, tu gardes tout. Prêt en moins de 24h.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16 animate-fade-in-up animate-delay-3">

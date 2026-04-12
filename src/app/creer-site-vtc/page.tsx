@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Créer un site VTC professionnel — Site internet chauffeur VTC clé en main",
-  description: "Créez votre site internet VTC avec réservation en ligne en 24h. Solution clé en main pour chauffeurs VTC indépendants : réservation, WhatsApp, Google Maps, SEO local. À partir de 29€/mois.",
+  description: "Créez votre site internet VTC avec réservation en ligne en moins de 24h. Solution clé en main pour chauffeurs VTC indépendants : réservation, WhatsApp, Google Maps, SEO local. À partir de 29€/mois.",
   keywords: [
     "créer site VTC", "site internet chauffeur VTC", "création site VTC",
     "site VTC avec réservation", "site internet VTC pas cher", "site VTC clé en main",
@@ -60,7 +60,7 @@ export default function CreerSiteVTC() {
             Créer un <span className="text-gradient">site VTC</span> professionnel
           </h1>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-10">
-            Votre site internet de chauffeur VTC avec réservation en ligne, prêt en 24 heures. La solution clé en main la plus complète et la moins chère du marché.
+            Votre site internet de chauffeur VTC avec réservation en ligne, prêt en moins de 24 heures. La solution clé en main la plus complète et la moins chère du marché.
           </p>
           <Link href="/inscription" className="btn-primary inline-flex items-center gap-2 text-base !py-4 !px-8">
             Créer mon site VTC maintenant <ArrowRight className="w-5 h-5" />
@@ -82,7 +82,7 @@ export default function CreerSiteVTC() {
               <li>Inspirer confiance avec un site professionnel (vs. une simple page Facebook)</li>
               <li>Fidéliser vos clients avec un outil de réservation simple</li>
             </ul>
-            <p>Avec <strong className="text-white">MonVTC</strong>, votre site est en ligne en 24 heures, optimisé pour Google, avec un système de réservation intégré. Pas besoin de compétences techniques.</p>
+            <p>Avec <strong className="text-white">MonVTC</strong>, votre site est en ligne en moins de 24 heures, optimisé pour Google, avec un système de réservation intégré. Pas besoin de compétences techniques.</p>
           </div>
         </div>
       </section>
@@ -136,7 +136,7 @@ export default function CreerSiteVTC() {
       <section className="py-20 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Prêt à créer votre site VTC ?</h2>
-          <p className="text-zinc-400 mb-8">199€ de mise en place + 29€/mois. Sans engagement. En ligne en 24h.</p>
+          <p className="text-zinc-400 mb-8">199€ de mise en place + 29€/mois. Sans engagement. En ligne en moins de 24h.</p>
           <Link href="/inscription" className="btn-primary inline-flex items-center gap-2">
             Créer mon site maintenant <ArrowRight className="w-5 h-5" />
           </Link>

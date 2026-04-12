@@ -204,7 +204,7 @@ export default function DevenirChauffeurVTC() {
       <section className="py-20 px-6 bg-[#08080A]">
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-4">Vous êtes chauffeur VTC ?</h2>
-          <p className="text-zinc-400 mb-8">Créez votre site professionnel en 24h et commencez à recevoir des réservations en direct — sans commission.</p>
+          <p className="text-zinc-400 mb-8">Créez votre site professionnel en moins de 24h et commencez à recevoir des réservations en direct — sans commission.</p>
           <Link href="/inscription" className="btn-primary inline-flex items-center gap-2">
             Créer mon site VTC <ArrowRight className="w-5 h-5" />
           </Link>

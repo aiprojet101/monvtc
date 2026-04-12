@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MonVTC — Votre site VTC professionnel en 24h",
+  title: "MonVTC — Votre site VTC professionnel en moins de 24h",
   description:
-    "Créez votre site de réservation VTC en 24h. Réservation en ligne, WhatsApp, Google Maps, SEO local. Solution clé en main pour chauffeurs VTC indépendants. 199€ + 29€/mois.",
+    "Créez votre site de réservation VTC en moins de 24h. Réservation en ligne, WhatsApp, Google Maps, SEO local. Solution clé en main pour chauffeurs VTC indépendants. 199€ + 29€/mois.",
   keywords: [
     "site VTC", "site chauffeur VTC", "créer site VTC",
     "réservation VTC en ligne", "solution VTC clé en main",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "plateforme VTC", "site internet VTC", "module réservation VTC",
   ],
   openGraph: {
-    title: "MonVTC — Votre site VTC professionnel en 24h",
+    title: "MonVTC — Votre site VTC professionnel en moins de 24h",
     description: "Solution clé en main pour chauffeurs VTC. Réservation, WhatsApp, SEO. 199€ + 29€/mois.",
     locale: "fr_FR",
     type: "website",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "MonVTC — Votre site VTC professionnel en 24h",
+    title: "MonVTC — Votre site VTC professionnel en moins de 24h",
     description: "Solution clé en main pour chauffeurs VTC. 199€ + 29€/mois.",
   },
   alternates: {
@@ -52,7 +52,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Product",
     name: "MonVTC — Site VTC professionnel",
-    description: "Solution clé en main pour créer un site de réservation VTC en 24h.",
+    description: "Solution clé en main pour créer un site de réservation VTC en moins de 24h.",
     url: "https://vtc-site.fr",
     brand: { "@type": "Brand", name: "MonVTC" },
     offers: {
