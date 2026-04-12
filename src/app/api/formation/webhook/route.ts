@@ -4,6 +4,13 @@ import crypto from "crypto";
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
 const STRIPE_WEBHOOK_SECRET = process.env.FORMATION_WEBHOOK_SECRET || process.env.STRIPE_WEBHOOK_SECRET || "";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
+const TOKEN_SECRET = process.env.MONVTC_ADMIN_SECRET || "fallback-secret-change-me";
+
+function signToken(payload: { email: string; plan: string; purchaseDate: string }): string {
+  const data = Buffer.from(JSON.stringify(payload)).toString("base64url");
+  const sig = crypto.createHmac("sha256", TOKEN_SECRET).update(data).digest("base64url");
+  return `${data}.${sig}`;
+}
 
 function verifySignature(payload: string, sig: string, secret: string): boolean {
   try {
@@ -84,6 +91,23 @@ export async function POST(request: NextRequest) {
   if (!email) return NextResponse.json({ received: true });
 
   try {
+    // 0. Envoie d'abord le lien d'acces a la formation (priorite)
+    const planId = meta.planId || "essentiel";
+    const purchaseDate = new Date((session.created || Date.now()/1000) * 1000).toISOString();
+    const token = signToken({ email, plan: planId, purchaseDate });
+    const accessUrl = `https://vtc-site.fr/cours?token=${token}`;
+    await sendEmail(email, "Ton acces a la formation VTC", `
+      <div style="font-family:system-ui,sans-serif;max-width:600px;margin:0 auto;padding:40px 24px;background:#09090B;color:white;">
+        <h1 style="color:#3B82F6;margin:0 0 16px;">Bienvenue dans la formation !</h1>
+        <p style="color:#A1A1AA;line-height:1.6;">Merci pour ton achat. Voici ton lien d'acces personnel a la formation VTC. Il reste valide a vie, garde-le precieusement.</p>
+        <div style="text-align:center;margin:32px 0;">
+          <a href="${accessUrl}" style="display:inline-block;background:#3B82F6;color:white;padding:16px 32px;border-radius:8px;text-decoration:none;font-weight:bold;">Acceder a la formation</a>
+        </div>
+        <p style="color:#71717A;font-size:12px;word-break:break-all;">Lien direct : ${accessUrl}</p>
+        <p style="color:#71717A;font-size:11px;margin-top:32px;">MonVTC &middot; Formation VTC</p>
+      </div>
+    `);
+
     // 1. Detecte si un code de parrainage a ete utilise
     const sessionFull = await stripeGet(`checkout/sessions/${session.id}?expand[]=total_details.breakdown.discounts.discount.promotion_code`);
     const discountUsed = sessionFull.total_details?.breakdown?.discounts?.[0]?.discount;
