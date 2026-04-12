@@ -190,22 +190,15 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // 3. Envoie le code au nouveau client
-    await sendEmail(email, "Ton code de parrainage — partage-le", `
-      <div style="font-family:system-ui,sans-serif;max-width:600px;margin:0 auto;padding:40px 24px;background:#09090B;color:white;">
-        <h1 style="color:#3B82F6;margin-bottom:16px;">Ton code de parrainage</h1>
-        <p style="color:#A1A1AA;">Merci pour ton achat ! Voici ton code personnel :</p>
-        <div style="background:#141414;border:2px dashed #3B82F6;border-radius:12px;padding:24px;text-align:center;margin:24px 0;">
-          <p style="margin:0;color:#71717A;font-size:12px;text-transform:uppercase;letter-spacing:2px;">Ton code</p>
-          <p style="margin:8px 0 0;color:#3B82F6;font-size:32px;font-weight:900;letter-spacing:2px;">${code}</p>
-        </div>
-        <p style="color:#A1A1AA;">Partage-le avec tes amis chauffeurs VTC :</p>
-        <ul style="color:#A1A1AA;line-height:1.8;">
-          <li><strong style="color:white;">Ton ami paie -20%</strong> sur sa formation</li>
-          <li><strong style="color:white;">Toi, tu recois 1 mois gratuit</strong> sur ton abonnement MonVTC a chaque utilisation</li>
-          <li><strong style="color:white;">Illimite</strong> — plus tu partages, plus tu gagnes</li>
-        </ul>
-        <p style="margin-top:32px;"><a href="https://wa.me/?text=Je%20te%20conseille%20la%20formation%20VTC%20de%20MonVTC%20!%20Utilise%20mon%20code%20${code}%20pour%20-20%25%20%3A%20https%3A%2F%2Fvtc-site.fr%2Fformation" style="background:#25D366;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Partager sur WhatsApp</a></p>
+    // 3. Envoie le code au nouveau client (ton sobre pour limiter le spam)
+    await sendEmail(email, "Informations utiles pour votre formation", `
+      <div style="font-family:system-ui,-apple-system,sans-serif;max-width:600px;margin:0 auto;padding:32px 24px;color:#333;">
+        <p>Bonjour,</p>
+        <p>Merci pour votre inscription a la formation MonVTC.</p>
+        <p>Pour information, un code personnel vous est associe si vous souhaitez recommander la formation a un proche : <strong>${code}</strong></p>
+        <p>Ce code donne 20% de remise a la personne qui l'utilise. Conditions completes sur notre site.</p>
+        <p style="margin-top:24px;">Bonne formation,<br>L'equipe MonVTC</p>
+        <p style="color:#999;font-size:11px;margin-top:32px;border-top:1px solid #eee;padding-top:12px;">Vous recevez cet email suite a votre achat sur vtc-site.fr</p>
       </div>
     `);
 
