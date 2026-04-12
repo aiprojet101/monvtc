@@ -190,7 +190,7 @@ export default function FormationLanding() {
           <div className="mt-12 text-center">
             <p className="text-sm text-zinc-500 inline-flex items-center gap-2">
               <Star className="w-4 h-4 text-[#C9A84C]" />
-              Garantie 30 jours — satisfait ou rembourse
+              Garantie 30 jours — satisfait ou rembourse en 1 clic sur <Link href="/contact" className="underline hover:text-white">/contact</Link>
             </p>
           </div>
         </div>

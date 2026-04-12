@@ -51,6 +51,7 @@ export default function Home() {
             <a href="#pricing" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Tarifs</a>
             <Link href="/blog" className="hidden sm:block text-sm text-zinc-400 hover:text-white transition">Blog</Link>
             <Link href="/partenaires" className="hidden md:block text-sm text-zinc-400 hover:text-white transition">Partenaires</Link>
+            <Link href="/contact" className="hidden md:block text-sm text-zinc-400 hover:text-white transition">Contact</Link>
             <Link href="/inscription" className="btn-glow !py-2 !px-5 !text-xs">
               Commencer
             </Link>

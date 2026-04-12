@@ -2362,6 +2362,218 @@ Bonne route !`,
       "Basculer a 70%+ de clients directs en 12 mois",
     ],
   },
+  {
+    id: 7,
+    day: 45,
+    slug: "optimiser-son-activite",
+    title: "Optimiser son activite",
+    subtitle: "Fiscalite, comptabilite, gestion du temps",
+    duration: "40 min",
+    lessons: [
+      {
+        title: "Optimiser sa fiscalite",
+        content: `# Optimiser sa fiscalite de chauffeur VTC
+
+Passer en micro-entreprise ou en EURL/SASU selon ton CA. Au-dela de 77 700 euros, la micro devient inadaptee.
+
+## Abattement micro-BNC
+
+50% d'abattement automatique si tu es prestataire de services (VTC = BNC). Impot sur le revenu calcule sur la moitie de ton CA uniquement.
+
+## Versement liberatoire
+
+Si ton RFR < 27 086 euros en 2024, tu peux opter pour le versement liberatoire : 2,2% d'impot preleve en meme temps que les cotisations sociales. Simplicite maximale.
+
+## Quand passer en societe
+
+- CA > 77 700 euros : micro BNC plus possible
+- Tu veux optimiser tes revenus (dividendes vs salaire)
+- Tu veux te developper (recruter, investir)
+
+EURL = simple, 1 seul associe (toi). SASU = plus flexible pour future croissance.
+
+## Frais deductibles en societe
+
+Carburant, peages, entretien, assurance, telephone, formation continue, abonnement MonVTC, partie du loyer si home office... Tout est deductible du resultat.`,
+      },
+      {
+        title: "Tenir sa comptabilite sans comptable",
+        content: `# Comptabilite pour micro-entreprise VTC
+
+En micro, c'est simple : tu dois tenir un **livre de recettes** et c'est tout.
+
+## Le livre de recettes
+
+Tableau Excel ou Google Sheets avec : date, client, montant, mode de paiement. C'est une obligation legale.
+
+## Declarations URSSAF
+
+Mensuel ou trimestriel, selon ton choix. 21,2% sur ton CA (cotisations sociales + impot si versement liberatoire).
+
+## Facturation
+
+Tu dois facturer **chaque course**. Apps VTC (Uber, Bolt) le font automatiquement. Clients directs : genere tes factures via MonVTC ou un outil gratuit (Freebe, Henrri).
+
+## TVA
+
+En micro, tu es en franchise de TVA jusqu'a 36 800 euros de CA. Au-dela, tu dois facturer la TVA (10% transport de personnes) et la reverser.
+
+## Cas ou un expert-comptable vaut le coup
+
+- Tu passes en EURL/SASU
+- Ton CA depasse 60k euros
+- Tu n'as pas le temps (tarif : 80-150 euros/mois pour une EURL VTC)`,
+      },
+      {
+        title: "Gerer son temps et eviter le burnout",
+        content: `# Ne pas tomber dans le piege des 70h/semaine
+
+Beaucoup de chauffeurs debutants font 12h par jour 6j/7 pour "maximiser". Resultat : burnout en 6 mois, marge reduite, accidents en hausse.
+
+## La regle des 50h
+
+Max 50h de conduite par semaine. Au-dela, tu perds en vigilance, tu conduis moins bien, les clients le sentent.
+
+## Planifier ses creneaux rentables
+
+Analyse tes courses sur 30 jours : identifie tes 20% de courses qui genrerent 80% de ton CA. Concentre-toi dessus.
+
+**Creneaux habituellement rentables :**
+- Mercredi-vendredi soir (sorties, restos)
+- Samedi nuit
+- Dimanche matin (aeroports)
+- Matins de semaine (business)
+
+**A eviter :** Lundi matin, dimanche apres-midi (peu de demande).
+
+## Batch les courses
+
+Prendre 3 courses d'affilee dans le meme quartier > prendre 3 courses eparpilles en 8h. Optimise tes trajets.
+
+## Repos obligatoire
+
+Minimum 1 jour off par semaine complet. Sinon tu vas tenir 6 mois et t'arreter.`,
+      },
+    ],
+    checklist: [
+      "Choisir mon regime fiscal (micro vs EURL/SASU)",
+      "Activer le versement liberatoire si eligible",
+      "Mettre en place mon livre de recettes",
+      "Planifier mes creneaux rentables sur 1 mois",
+      "Fixer mes jours off et les respecter",
+      "Faire un bilan trimestriel CA/depenses",
+    ],
+  },
+  {
+    id: 8,
+    day: 60,
+    slug: "scaler-et-deleguer",
+    title: "Scaler et deleguer",
+    subtitle: "Passer au niveau superieur : flotte, salaries, investissements",
+    duration: "40 min",
+    lessons: [
+      {
+        title: "Embaucher un second chauffeur",
+        content: `# Passer de 1 a 2 chauffeurs
+
+Apres 12-18 mois solo, si tu refuses des courses faute de temps, c'est le signe qu'il faut embaucher.
+
+## Les 2 options
+
+**Option 1 : Salarie CDI** (le plus simple legalement)
+- Cout total employeur : ~2 800 euros/mois pour 1 800 euros net
+- Charges : ~45% sur le brut
+- Avantages : tu gardes tout le CA
+
+**Option 2 : Sous-traitance avec un autre VTC independant**
+- Tu lui laisses 70-75% du CA des courses que tu lui transferes
+- Pas de charges salariales
+- Attention au marchandage de main d'oeuvre (interdit)
+
+## Le calcul de rentabilite
+
+Ton chauffeur doit generer min 5 000 euros de CA/mois pour etre rentable en CDI. Soit environ 6-7h de conduite/jour, 6 jours/semaine.
+
+## Les obligations
+
+- Mutuelle obligatoire
+- Visite medicale d'embauche
+- Contrat de travail (CDI conseille)
+- Assurance auto usage pro avec le nom du salarie
+
+Passer d'independant a employeur change ton statut : tu deviens dirigeant de societe. EURL/SASU obligatoire.`,
+      },
+      {
+        title: "Diversifier ses revenus",
+        content: `# Au-dela de la course VTC
+
+A 3 000-4 000 euros net/mois, tu plafonnes vite si tu restes que sur la course. Voici les leviers pour passer a 6 000+.
+
+## 1. Les comptes entreprise
+
+Signer des contrats avec des boites pour leurs deplacements clients/salaries. Paiement mensuel sur facture (30 jours mais recurrent et predictible).
+
+**Comment demarcher :** contacte directement les assistantes de direction (LinkedIn), propose une demo gratuite avec 1 course offerte.
+
+## 2. Les navettes evenementielles
+
+Mariages, seminaires, conferences. Forfait journee 400-800 euros. Beaucoup moins stressant que les courses a la demande.
+
+## 3. Le transport medical (TAP/VSL)
+
+Si tu as la licence, les courses medicales sont payees par la secu. Tarifs reguliers, clients fideles, creneaux en journee (plus tranquille).
+
+## 4. La location de ton vehicule
+
+Tu peux louer ton vehicule a d'autres chauffeurs VTC pendant tes jours off. Revenus passifs 50-80 euros/jour.
+
+## 5. La formation / le coaching
+
+Apres 2-3 ans d'experience, tu peux former d'autres chauffeurs debutants. Le partage d'experience se vend bien (programme d'affiliation MonVTC par exemple).`,
+      },
+      {
+        title: "Investir pour reduire ses impots",
+        content: `# Optimisation patrimoniale pour chauffeur VTC
+
+A partir de 40k euros de revenus annuels, tu commences a payer vraiment des impots. Voici comment les reduire legalement.
+
+## PER (Plan Epargne Retraite)
+
+Versement sur ton PER = deductible de ton revenu imposable (jusqu'a 10% de tes revenus pros). Si tu gagnes 50k et que tu verses 5k sur ton PER, tu n'es imposer que sur 45k.
+
+## LMNP (Location Meublee Non Professionnelle)
+
+Acheter un studio et le louer meuble. Les revenus locatifs beneficient d'un abattement de 50% en micro-BIC, ou 100% deductible en reel (amortissement du bien + charges).
+
+## PEA / Assurance-vie
+
+Epargne long terme defiscalisee apres 5 ans (PEA) ou 8 ans (assurance-vie).
+
+## Achat de ton vehicule pro
+
+Si tu es en EURL/SASU, acheter ton VTC via la societe permet :
+- Amortir le cout sur 5 ans
+- Deduire le carburant, entretien, assurance
+- Recuperer la TVA (si VTC = 10,3 sieges max)
+
+## Ne pas faire
+
+- Investir plus que tu ne peux te permettre
+- Suivre des "conseils" de gourous TikTok (crypto, trading)
+- Mettre tous tes oeufs dans le meme panier
+
+Regle simple : garde 3 mois de tresorerie dispo sur ton compte avant de faire tout investissement.`,
+      },
+    ],
+    checklist: [
+      "Evaluer mes besoins d'embauche (nb de courses refusees / semaine)",
+      "Contacter 5 entreprises pour un contrat business",
+      "Ouvrir un PER si revenu imposable > 30k",
+      "Faire un bilan patrimoine annuel",
+      "Planifier mon passage en EURL/SASU si CA > 60k",
+      "Diversifier au moins 1 source de revenu secondaire",
+    ],
+  },
 ];
 
 // Helper pour obtenir un module par slug

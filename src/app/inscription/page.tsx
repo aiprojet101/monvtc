@@ -105,6 +105,12 @@ function InscriptionContent() {
         </div>
       </div>
 
+      <div className="max-w-2xl mx-auto px-6 pt-6">
+        <a href="/formation" className="block rounded-lg border border-[#C9A84C]/30 bg-[#C9A84C]/5 px-4 py-3 text-sm text-[#E5C578] hover:bg-[#C9A84C]/10 transition">
+          Pas encore ta carte VTC ? Decouvre notre formation pour passer l&apos;examen des 49€ →
+        </a>
+      </div>
+
       <div className="max-w-2xl mx-auto px-6 py-12">
         <div className="text-center mb-10">
           <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-[#3B82F6] to-[#2563EB] flex items-center justify-center">
