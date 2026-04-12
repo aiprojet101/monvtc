@@ -108,6 +108,46 @@ export async function POST(request: NextRequest) {
       </div>
     `);
 
+    // 0b. Si Pro ou Premium : genere un code MonVTC offert (1 mois Pro, 6 mois Premium)
+    const freeMonths = planId === "premium" ? 6 : planId === "pro" ? 1 : 0;
+    if (freeMonths > 0) {
+      const amountOff = freeMonths * 2900; // 29€/mois
+      const bonusCoupon = await stripePost("coupons", {
+        amount_off: String(amountOff),
+        currency: "eur",
+        duration: freeMonths === 1 ? "once" : "repeating",
+        duration_in_months: String(freeMonths),
+        name: `Formation ${planId} — ${freeMonths} mois MonVTC offert`,
+        "metadata[formation_email]": email,
+        "metadata[type]": "formation_bonus",
+      });
+      if (bonusCoupon.id) {
+        const bonusCode = `FORMATION${crypto.randomBytes(3).toString("hex").toUpperCase()}`;
+        await stripePost("promotion_codes", {
+          coupon: bonusCoupon.id,
+          code: bonusCode,
+          "restrictions[first_time_transaction]": "false",
+          max_redemptions: "1",
+          "metadata[formation_email]": email,
+        });
+        await sendEmail(email, `Bonus Formation ${planId === "premium" ? "Premium" : "Pro"} — ${freeMonths} mois MonVTC offert`, `
+          <div style="font-family:system-ui,sans-serif;max-width:600px;margin:0 auto;padding:40px 24px;background:#09090B;color:white;">
+            <h1 style="color:#3B82F6;margin:0 0 16px;">Ton bonus ${freeMonths} mois offert</h1>
+            <p style="color:#A1A1AA;line-height:1.6;">Avec ton achat de la formation ${planId === "premium" ? "Premium" : "Pro"}, tu as droit a <strong style="color:white;">${freeMonths} mois gratuit</strong> sur un abonnement MonVTC (site VTC cle en main).</p>
+            <div style="background:#141414;border:2px dashed #3B82F6;border-radius:12px;padding:24px;text-align:center;margin:24px 0;">
+              <p style="margin:0;color:#71717A;font-size:12px;text-transform:uppercase;letter-spacing:2px;">Ton code</p>
+              <p style="margin:8px 0 0;color:#3B82F6;font-size:28px;font-weight:900;letter-spacing:2px;">${bonusCode}</p>
+            </div>
+            <p style="color:#A1A1AA;">Utilise-le lors de ton inscription MonVTC :</p>
+            <div style="text-align:center;margin:24px 0;">
+              <a href="https://vtc-site.fr/inscription" style="display:inline-block;background:#3B82F6;color:white;padding:14px 28px;border-radius:8px;text-decoration:none;font-weight:bold;">Creer mon site VTC</a>
+            </div>
+            <p style="color:#71717A;font-size:11px;margin-top:32px;">MonVTC &middot; Bonus formation ${planId}</p>
+          </div>
+        `);
+      }
+    }
+
     // 1. Detecte si un code de parrainage a ete utilise
     const sessionFull = await stripeGet(`checkout/sessions/${session.id}?expand[]=total_details.breakdown.discounts.discount.promotion_code`);
     const discountUsed = sessionFull.total_details?.breakdown?.discounts?.[0]?.discount;
