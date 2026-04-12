@@ -62,9 +62,14 @@ export default function FormationLanding() {
         body: JSON.stringify({ planId }),
       });
       const data = await res.json();
-      if (data.url) window.location.href = data.url;
-    } catch {
-      alert("Erreur. Reessayez.");
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Erreur Stripe : " + (data.error || "inconnue"));
+        setLoading(null);
+      }
+    } catch (e) {
+      alert("Erreur reseau : " + (e instanceof Error ? e.message : "inconnue"));
       setLoading(null);
     }
   }

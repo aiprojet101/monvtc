@@ -41,7 +41,6 @@ export async function POST(request: NextRequest) {
       allow_promotion_codes: "true",
       payment_method_collection: "if_required",
       locale: "fr",
-      "customer_creation": "always",
     });
 
     return NextResponse.json({ url: session.url });
