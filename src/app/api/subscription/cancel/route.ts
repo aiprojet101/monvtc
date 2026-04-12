@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkRateLimit, clientIp } from "@/lib/security";
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
@@ -36,6 +37,12 @@ export async function POST(request: NextRequest) {
     const { email, reason } = await request.json();
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ error: "Email invalide" }, { status: 400 });
+    }
+
+    const ip = clientIp(request);
+    if (!checkRateLimit(`cancel-sub:${ip}`, 5, 60 * 60 * 1000) ||
+        !checkRateLimit(`cancel-sub-email:${email.toLowerCase()}`, 3, 60 * 60 * 1000)) {
+      return NextResponse.json({ error: "Trop de tentatives. Reessayez dans 1h." }, { status: 429 });
     }
 
     // Trouve le customer Stripe

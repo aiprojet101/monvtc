@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import { checkRateLimit, clientIp } from "@/lib/security";
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 const TOKEN_SECRET = process.env.MONVTC_ADMIN_SECRET || "fallback-secret-change-me";
 
 function signToken(payload: { email: string; plan: string; purchaseDate: string }): string {
-  const data = Buffer.from(JSON.stringify(payload)).toString("base64url");
+  const withIat = { ...payload, iat: Math.floor(Date.now() / 1000) };
+  const data = Buffer.from(JSON.stringify(withIat)).toString("base64url");
   const sig = crypto.createHmac("sha256", TOKEN_SECRET).update(data).digest("base64url");
   return `${data}.${sig}`;
 }
@@ -16,6 +18,12 @@ export async function POST(request: NextRequest) {
     const { email } = await request.json();
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json({ error: "Email invalide" }, { status: 400 });
+    }
+
+    const ip = clientIp(request);
+    if (!checkRateLimit(`access:${ip}`, 10, 60 * 60 * 1000) ||
+        !checkRateLimit(`access-email:${email.toLowerCase()}`, 5, 60 * 60 * 1000)) {
+      return NextResponse.json({ error: "Trop de tentatives. Reessayez dans 1h." }, { status: 429 });
     }
 
     // Cherche un checkout session payment completed chez Stripe pour ce email avec metadata type=formation

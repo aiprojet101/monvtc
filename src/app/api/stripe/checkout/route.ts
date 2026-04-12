@@ -6,6 +6,25 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { brand, city, region, department, postalCode, phone, email, pricePerKm, minPrice, zones, lieux, testMode } = body;
 
+    // Validation serveur des inputs critiques (monetaires + identifiants)
+    if (!brand || typeof brand !== "string" || brand.length < 2 || brand.length > 60) {
+      return NextResponse.json({ error: "Nom de marque invalide" }, { status: 400 });
+    }
+    if (!email || typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json({ error: "Email invalide" }, { status: 400 });
+    }
+    if (!phone || typeof phone !== "string" || phone.replace(/\s/g, "").length < 8) {
+      return NextResponse.json({ error: "Telephone invalide" }, { status: 400 });
+    }
+    const pricePerKmNum = parseFloat(pricePerKm || "1.80");
+    const minPriceNum = parseFloat(minPrice || "15");
+    if (isNaN(pricePerKmNum) || pricePerKmNum < 0.5 || pricePerKmNum > 10) {
+      return NextResponse.json({ error: "Prix au km invalide" }, { status: 400 });
+    }
+    if (isNaN(minPriceNum) || minPriceNum < 5 || minPriceNum > 200) {
+      return NextResponse.json({ error: "Prix minimum invalide" }, { status: 400 });
+    }
+
     const slug = brand
       .toLowerCase()
       .normalize("NFD")

@@ -1,13 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
+import { isEventProcessed, markEventProcessed } from "@/lib/security";
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
 const STRIPE_WEBHOOK_SECRET = process.env.FORMATION_WEBHOOK_SECRET || process.env.STRIPE_WEBHOOK_SECRET || "";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 const TOKEN_SECRET = process.env.MONVTC_ADMIN_SECRET || "fallback-secret-change-me";
 
-function signToken(payload: { email: string; plan: string; purchaseDate: string }): string {
-  const data = Buffer.from(JSON.stringify(payload)).toString("base64url");
+function signToken(payload: { email: string; plan: string; purchaseDate: string; iat?: number }): string {
+  const withIat = { ...payload, iat: payload.iat || Math.floor(Date.now() / 1000) };
+  const data = Buffer.from(JSON.stringify(withIat)).toString("base64url");
   const sig = crypto.createHmac("sha256", TOKEN_SECRET).update(data).digest("base64url");
   return `${data}.${sig}`;
 }
@@ -74,6 +76,11 @@ export async function POST(request: NextRequest) {
   }
 
   const event = JSON.parse(body);
+
+  // Idempotency : ignore les evenements deja traites (Stripe peut rejouer)
+  if (event.id && isEventProcessed(event.id)) {
+    return NextResponse.json({ received: true, duplicate: true });
+  }
 
   if (event.type !== "checkout.session.completed") {
     return NextResponse.json({ received: true });
@@ -202,6 +209,7 @@ export async function POST(request: NextRequest) {
       </div>
     `);
 
+    if (event.id) markEventProcessed(event.id);
     return NextResponse.json({ received: true, code });
   } catch (error) {
     console.error("Formation webhook error:", error);

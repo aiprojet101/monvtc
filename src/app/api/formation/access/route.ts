@@ -3,13 +3,21 @@ import crypto from "crypto";
 
 const TOKEN_SECRET = process.env.MONVTC_ADMIN_SECRET || "fallback-secret-change-me";
 
-function verifyToken(token: string): { email: string; plan: string; purchaseDate: string } | null {
+const TOKEN_TTL_SECONDS = 2 * 365 * 24 * 60 * 60; // 2 ans, user peut renouveler via request-access
+
+function verifyToken(token: string): { email: string; plan: string; purchaseDate: string; iat?: number } | null {
   try {
     const [data, sig] = token.split(".");
     if (!data || !sig) return null;
     const expected = crypto.createHmac("sha256", TOKEN_SECRET).update(data).digest("base64url");
-    if (expected !== sig) return null;
-    return JSON.parse(Buffer.from(data, "base64url").toString());
+    // timingSafeEqual pour eviter timing attacks
+    const a = Buffer.from(expected);
+    const b = Buffer.from(sig);
+    if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
+    const payload = JSON.parse(Buffer.from(data, "base64url").toString());
+    // Verifie TTL si iat present (tokens legacy sans iat restent valides pour compat)
+    if (payload.iat && Date.now() / 1000 - payload.iat > TOKEN_TTL_SECONDS) return null;
+    return payload;
   } catch {
     return null;
   }

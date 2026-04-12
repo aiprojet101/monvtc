@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkRateLimit, clientIp } from "@/lib/security";
 
 const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || "";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
@@ -38,6 +39,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email invalide" }, { status: 400 });
     }
 
+    // Rate limit : 3 tentatives par heure par IP + email
+    const ip = clientIp(request);
+    if (!checkRateLimit(`cancel-formation:${ip}`, 5, 60 * 60 * 1000) ||
+        !checkRateLimit(`cancel-formation-email:${email.toLowerCase()}`, 3, 60 * 60 * 1000)) {
+      return NextResponse.json({ error: "Trop de tentatives. Reessayez dans 1h ou ecrivez a contact@vtc-site.fr." }, { status: 429 });
+    }
+
     // Cherche les sessions formation payees de cet email
     const sessionsRes = await stripeGet(`checkout/sessions?limit=100`);
     const sessions = (sessionsRes.data || []).filter((s: { customer_details?: { email?: string }; metadata?: { type?: string }; payment_status?: string; payment_intent?: string; amount_total?: number; created: number }) =>
@@ -71,6 +79,12 @@ export async function POST(request: NextRequest) {
     const pi = latest.payment_intent;
     if (!pi) {
       return NextResponse.json({ error: "Paiement introuvable" }, { status: 500 });
+    }
+
+    // Verifie qu'aucun remboursement n'existe deja sur ce payment_intent (anti-double click)
+    const existingRefunds = await stripeGet(`refunds?payment_intent=${pi}&limit=5`);
+    if ((existingRefunds.data || []).some((r: { status?: string }) => r.status === "succeeded" || r.status === "pending")) {
+      return NextResponse.json({ error: "Un remboursement a deja ete effectue sur cet achat." }, { status: 400 });
     }
 
     const refund = await stripePost("refunds", {
