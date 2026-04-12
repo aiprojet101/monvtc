@@ -3,6 +3,7 @@ import { Car, Clock, ArrowLeft, Calendar } from "lucide-react";
 import { getAllArticles, getArticle } from "@/lib/blog";
 import CTABanner from "../components/CTABanner";
 import NewsletterForm from "@/components/NewsletterForm";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import ReadingProgress from "../components/ReadingProgress";
 import type { Metadata } from "next";
 
@@ -149,14 +150,11 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
       </nav>
 
       <article className="max-w-3xl mx-auto px-6 py-16">
-        {/* Breadcrumbs */}
-        <nav className="text-xs text-zinc-600 mb-6">
-          <Link href="/" className="hover:text-zinc-400">Accueil</Link>
-          {" / "}
-          <Link href="/blog" className="hover:text-zinc-400">Blog</Link>
-          {" / "}
-          <span className="text-zinc-400">{article.title}</span>
-        </nav>
+        <Breadcrumbs items={[
+          { label: "Accueil", href: "/" },
+          { label: "Blog", href: "/blog" },
+          { label: article.title },
+        ]} />
 
         {/* Header */}
         <div className="flex items-center gap-3 mb-4 text-xs text-zinc-600">

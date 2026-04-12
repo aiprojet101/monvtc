@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Car, ArrowRight, Check, Globe, MapPin, MessageCircle, Search, Smartphone, CreditCard, BarChart3, Shield, Zap } from "lucide-react";
 import type { Metadata } from "next";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export const metadata: Metadata = {
   title: "Créer un site VTC professionnel — Site internet chauffeur VTC clé en main",
@@ -55,7 +56,9 @@ export default function CreerSiteVTC() {
       {/* Hero */}
       <section className="py-24 px-6 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-[#3B82F6]/5 via-transparent to-transparent" />
-        <div className="max-w-4xl mx-auto text-center relative z-10">
+        <div className="max-w-4xl mx-auto relative z-10">
+          <Breadcrumbs items={[{ label: "Accueil", href: "/" }, { label: "Créer un site VTC" }]} />
+          <div className="text-center">
           <h1 className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.1] mb-6">
             Créer un <span className="text-gradient">site VTC</span> professionnel
           </h1>
@@ -65,6 +68,7 @@ export default function CreerSiteVTC() {
           <Link href="/inscription" className="btn-primary inline-flex items-center gap-2 text-base !py-4 !px-8">
             Créer mon site VTC maintenant <ArrowRight className="w-5 h-5" />
           </Link>
+          </div>
         </div>
       </section>
 
