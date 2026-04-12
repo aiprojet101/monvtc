@@ -57,6 +57,10 @@ export async function POST(request: NextRequest) {
 
     if (event.type === "checkout.session.completed") {
       const session = event.data.object;
+      // Ignore les achats de formation (geres par /api/formation/webhook)
+      if (session.metadata?.type === "formation") {
+        return NextResponse.json({ received: true, skipped: "formation" });
+      }
       const customerId = session.customer;
 
       // Get customer metadata
